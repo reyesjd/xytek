@@ -29,8 +29,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  
+  
+         
   get: ^4.3.8
   cupertino_icons: ^1.0.2
+  google_fonts: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -58,7 +63,43 @@ flutter:
   assets:
      - assets/
      - assets/logo/
+     - assets/fonts/
   #   - images/a_dot_ham.jpeg
+
+  fonts:
+  - family: Ephesis
+    fonts:
+      - asset: assets/fonts/Ephesis-Regular.ttf
+  - family: Roboto
+    fonts:
+      - asset: assets/fonts/Roboto-Regular.ttf
+      - asset: assets/fonts/Roboto-Italic.ttf
+        style: italic
+      - asset: assets/fonts/Roboto-Black.ttf
+        weight: 900
+      - asset: assets/fonts/Roboto-BlackItalic.ttf
+        style: italic
+        weight: 900
+      - asset: assets/fonts/Roboto-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Roboto-BoldItalic.ttf
+        style: italic
+        weight: 700
+      - asset: assets/fonts/Roboto-Light.ttf
+        weight: 300
+      - asset: assets/fonts/Roboto-LightItalic.ttf
+        style: italic
+        weight: 300
+      - asset: assets/fonts/Roboto-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Roboto-MediumItalic.ttf
+        style: italic
+        weight: 500
+      - asset: assets/fonts/Roboto-Thin.ttf
+        weight: 100
+      - asset: assets/fonts/Roboto-ThinItalic.ttf
+        style: italic
+        weight: 100
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:xytek/ui/widgets/button_widget.dart';
 
 class LoginMainPage extends StatelessWidget {
@@ -16,12 +17,10 @@ class LoginMainPage extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Center(
-                child: Container(
-                  child: Image(
-                    image: AssetImage("assets/logo/logo.png"),
-                    width: 130,
-                    height: 130,
-                  ),
+                child: Image(
+                  image: AssetImage("assets/logo/logo.png"),
+                  width: 130,
+                  height: 130,
                 ),
               ),
             ),
@@ -39,7 +38,10 @@ class LoginMainPage extends StatelessWidget {
                       children: [
                         ButtonMain(
                             text: "Usuarios y Contraseñas",
-                            onPressed: () {},
+                            onPressed: () {
+                              /*Get.to(() => LoginCredentials());*/
+                              print("hola");
+                            },
                             type_main: true),
                       ],
                     ),

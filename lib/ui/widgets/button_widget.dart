@@ -5,7 +5,8 @@ class ButtonMain extends StatelessWidget {
   final Function onPressed;
   final bool type_main;
 
-  ButtonMain({required this.text ,required this.onPressed, required this.type_main});
+  ButtonMain(
+      {required this.text, required this.onPressed, required this.type_main});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,9 @@ class ButtonMain extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: this.onPressed(),
+            onPressed: () {
+              this.onPressed();
+            },
           )),
     );
   }

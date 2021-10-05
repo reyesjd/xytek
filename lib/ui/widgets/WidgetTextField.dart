@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class TextFieldWidget extends StatelessWidget {
+class WidgetTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final Function validator;
   final bool obscure;
-  TextFieldWidget(
+  final bool digitsOnly;
+  WidgetTextField(
       {required this.label,
       required this.controller,
       required this.validator,
-      required this.obscure});
+      required this.obscure,
+      required this.digitsOnly});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,7 @@ class TextFieldWidget extends StatelessWidget {
       padding: EdgeInsets.all(10),
       child: TextFormField(
         obscureText: this.obscure,
+        keyboardType: digitsOnly ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
           labelText: this.label,
@@ -24,7 +27,7 @@ class TextFieldWidget extends StatelessWidget {
         ),
         controller: controller,
         validator: (value) {
-          validator(value);
+          return this.validator(value);
         },
       ),
     );

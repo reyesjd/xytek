@@ -7,8 +7,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:xytek/main.dart';
 import 'package:xytek/ui/my_app.dart';
 
 void main() {

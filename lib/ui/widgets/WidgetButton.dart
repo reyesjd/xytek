@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ButtonMain extends StatelessWidget {
+class WidgetButton extends StatelessWidget {
   final String text;
   final Function onPressed;
   final bool type_main;
 
-  ButtonMain(
+  WidgetButton(
       {required this.text, required this.onPressed, required this.type_main});
 
   @override

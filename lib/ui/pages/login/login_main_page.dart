@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xytek/ui/widgets/button_widget.dart';
+import 'package:xytek/ui/pages/login/login_email_or_number.dart';
+import 'package:xytek/ui/widgets/WidgetButton.dart';
 
 import 'login_by_credentials.dart';
 
@@ -34,7 +35,7 @@ class LoginMainPage extends StatelessWidget {
                   Text("¿Cómo deseas continuar?"),
                   Row(
                     children: [
-                      ButtonMain(
+                      WidgetButton(
                           text: "Usuarios y Contraseñas",
                           onPressed: () {
                             Get.to(() => LoginCredentials());
@@ -46,10 +47,20 @@ class LoginMainPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ButtonMain(
-                          text: "E-mail", onPressed: () {}, type_main: true),
-                      ButtonMain(
-                          text: "Celular", onPressed: () {}, type_main: true),
+                      WidgetButton(
+                          text: "E-mail",
+                          onPressed: () {
+                            Get.to(
+                                () => LoginEmailOrNumber(typeLogin: "email"));
+                          },
+                          type_main: true),
+                      WidgetButton(
+                          text: "Celular",
+                          onPressed: () {
+                            Get.to(
+                                () => LoginEmailOrNumber(typeLogin: "number"));
+                          },
+                          type_main: true),
                     ],
                   ),
                   Text(
@@ -59,7 +70,7 @@ class LoginMainPage extends StatelessWidget {
                   Text("Registrate ya!"),
                   Row(
                     children: [
-                      ButtonMain(
+                      WidgetButton(
                           text: "Registrate",
                           onPressed: () {},
                           type_main: false),

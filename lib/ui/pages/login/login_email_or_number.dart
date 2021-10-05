@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/ui/pages/login/login_verify_code.dart';
-import 'package:xytek/ui/widgets/WidgetButton.dart';
-import 'package:xytek/ui/widgets/WidgetTextField.dart';
+import 'package:xytek/ui/widgets/widget_button.dart';
+import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class LoginEmailOrNumber extends StatelessWidget {
   final String typeLogin;
@@ -120,7 +120,7 @@ class LoginEmailOrNumber extends StatelessWidget {
                                                     ));
                                               }
                                             },
-                                            type_main: true),
+                                            typeMain: true),
                                       ],
                                     ),
                                   ),

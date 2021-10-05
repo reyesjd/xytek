@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/ui/pages/login/login_email_or_number.dart';
-import 'package:xytek/ui/widgets/WidgetButton.dart';
+import 'package:xytek/ui/widgets/widget_button.dart';
 
 import 'login_by_credentials.dart';
 
@@ -40,7 +40,7 @@ class LoginMainPage extends StatelessWidget {
                           onPressed: () {
                             Get.to(() => LoginCredentials());
                           },
-                          type_main: true),
+                          typeMain: true),
                     ],
                   ),
                   Row(
@@ -53,14 +53,14 @@ class LoginMainPage extends StatelessWidget {
                             Get.to(
                                 () => LoginEmailOrNumber(typeLogin: "email"));
                           },
-                          type_main: true),
+                          typeMain: true),
                       WidgetButton(
                           text: "Celular",
                           onPressed: () {
                             Get.to(
                                 () => LoginEmailOrNumber(typeLogin: "number"));
                           },
-                          type_main: true),
+                          typeMain: true),
                     ],
                   ),
                   Text(
@@ -73,7 +73,7 @@ class LoginMainPage extends StatelessWidget {
                       WidgetButton(
                           text: "Registrate",
                           onPressed: () {},
-                          type_main: false),
+                          typeMain: false),
                     ],
                   ),
                 ],

@@ -6,28 +6,32 @@ class WidgetTextField extends StatelessWidget {
   final Function validator;
   final bool obscure;
   final bool digitsOnly;
+  final Key keyText;
+
   WidgetTextField(
       {required this.label,
       required this.controller,
       required this.validator,
       required this.obscure,
-      required this.digitsOnly});
+      required this.digitsOnly,
+      this.keyText = const Key("")});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10),
       child: TextFormField(
-        obscureText: this.obscure,
+        key: keyText,
+        obscureText: obscure,
         keyboardType: digitsOnly ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-          labelText: this.label,
+          labelText: label,
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
         ),
         controller: controller,
         validator: (value) {
-          return this.validator(value);
+          return validator(value);
         },
       ),
     );

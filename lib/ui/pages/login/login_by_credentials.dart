@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xytek/ui/widgets/WidgetButton.dart';
-import 'package:xytek/ui/widgets/WidgetTextField.dart';
+import 'package:xytek/ui/widgets/widget_button.dart';
+import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class LoginCredentials extends StatelessWidget {
   final _email = TextEditingController();
@@ -49,12 +49,10 @@ class LoginCredentials extends StatelessWidget {
                           Expanded(
                             flex: 3,
                             child: Center(
-                              child: Container(
-                                child: Image(
-                                  image: AssetImage("assets/logo/logo.png"),
-                                  width: 130,
-                                  height: 130,
-                                ),
+                              child: Image(
+                                image: AssetImage("assets/logo/logo.png"),
+                                width: 130,
+                                height: 130,
                               ),
                             ),
                           ),
@@ -101,7 +99,7 @@ class LoginCredentials extends StatelessWidget {
                                                 //Aqui se encvia al home
                                               }
                                             },
-                                            type_main: true),
+                                            typeMain: true),
                                       ],
                                     ),
                                   ),

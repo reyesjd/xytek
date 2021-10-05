@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xytek/ui/widgets/WidgetButton.dart';
-import 'package:xytek/ui/widgets/WidgetTextField.dart';
+import 'package:xytek/ui/widgets/widget_button.dart';
+import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class LoginVerifyCode extends StatelessWidget {
   final String textEntered;
@@ -42,12 +42,10 @@ class LoginVerifyCode extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Center(
-                                child: Container(
-                                  child: Image(
-                                    image: AssetImage("assets/logo/logo.png"),
-                                    width: 130,
-                                    height: 130,
-                                  ),
+                                child: Image(
+                                  image: AssetImage("assets/logo/logo.png"),
+                                  width: 130,
+                                  height: 130,
                                 ),
                               ),
                             ),
@@ -94,7 +92,7 @@ class LoginVerifyCode extends StatelessWidget {
                                                   print("hola");
                                                 }
                                               },
-                                              type_main: true),
+                                              typeMain: true),
                                         ],
                                       ),
                                     ),

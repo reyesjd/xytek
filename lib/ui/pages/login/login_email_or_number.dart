@@ -52,12 +52,10 @@ class LoginEmailOrNumber extends StatelessWidget {
                           Expanded(
                             flex: 4,
                             child: Center(
-                              child: Container(
-                                child: Image(
-                                  image: AssetImage("assets/logo/logo.png"),
-                                  width: 130,
-                                  height: 130,
-                                ),
+                              child: Image(
+                                image: AssetImage("assets/logo/logo.png"),
+                                width: 130,
+                                height: 130,
                               ),
                             ),
                           ),

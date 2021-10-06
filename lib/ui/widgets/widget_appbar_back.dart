@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-class WidgetAppBarBack extends StatelessWidget {
+class WidgetAppBarBack {
   final Function actionButtonBack;
 
   WidgetAppBarBack({required this.actionButtonBack});
-
-  @override
-  Widget build(BuildContext context) {
+  
+  AppBar build(BuildContext context) {
     return AppBar(
       leading: IconButton(
           color: Colors.black,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/ui/pages/login/login_email_or_number.dart';
+import 'package:xytek/ui/pages/register/first_register_page.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 
 import 'login_by_credentials.dart';
@@ -10,13 +11,12 @@ class LoginMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.all(20),
         color: Color.fromRGBO(244, 244, 244, 1),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Center(
               child: Image(
@@ -72,7 +72,9 @@ class LoginMainPage extends StatelessWidget {
                     children: [
                       WidgetButton(
                           text: "Registrate",
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(() => FirstRegisterPage());
+                          },
                           typeMain: false),
                     ],
                   ),

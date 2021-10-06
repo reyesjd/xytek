@@ -1,26 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xytek/ui/pages/register/second_register_page.dart';
+import 'package:xytek/ui/pages/login/login_main_page.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
-class FirstRegisterPage extends StatelessWidget {
+class SecondRegisterPage extends StatelessWidget {
   final String typeLogin = "";
-  final TextEditingController nombreTextController = TextEditingController();
-  final TextEditingController correoTextController = TextEditingController();
-  final TextEditingController telefonoTextController = TextEditingController();
+  final TextEditingController usuarioTextController = TextEditingController();
+  final TextEditingController contrasenaTextController =
+      TextEditingController();
+  final TextEditingController confirmacionTextController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  FirstRegisterPage({Key? key}) : super(key: key);
-
-  bool isEmail(String em) {
-    String p =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
-    RegExp regExp = RegExp(p);
-    return regExp.hasMatch(em);
-  }
+  SecondRegisterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +40,9 @@ class FirstRegisterPage extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
-                              flex: 2,
+                              flex: 1,
                               child: Text(
-                                "Crea tu Nueva Cuenta",
+                                "Ya casi está",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 5,
                                 style: TextStyle(
@@ -55,7 +50,7 @@ class FirstRegisterPage extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              flex: 1,
+                              flex: 2,
                               child: Center(
                                 child: Image(
                                   image: AssetImage("assets/logo/logo.png"),
@@ -72,8 +67,8 @@ class FirstRegisterPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             WidgetTextField(
-                              label: "Nombre Completo",
-                              controller: nombreTextController,
+                              label: "Usuario",
+                              controller: usuarioTextController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "Por favor ingrese su nombre";
@@ -83,39 +78,40 @@ class FirstRegisterPage extends StatelessWidget {
                               digitsOnly: false,
                             ),
                             WidgetTextField(
-                              label: "Correo electronico",
-                              controller: correoTextController,
+                              label: "Contraseña",
+                              controller: contrasenaTextController,
                               validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Por favor ingrese su E-mail.";
-                                } else if (!isEmail(value)) {
-                                  return "Por favor ingrese un E-mail valido.";
-                                }
+                                return true;
                               },
                               obscure: false,
                               digitsOnly: false,
                             ),
                             WidgetTextField(
-                              label: "Telefono",
-                              controller: telefonoTextController,
+                              label: "Confirmar contraseña",
+                              controller: confirmacionTextController,
                               validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Por favor ingrese su numero celular.";
-                                } else if (value.length != 10) {
-                                  return "Por favor ingrese un numero celular valido.";
-                                }
+                                return contrasenaTextController.text = value;
                               },
                               obscure: false,
                               digitsOnly: true,
                             ),
+                            Container(
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              child: Row(
+                                children: [
+                                  Text("Agregar dirección"),
+                                  Icon(Icons.location_on_outlined)
+                                ],
+                              ),
+                            ),
                             Row(
                               children: [
                                 WidgetButton(
-                                    text: "Siguiente",
+                                    text: "Registrarme!",
                                     onPressed: () {
-                                      Get.to(() => SecondRegisterPage());
+                                      Get.to(() => LoginMainPage());
                                     },
-                                    typeMain: false),
+                                    typeMain: true),
                               ],
                             )
                           ],

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "844433976435",
+    "project_id": "xytek-90a22",
+    "storage_bucket": "xytek-90a22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844433976435:android:d63fe8d1da77d097444e06",
+        "android_client_info": {
+          "package_name": "com.example.xytek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "844433976435-qk6r6t578f3gl0fp3i11qk734l58i7er.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.xytek",
+            "certificate_hash": "0e692d76211ee7a023eed4947610e02a1efd9c24"
+          }
+        },
+        {
+          "client_id": "844433976435-u761n97oaoqhagoso8b4m7v5grlhfp91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-AwvO9g__aJ2Xdtnb4g32abm4c3ZRVMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844433976435-u761n97oaoqhagoso8b4m7v5grlhfp91.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

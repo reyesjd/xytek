@@ -1,8 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:xytek/services/firebase_auth.dart';
 
 class Auth {
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  
+  Auth() {
+    init();
+  }
+
+  init() async {
+    await Firebase.initializeApp();
+    final FirebaseAuth auth = FirebaseAuth.instance;
+  }
 
   Future<User?> loginEmail(String email, String password) async {
     try {

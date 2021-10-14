@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/login/login_recovery_password.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
@@ -9,6 +10,7 @@ class LoginCredentials extends StatelessWidget {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  AuthController authController = Get.find();
 
   bool isEmail(String em) {
     String p =
@@ -17,6 +19,11 @@ class LoginCredentials extends StatelessWidget {
     RegExp regExp = RegExp(p);
 
     return regExp.hasMatch(em);
+  }
+
+  login(email, password) async {
+    bool _isLogged = await authController.loginByCredentials(email, password);
+    print("Se loggeo SIUUUUUU");
   }
 
   @override
@@ -97,7 +104,8 @@ class LoginCredentials extends StatelessWidget {
                                                   _formKey.currentState;
                                               form!.save();
                                               if (form.validate()) {
-                                                //Aqui se encvia al home
+                                                login(_email.text,
+                                                    _password.text);
                                               }
                                             },
                                             typeMain: true),

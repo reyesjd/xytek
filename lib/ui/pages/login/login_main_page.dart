@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/ui/pages/login/login_email_or_number.dart';
-import 'package:xytek/ui/pages/register/first_register_page.dart';
+import 'package:xytek/ui/pages/signup/first_register_page.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 
 import 'login_by_credentials.dart';

@@ -6,10 +6,13 @@ import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class LoginVerifyCode extends StatelessWidget {
   final String textEntered;
+  final Function onPressed;
   final TextEditingController inputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  LoginVerifyCode({Key? key, required this.textEntered}) : super(key: key);
+  LoginVerifyCode(
+      {Key? key, required this.textEntered, required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +88,7 @@ class LoginVerifyCode extends StatelessWidget {
                                           WidgetButton(
                                               text: "Continuar",
                                               onPressed: () {
-                                                final form =
-                                                    _formKey.currentState;
-                                                form!.save();
-                                                if (form.validate()) {
-                                                  print("hola");
-                                                }
+                                                onPressed();
                                               },
                                               typeMain: true),
                                         ],

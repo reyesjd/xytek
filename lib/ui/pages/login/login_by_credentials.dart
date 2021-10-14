@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/ui/pages/login/login_recovery_password.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
@@ -108,7 +109,9 @@ class LoginCredentials extends StatelessWidget {
                                       padding: const EdgeInsets.all(16.0),
                                       primary: Colors.grey,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Get.to(() => LoginRecoveryPassword());
+                                    },
                                     child:
                                         const Text('¿Olvidaste tu contraseña?'),
                                   ),

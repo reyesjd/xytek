@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/ui/pages/login/login_change_password.dart';
 import 'package:xytek/ui/pages/login/login_verify_code.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
-class LoginEmailOrNumber extends StatelessWidget {
-  final String typeLogin;
+class LoginRecoveryPassword extends StatelessWidget {
   final TextEditingController inputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  LoginEmailOrNumber({Key? key, required this.typeLogin}) : super(key: key);
+  LoginRecoveryPassword({Key? key}) : super(key: key);
 
   bool isEmail(String em) {
     String p =
@@ -65,36 +65,25 @@ class LoginEmailOrNumber extends StatelessWidget {
                               child: Column(
                                 children: [
                                   WidgetTextField(
-                                    label: (typeLogin == "email")
-                                        ? "¿Cuál es tu E-Mail?"
-                                        : "¿Cuál es tu número celular?",
+                                    label:
+                                        "Digite su correo para  recuperar la contraseña",
                                     controller: inputController,
                                     validator: (value) {
-                                      if (typeLogin == "email") {
-                                        if (value!.isEmpty) {
-                                          return "Por favor ingrese su E-mail.";
-                                        } else if (!isEmail(value)) {
-                                          return "Por favor ingrese un E-mail valido.";
-                                        }
-                                      } else {
-                                        if (value!.isEmpty) {
-                                          return "Por favor ingrese su numero celular.";
-                                        } else if (value.length != 10) {
-                                          return "Por favor ingrese un numero celular valido.";
-                                        }
+                                      if (value!.isEmpty) {
+                                        return "Por favor ingrese su E-mail.";
+                                      } else if (!isEmail(value)) {
+                                        return "Por favor ingrese un E-mail valido.";
                                       }
                                     },
                                     obscure: false,
-                                    digitsOnly: !(typeLogin == "email"),
+                                    digitsOnly: false,
                                   ),
                                   Container(
                                     alignment: Alignment.topLeft,
                                     padding: EdgeInsets.only(
                                         left: 30, right: 30, bottom: 30),
                                     child: Text(
-                                        ((typeLogin == "email")
-                                            ? "Enviaremos un codigó de 5 digitos al e-mail ingresado."
-                                            : "Enviaremos un codigó de 5 digitos al numero celular ingresado."),
+                                        "Tenga en cuenta que debe ser el mismo correo registrado en la aplicación",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w300)),
                                   ),
@@ -104,7 +93,7 @@ class LoginEmailOrNumber extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         WidgetButton(
-                                            text: "Enviar Código",
+                                            text: "Enviar Correo",
                                             onPressed: () {
                                               /*Aqui se debe verificar si el email existe en la bd,
                                              y si el email si corresponde a un email*/
@@ -113,11 +102,12 @@ class LoginEmailOrNumber extends StatelessWidget {
                                               form!.save();
                                               if (form.validate()) {
                                                 Get.to(() => LoginVerifyCode(
-                                                      textEntered:
-                                                          inputController.text,
-                                                      onPressed: () =>
-                                                          {print("Hola")},
-                                                    ));
+                                                    textEntered:
+                                                        inputController.text,
+                                                    onPressed: () => {
+                                                          Get.to(() =>
+                                                              LoginChangePassword())
+                                                        }));
                                               }
                                             },
                                             typeMain: true),

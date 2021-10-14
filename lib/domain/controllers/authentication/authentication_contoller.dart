@@ -4,8 +4,9 @@ import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/use_case/authentication/authentication_use_case.dart';
 
 class AuthController extends GetxController {
-  late bool _isLogged;
-  late UserModel _user;
+  var _isLogged = false.obs;
+  var _userModel;
+
   Auth _auth = Auth();
 
   Future<bool> loginByCredentials(String email, String password) async {

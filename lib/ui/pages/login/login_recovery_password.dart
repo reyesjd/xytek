@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/login/login_change_password.dart';
 import 'package:xytek/ui/pages/login/login_verify_code.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -12,6 +13,8 @@ class LoginRecoveryPassword extends StatelessWidget {
 
   LoginRecoveryPassword({Key? key}) : super(key: key);
 
+  bool emailSend = false;
+
   bool isEmail(String em) {
     String p =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
@@ -19,6 +22,12 @@ class LoginRecoveryPassword extends StatelessWidget {
     RegExp regExp = RegExp(p);
 
     return regExp.hasMatch(em);
+  }
+
+  resetPassword({email}) async {
+    AuthController authController = Get.find();
+    bool val = await authController.resetPassword(email: email);
+    emailSend = val;
   }
 
   @override
@@ -101,6 +110,7 @@ class LoginRecoveryPassword extends StatelessWidget {
                                                   _formKey.currentState;
                                               form!.save();
                                               if (form.validate()) {
+                                                /*
                                                 Get.to(() => LoginVerifyCode(
                                                     textEntered:
                                                         inputController.text,
@@ -108,6 +118,23 @@ class LoginRecoveryPassword extends StatelessWidget {
                                                           Get.to(() =>
                                                               LoginChangePassword())
                                                         }));
+                                                        */
+                                                resetPassword(
+                                                    email:
+                                                        inputController.text);
+                                                print(emailSend);
+                                                if (emailSend) {
+                                                  Get.snackbar("Email enviado",
+                                                      "El correo se ha enviado correctamente al email ${inputController.text}",
+                                                      backgroundColor:
+                                                          Colors.green);
+                                                } else {
+                                                  Get.snackbar(
+                                                      "Email no enviado",
+                                                      "El correo de recuperación no se ha podido enviar",
+                                                      backgroundColor:
+                                                          Colors.red[300]);
+                                                }
                                               }
                                             },
                                             typeMain: true),

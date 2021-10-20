@@ -15,11 +15,12 @@ class SecondRegisterPage extends StatelessWidget {
   final TextEditingController confirPassTextController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool registred = false;
+  String errorMessage = "No ha sido posible registrarte";
 
   SecondRegisterPage({Key? key}) : super(key: key);
 
-  void singUp() async {
-    
+  singUp() async {
     final form = _formKey.currentState;
     form!.save();
     if (form.validate()) {
@@ -31,9 +32,32 @@ class SecondRegisterPage extends StatelessWidget {
             phoneNumber: int.parse(argumentData[2]),
             user: userTextController.text,
             password: passTextController.text);
-        await authController.signUp(newUser);
+        var val = await authController.signUp(newUser);
+        registred = val;
       } catch (e) {
-        print(e);
+        switch (e) {
+          case "email-already-in-use":
+            {
+              errorMessage =
+                  "El correo que intenta utilizar ya se encuentra registrado en la aplicación";
+              break;
+            }
+          case "invalid-email:":
+            {
+              errorMessage = "El correo que intenta utilizar no es válido";
+              break;
+            }
+          case "operation-not-allowed":
+            {
+              // errorMessage="El correo que intenta utilizar no es válido";
+              break;
+            }
+          case "weak-password":
+            {
+              errorMessage = "La contraseña que ingresó es muy débil";
+              break;
+            }
+        }
       }
     }
   }
@@ -102,7 +126,7 @@ class SecondRegisterPage extends StatelessWidget {
                               label: "Contraseña",
                               controller: passTextController,
                               validator: (value) {},
-                              obscure: false,
+                              obscure: true,
                               digitsOnly: false,
                             ),
                             WidgetTextField(
@@ -113,7 +137,7 @@ class SecondRegisterPage extends StatelessWidget {
                                   return "Error las contraseñas ";
                                 }
                               },
-                              obscure: false,
+                              obscure: true,
                               digitsOnly: true,
                             ),
                             Container(
@@ -129,8 +153,18 @@ class SecondRegisterPage extends StatelessWidget {
                               children: [
                                 WidgetButton(
                                     text: "Registrarme!",
-                                    onPressed: () {
-                                      singUp();
+                                    onPressed: () async {
+                                      await singUp();
+                                      if (registred) {
+                                        Get.snackbar("Registro exitoso",
+                                            "Has sido registrado satisfactoriamente en la aplicación",
+                                            backgroundColor: Colors.green);
+                                      } else {
+                                        Get.snackbar(
+                                            "Error al intentar Registrarte",
+                                            errorMessage,
+                                            backgroundColor: Colors.red);
+                                      }
                                     },
                                     typeMain: true),
                               ],

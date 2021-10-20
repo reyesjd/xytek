@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 
 class AuthService {
   late FirebaseAuth auth;
 
   AuthService() {
-    init();
-  }
-
-  init() async {
-    await Firebase.initializeApp();
     auth = FirebaseAuth.instance;
   }
 
@@ -20,10 +15,9 @@ class AuthService {
       UserCredential result = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = result.user!;
-      print(user);
       return user;
-    } catch (e) {
-      print(e);
+    } on FirebaseAuthException catch (e) {
+      return Future.error(e.code);
     }
   }
 
@@ -32,7 +26,6 @@ class AuthService {
       UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user!;
-      print(user);
       /*
       await FirebaseFirestore.instance
           .collection('users')
@@ -41,25 +34,25 @@ class AuthService {
           */
       return user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      return Future.error(e.code);
     }
   }
 
   Future<bool> resetPassword({email}) async {
     try {
-      auth.sendPasswordResetEmail(email: email);
+      await auth.sendPasswordResetEmail(email: email);
       return true;
-    } catch (e) {
-      return false;
+    } on FirebaseAuthException catch (e) {
+      return Future.error(e.code);
     }
   }
 
   Future<bool> signOutFirebase() async {
-    await auth.signOut();
-    return true;
+    try {
+      await auth.signOut();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

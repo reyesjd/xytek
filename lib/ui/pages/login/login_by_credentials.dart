@@ -10,7 +10,8 @@ class LoginCredentials extends StatelessWidget {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  AuthController authController = Get.find();
+  String errorMessage = "No se ha podido ingresar a la aplicación";
+  bool logged = false;
 
   bool isEmail(String em) {
     String p =
@@ -22,8 +23,39 @@ class LoginCredentials extends StatelessWidget {
   }
 
   login(email, password) async {
-    bool _isLogged = await authController.loginByCredentials(email, password);
-    print("Se loggeo SIUUUUUU");
+    AuthController authController = Get.find();
+    try {
+      await authController.loginByCredentials(email, password);
+      logged = true;
+    } catch (e) {
+      logged = false;
+      print(e);
+      switch (e) {
+        case "invalid-email":
+          {
+            errorMessage = "El correo ingresado no es valido";
+            break;
+          }
+
+        case "user-disabled":
+          {
+            errorMessage =
+                "El correo ingresado no se encuentra avilitado para ingresar a la aplicación";
+            break;
+          }
+
+        case "user-not-found":
+          {
+            errorMessage = "El correo ingresado no se encuentra registrado";
+            break;
+          }
+        case "wrong-password":
+          {
+            errorMessage = "La contraseña ingresada está errada";
+            break;
+          }
+      }
+    }
   }
 
   @override
@@ -99,13 +131,26 @@ class LoginCredentials extends StatelessWidget {
                                       children: [
                                         WidgetButton(
                                             text: "Iniciar Sesión",
-                                            onPressed: () {
+                                            onPressed: ()async {
                                               final form =
                                                   _formKey.currentState;
                                               form!.save();
                                               if (form.validate()) {
-                                                login(_email.text,
+                                                await login(_email.text,
                                                     _password.text);
+                                                if (logged) {
+                                                  Get.snackbar(
+                                                      "Ha ingresado correctamente",
+                                                      "Los datos ingresados han sido correctos",
+                                                      backgroundColor:
+                                                          Colors.green);
+                                                } else {
+                                                  Get.snackbar(
+                                                      "Ha ocurrido un error al ingresar",
+                                                      errorMessage,
+                                                      backgroundColor:
+                                                          Colors.red);
+                                                }
                                               }
                                             },
                                             typeMain: true),

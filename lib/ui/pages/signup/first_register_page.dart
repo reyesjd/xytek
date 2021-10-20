@@ -9,9 +9,9 @@ import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class FirstRegisterPage extends StatelessWidget {
   final String typeLogin = "";
-  final TextEditingController nombreTextController = TextEditingController();
-  final TextEditingController correoTextController = TextEditingController();
-  final TextEditingController telefonoTextController = TextEditingController();
+  final TextEditingController nameTextController = TextEditingController();
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController phoneNTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   FirstRegisterPage({Key? key}) : super(key: key);
@@ -74,7 +74,7 @@ class FirstRegisterPage extends StatelessWidget {
                           children: [
                             WidgetTextField(
                               label: "Nombre Completo",
-                              controller: nombreTextController,
+                              controller: nameTextController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "Por favor ingrese su nombre";
@@ -85,7 +85,7 @@ class FirstRegisterPage extends StatelessWidget {
                             ),
                             WidgetTextField(
                               label: "Correo electronico",
-                              controller: correoTextController,
+                              controller: emailTextController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "Por favor ingrese su E-mail.";
@@ -98,7 +98,7 @@ class FirstRegisterPage extends StatelessWidget {
                             ),
                             WidgetTextField(
                               label: "Telefono",
-                              controller: telefonoTextController,
+                              controller: phoneNTextController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "Por favor ingrese su numero celular.";
@@ -114,7 +114,12 @@ class FirstRegisterPage extends StatelessWidget {
                                 WidgetButton(
                                     text: "Siguiente",
                                     onPressed: () {
-                                      Get.to(() => SecondRegisterPage());
+                                      Get.to(() => SecondRegisterPage(),
+                                          arguments: [
+                                            emailTextController.text,
+                                            nameTextController.text,
+                                            phoneNTextController.text
+                                          ]);
                                     },
                                     typeMain: false),
                               ],

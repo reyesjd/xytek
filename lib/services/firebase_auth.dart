@@ -31,8 +31,8 @@ class AuthService {
     try {
       UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-
       User user = result.user!;
+      print(user);
       /*
       await FirebaseFirestore.instance
           .collection('users')
@@ -46,6 +46,15 @@ class AuthService {
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       }
+    }
+  }
+
+  Future<bool> resetPassword({email}) async {
+    try {
+      auth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 

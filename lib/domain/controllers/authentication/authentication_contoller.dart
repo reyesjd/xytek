@@ -17,4 +17,14 @@ class AuthController extends GetxController {
       return false;
     }
   }
+
+  Future<bool> signUp(UserModel newUser) async {
+    User? user =
+        await _auth.signUp(email: newUser.email, password: newUser.password);
+    if (user != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

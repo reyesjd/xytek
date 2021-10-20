@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/my_app.dart';
 
-void main() {
+
+Future<void> main() async {
   Get.lazyPut<AuthController>(() => AuthController());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }

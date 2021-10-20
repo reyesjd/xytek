@@ -1,21 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xytek/ui/pages/login/login_main_page.dart';
+import 'package:xytek/data/models/user_model.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class SecondRegisterPage extends StatelessWidget {
   final String typeLogin = "";
-  final TextEditingController usuarioTextController = TextEditingController();
-  final TextEditingController contrasenaTextController =
-      TextEditingController();
-  final TextEditingController confirmacionTextController =
+  dynamic argumentData = Get.arguments;
+  final TextEditingController userTextController = TextEditingController();
+  final TextEditingController passTextController = TextEditingController();
+  final TextEditingController confirPassTextController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   SecondRegisterPage({Key? key}) : super(key: key);
+
+  void singUp() async {
+    
+    final form = _formKey.currentState;
+    form!.save();
+    if (form.validate()) {
+      try {
+        AuthController authController = Get.find();
+        UserModel newUser = UserModel(
+            email: argumentData[0],
+            name: argumentData[1],
+            phoneNumber: int.parse(argumentData[2]),
+            user: userTextController.text,
+            password: passTextController.text);
+        await authController.signUp(newUser);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +89,7 @@ class SecondRegisterPage extends StatelessWidget {
                           children: [
                             WidgetTextField(
                               label: "Usuario",
-                              controller: usuarioTextController,
+                              controller: userTextController,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return "Por favor ingrese su nombre";
@@ -79,18 +100,18 @@ class SecondRegisterPage extends StatelessWidget {
                             ),
                             WidgetTextField(
                               label: "Contraseña",
-                              controller: contrasenaTextController,
-                              validator: (value) {
-                                return true;
-                              },
+                              controller: passTextController,
+                              validator: (value) {},
                               obscure: false,
                               digitsOnly: false,
                             ),
                             WidgetTextField(
                               label: "Confirmar contraseña",
-                              controller: confirmacionTextController,
+                              controller: confirPassTextController,
                               validator: (value) {
-                                return contrasenaTextController.text = value;
+                                if (passTextController.text != value) {
+                                  return "Error las contraseñas ";
+                                }
                               },
                               obscure: false,
                               digitsOnly: true,
@@ -109,7 +130,7 @@ class SecondRegisterPage extends StatelessWidget {
                                 WidgetButton(
                                     text: "Registrarme!",
                                     onPressed: () {
-                                      Get.to(() => LoginMainPage());
+                                      singUp();
                                     },
                                     typeMain: true),
                               ],

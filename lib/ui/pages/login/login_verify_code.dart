@@ -1,21 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class LoginVerifyCode extends StatelessWidget {
-  final String textEntered;
-  final Function onPressed;
   final TextEditingController inputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  LoginVerifyCode(
-      {Key? key, required this.textEntered, required this.onPressed})
-      : super(key: key);
+  LoginVerifyCode({Key? key}) : super(key: key);
+  AuthController authController = Get.find();
+  String phoneNumber = "";
+
+  onPressed({code, phoneNumber}) async {
+    try {
+      await authController.verifyCodeSmS(
+          smsCode: code, phoneNumber: phoneNumber);
+
+      Get.offAndToNamed("/");
+    } catch (e) {
+      if (e == "invalid-verification-code") {
+        Get.snackbar(
+            "Error con el código", "El código ingresado no ha sido correcto",
+            backgroundColor: Colors.red);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    phoneNumber = authController.phoneNumber;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -63,7 +78,7 @@ class LoginVerifyCode extends StatelessWidget {
                                           EdgeInsets.only(left: 30, right: 30),
                                       child: Text(
                                           "Ingresa el codigó de 5 digitos que enviamos a " +
-                                              textEntered,
+                                              phoneNumber,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w300)),
                                     ),
@@ -88,7 +103,9 @@ class LoginVerifyCode extends StatelessWidget {
                                           WidgetButton(
                                               text: "Continuar",
                                               onPressed: () {
-                                                onPressed();
+                                                onPressed(
+                                                    code: inputController.text,
+                                                    phoneNumber: phoneNumber);
                                               },
                                               typeMain: true),
                                         ],

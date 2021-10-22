@@ -24,8 +24,8 @@ class SecondRegisterPage extends StatelessWidget {
     final form = _formKey.currentState;
     form!.save();
     if (form.validate()) {
+      AuthController authController = Get.find();
       try {
-        AuthController authController = Get.find();
         UserModel newUser = UserModel(
             email: argumentData[0],
             name: argumentData[1],
@@ -138,7 +138,7 @@ class SecondRegisterPage extends StatelessWidget {
                                 }
                               },
                               obscure: true,
-                              digitsOnly: true,
+                              digitsOnly: false,
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 10, right: 10),
@@ -156,6 +156,8 @@ class SecondRegisterPage extends StatelessWidget {
                                     onPressed: () async {
                                       await singUp();
                                       if (registred) {
+                                        Get.close(2);
+                                        //Get.offAllNamed("/");
                                         Get.snackbar("Registro exitoso",
                                             "Has sido registrado satisfactoriamente en la aplicación",
                                             backgroundColor: Colors.green);

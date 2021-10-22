@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/services/firebase_auth.dart';
 
@@ -9,27 +8,22 @@ class Auth {
     authService = AuthService();
   }
 
-  Future<UserModel> loginEmail(String email, String password) async {
+  Future<UserModel?> getLoggedUser() async {
+    return await authService.getLoggedUser();
+  }
+
+  Future<UserModel?> loginEmail(String email, String password) async {
     try {
-      //var fireUser = 
-      await authService.loginByCredentials(email, password);
-      UserModel user = UserModel(
-          email: email,
-          name: "name",
-          phoneNumber: 1234567,
-          user: "user",
-          password: password,
-          uid:"uid");
+      UserModel? user =await authService.loginByCredentials(email, password);
       return user;
     } catch (e) {
       return Future.error(e);
     }
   }
 
-  Future<User?> signUp({email, password}) async {
+  Future<void> signUp(UserModel newUser) async {
     try {
-      var user = await authService.signUp(email: email, password: password);
-      return user;
+      await authService.signUp(newUser);
     } catch (e) {
       return Future.error(e);
     }
@@ -39,6 +33,33 @@ class Auth {
     try {
       var val = await authService.resetPassword(email: email);
       return val;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> logingByPhoneNumber({phoneNumber, credential}) async {
+    try {
+      await authService.logingByPhoneNumber(
+          phoneNumber: phoneNumber, credentials: credential);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<UserModel?> verifyCodeSmS({smsCode, verificationId, phoneNumber}) async {
+    try {
+      UserModel? user = await authService.verifyCodeSmS(
+          smsCode: smsCode, verificationId: verificationId,phoneNumber: phoneNumber);
+      return user;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await authService.signOutFirebase();
     } catch (e) {
       return Future.error(e);
     }

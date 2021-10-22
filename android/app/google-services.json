@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:844433976435:android:d63fe8d1da77d097444e06",
+        "mobilesdk_app_id": "1:844433976435:android:6240bc92cf007e0c444e06",
         "android_client_info": {
           "package_name": "com.example.xytek"
         }
       },
       "oauth_client": [
         {
-          "client_id": "844433976435-qk6r6t578f3gl0fp3i11qk734l58i7er.apps.googleusercontent.com",
+          "client_id": "844433976435-5pv79hler6ueco11adsr5m571hbehqhj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.xytek",
-            "certificate_hash": "0e692d76211ee7a023eed4947610e02a1efd9c24"
+            "certificate_hash": "5ecaceff3ac4a00ab3d6167ab79324c7f736f757"
           }
         },
         {

@@ -29,7 +29,6 @@ class LoginCredentials extends StatelessWidget {
       logged = true;
     } catch (e) {
       logged = false;
-      print(e);
       switch (e) {
         case "invalid-email":
           {
@@ -131,7 +130,7 @@ class LoginCredentials extends StatelessWidget {
                                       children: [
                                         WidgetButton(
                                             text: "Iniciar Sesión",
-                                            onPressed: ()async {
+                                            onPressed: () async {
                                               final form =
                                                   _formKey.currentState;
                                               form!.save();
@@ -139,6 +138,7 @@ class LoginCredentials extends StatelessWidget {
                                                 await login(_email.text,
                                                     _password.text);
                                                 if (logged) {
+                                                  Get.back();
                                                   Get.snackbar(
                                                       "Ha ingresado correctamente",
                                                       "Los datos ingresados han sido correctos",

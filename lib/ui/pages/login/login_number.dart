@@ -1,24 +1,62 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/login/login_verify_code.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
-class LoginEmailOrNumber extends StatelessWidget {
-  final String typeLogin;
+class LoginPhoneNumber extends StatelessWidget {
   final TextEditingController inputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  LoginPhoneNumber({
+    Key? key,
+  }) : super(key: key);
 
-  LoginEmailOrNumber({Key? key, required this.typeLogin}) : super(key: key);
+  actionInStream(data) {
+    if (data.runtimeType == String) {
+      String val = data as String;
+      if (val.contains("Error:")) {
+        if (val.contains("too-many-requests")) {
+          Get.snackbar("Error enviando el código",
+              "Ya has realizado muchas peticiones, intentalo más tarde",
+              backgroundColor: Colors.red);
+        } else {
+          if (val.contains("Number phone no registered")) {
+            Get.snackbar("Error enviando el código",
+                "El número de telefono ingresado no se encuentra registrado",
+                backgroundColor: Colors.red);
+          } else {
+            Get.snackbar("Error enviando el código", val.substring(6),
+                backgroundColor: Colors.red);
+          }
+        }
+      } else {
+        Get.to(() => LoginVerifyCode());
 
-  bool isEmail(String em) {
-    String p =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
+        Get.snackbar("Verificacíon automatica",
+            "Intentando comprobar el código automaticamente",
+            showProgressIndicator: true, duration: Duration(seconds: 10));
+      }
+    } else {
+      if (Get.isSnackbarOpen!) {
+        Get.close(3);
+      } else {
+        Get.close(2);
+      }
+    }
+  }
 
-    RegExp regExp = RegExp(p);
-
-    return regExp.hasMatch(em);
+  onPressed({phoneNumber}) async {
+    AuthController authController = Get.find();
+    authController.phoneNumber = phoneNumber;
+    try {
+      await authController.logingByPhoneNumber(
+          phoneNumber: phoneNumber, actionInStream: actionInStream);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -65,36 +103,24 @@ class LoginEmailOrNumber extends StatelessWidget {
                               child: Column(
                                 children: [
                                   WidgetTextField(
-                                    label: (typeLogin == "email")
-                                        ? "¿Cuál es tu E-Mail?"
-                                        : "¿Cuál es tu número celular?",
+                                    label: "¿Cuál es tu número celular?",
                                     controller: inputController,
                                     validator: (value) {
-                                      if (typeLogin == "email") {
-                                        if (value!.isEmpty) {
-                                          return "Por favor ingrese su E-mail.";
-                                        } else if (!isEmail(value)) {
-                                          return "Por favor ingrese un E-mail valido.";
-                                        }
-                                      } else {
-                                        if (value!.isEmpty) {
-                                          return "Por favor ingrese su numero celular.";
-                                        } else if (value.length != 10) {
-                                          return "Por favor ingrese un numero celular valido.";
-                                        }
+                                      if (value!.isEmpty) {
+                                        return "Por favor ingrese su numero celular.";
+                                      } else if (value.length != 10) {
+                                        return "Por favor ingrese un numero celular valido.";
                                       }
                                     },
                                     obscure: false,
-                                    digitsOnly: !(typeLogin == "email"),
+                                    digitsOnly: true,
                                   ),
                                   Container(
                                     alignment: Alignment.topLeft,
                                     padding: EdgeInsets.only(
                                         left: 30, right: 30, bottom: 30),
                                     child: Text(
-                                        ((typeLogin == "email")
-                                            ? "Enviaremos un codigó de 5 digitos al e-mail ingresado."
-                                            : "Enviaremos un codigó de 5 digitos al numero celular ingresado."),
+                                        ("Enviaremos un codigó de 5 digitos al numero celular ingresado."),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w300)),
                                   ),
@@ -112,12 +138,9 @@ class LoginEmailOrNumber extends StatelessWidget {
                                                   _formKey.currentState;
                                               form!.save();
                                               if (form.validate()) {
-                                                Get.to(() => LoginVerifyCode(
-                                                      textEntered:
-                                                          inputController.text,
-                                                      onPressed: () =>
-                                                          {print("Hola")},
-                                                    ));
+                                                onPressed(
+                                                    phoneNumber:
+                                                        inputController.text);
                                               }
                                             },
                                             typeMain: true),
@@ -137,5 +160,28 @@ class LoginEmailOrNumber extends StatelessWidget {
             ),
           ),
         ));
+
+    /*
+
+    return GetX<AuthController>(
+      builder: (AuthController controller) {
+        // ignore: invalid_use_of_protected_member
+        bool isNotUser = controller.credential.whereType<String>().isEmpty;
+        bool isNotError =
+            controller.credential.whereType<FirebaseAuthException>().isEmpty;
+
+        if (!isNotError) {
+          message = controller.credential
+              .whereType<FirebaseAuthException>()
+              .toList()[0]
+              .code;
+          Get.snackbar("Error", message);
+        }
+        if (isNotError && isNotUser) {
+          return LoginVerifyCode(phoneNumber: inputController.text);
+        }
+        return pageLoginPhoneNumber();
+      },
+    );*/
   }
 }

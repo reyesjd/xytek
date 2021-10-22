@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
-import 'package:xytek/ui/pages/login/login_change_password.dart';
-import 'package:xytek/ui/pages/login/login_verify_code.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 

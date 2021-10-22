@@ -3,26 +3,33 @@ class UserModel {
   final String name;
   final int phoneNumber;
   final String user;
-  final String password;
   final String? uid;
+  final String password;
+  /*
+  final String identification;
+  final String? linkPhoto;
+  final List shoppingCar;
+  final List productsSale;
+  final 
+  */
 
   UserModel(
       {required this.email,
       required this.name,
       required this.phoneNumber,
       required this.user,
-      required this.password,
-      this.uid});
+      this.uid,
+      required this.password});
 
-  Map<String, dynamic> toMap(bool withUserID) {
+  Map<String, dynamic> toMap({bool withUserID = true}) {
     if (withUserID) {
       return {
         'email': email,
         'name': name,
         "phoneNumber": phoneNumber,
         "user": user,
-        "password": password,
-        "uid":uid
+        "uid": uid,
+        "password": password
       };
     } else {
       return {
@@ -30,19 +37,19 @@ class UserModel {
         'name': name,
         "phoneNumber": phoneNumber,
         "user": user,
-        "password": password,
+        "password": password
       };
     }
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  factory UserModel.fromMap(Map<String, dynamic>? map) {
     return UserModel(
-        email: map['email'],
-        name: map['name'],
-        phoneNumber: map['phoneNumber'],
-        user: map['user'],
-        password: map["password"],
-        uid: map["uid"]);
+        email: map?['email'],
+        name: map?['name'],
+        phoneNumber: map?['phoneNumber'],
+        user: map?['user'],
+        password: map?["password"],
+        uid: map?["uid"]);
   }
 
   @override

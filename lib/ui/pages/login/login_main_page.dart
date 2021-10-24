@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/ui/pages/login/login_number.dart';
+import 'package:xytek/ui/pages/profile/shopper_page.dart';
 import 'package:xytek/ui/pages/signup/first_register_page.dart';
+import 'package:xytek/ui/pages/updateuserdata/directions_page.dart';
+import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'login_by_credentials.dart';
 
 class LoginMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(Get.currentRoute);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(20),
@@ -34,21 +36,15 @@ class LoginMainPage extends StatelessWidget {
                   ),
                   Text("¿Cómo deseas continuar?"),
                   Row(
-                    children: [
-                      WidgetButton(
-                          text: "Usuarios y Contraseñas",
-                          onPressed: () {
-                            Get.to(() => LoginCredentials());
-                          },
-                          typeMain: true),
-                    ],
-                  ),
-                  Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       WidgetButton(
-                          text: "E-mail", onPressed: () {}, typeMain: true),
+                          text: "E-mail",
+                          onPressed: () {
+                            Get.to(() => LoginCredentials());
+                          },
+                          typeMain: true),
                       WidgetButton(
                           text: "Celular",
                           onPressed: () {
@@ -72,6 +68,9 @@ class LoginMainPage extends StatelessWidget {
                           typeMain: false),
                     ],
                   ),
+                  /*ElevatedButton(
+                      onPressed: () => {Get.to(() => Shopper())},
+                      child: Text("Ir a Mis datos"))*/
                 ],
               ),
             ),

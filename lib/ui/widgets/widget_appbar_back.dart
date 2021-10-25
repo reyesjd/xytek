@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 class WidgetAppBarBack {
   final Function actionButtonBack;
+  final String? title;
 
-  WidgetAppBarBack({required this.actionButtonBack});
-  
+  WidgetAppBarBack({required this.actionButtonBack, this.title});
+
   AppBar build(BuildContext context) {
     return AppBar(
+      title: Text(
+        title ?? '',
+        style: TextStyle(color: Colors.black),
+      ),
       leading: IconButton(
           color: Colors.black,
           onPressed: () {

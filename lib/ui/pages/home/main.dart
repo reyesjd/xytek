@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xytek/ui/pages/cart.dart';
 import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/ui/widgets/category_chip.dart';
 import 'package:xytek/ui/widgets/custom_drawer.dart';
@@ -123,7 +124,7 @@ class Main extends StatelessWidget {
                           icon: Icon(Icons.search),
                         ),
                   IconButton(
-                      onPressed: () => {},
+                      onPressed: () => {Get.to(() => Cart())},
                       icon: Icon(Icons.shopping_cart_outlined))
                 ],
               ),

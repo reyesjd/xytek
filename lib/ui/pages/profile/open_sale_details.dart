@@ -61,6 +61,42 @@ class OpenDetailsSale extends StatelessWidget {
                   textAlign("Calificaciones:", 18),
                 ],
               ),
+              Expanded(
+                  flex: 4,
+                  child: ListView(
+                    children: [
+                      WidgetOpinion(
+                        name: "Nombre Comprador",
+                        rating: 2,
+                        comment:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
+                      ),
+                      WidgetOpinion(
+                        name: "Nombre Comprador",
+                        rating: 2,
+                        comment:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
+                      ),
+                      WidgetOpinion(
+                        name: "Nombre Comprador",
+                        rating: 2,
+                        comment:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
+                      ),
+                      WidgetOpinion(
+                        name: "Nombre Comprador",
+                        rating: 2,
+                        comment:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
+                      ),
+                      WidgetOpinion(
+                        name: "Nombre Comprador",
+                        rating: 2,
+                        comment:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
+                      ),
+                    ],
+                  ))
             ],
           ),
         ));

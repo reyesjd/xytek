@@ -122,35 +122,36 @@ class Directions extends StatelessWidget {
                               padding: EdgeInsets.only(left: 10, right: 10),
                               child: Row(
                                 children: [
+                                  dropDown(
+                                      icon: Icon(Icons.arrow_drop_down),
+                                      initValue: tipoCalle,
+                                      items: tiposCalle),
                                   Expanded(
-                                      child: dropDown(
-                                          icon: Icon(Icons.arrow_drop_down),
-                                          initValue: tipoCalle,
-                                          items: tiposCalle)),
+                                    child: WidgetTextField(
+                                      label: "Calle",
+                                      controller: calle,
+                                      validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Por favor ingrese su calle";
+                                    }
+                                      },
+                                      obscure: false,
+                                      digitsOnly: false,
+                                    ),
+                                  ),
                                   Expanded(
-                                      child: WidgetTextField(
-                                    label: "Calle",
-                                    controller: calle,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Por favor ingrese su calle";
-                                      }
-                                    },
-                                    obscure: false,
-                                    digitsOnly: false,
-                                  )),
-                                  Expanded(
-                                      child: WidgetTextField(
-                                    label: "Numeró",
-                                    controller: numero,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Por favor ingrese su numeró";
-                                      }
-                                    },
-                                    obscure: false,
-                                    digitsOnly: true,
-                                  )),
+                                    child: WidgetTextField(
+                                      label: "Numeró",
+                                      controller: numero,
+                                      validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Por favor ingrese su numeró";
+                                    }
+                                      },
+                                      obscure: false,
+                                      digitsOnly: true,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

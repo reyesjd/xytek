@@ -15,7 +15,7 @@ class AuthService {
     if (auth.currentUser != null) {
       print(auth.currentUser.toString());
       try {
-        if (auth.currentUser!.phoneNumber != null) {
+        if (auth.currentUser!.phoneNumber!.isNotEmpty) {
           String colPhoneNumber = auth.currentUser!.phoneNumber!.substring(3);
           UserModel? user = await getInformationUserByPhoneNumber(
               phoneNumber: int.parse(colPhoneNumber));

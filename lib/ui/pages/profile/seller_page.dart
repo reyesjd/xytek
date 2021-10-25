@@ -27,106 +27,88 @@ class Seller extends StatelessWidget {
         color: Color.fromRGBO(244, 244, 244, 1),
         child: ListView(
           children: [
-            SizedBox(
-              height: media.height - 130,
-              child: Column(
+            WidgetRoundedImage(
+              image: 'https://googleflutter.com/sample_image.jpg',
+            ),
+            Column(
+              children: [
+                Text("Jhon Doe",
+                    style: TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold)),
+                Text("Vendedor",
+                    style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w300)),
+                TextButton(
+                    onPressed: () => {Get.to(() => Reputation())},
+                    child: Container(
+                      margin: EdgeInsets.only(top: 2),
+                      child: RatingBar(
+                        ignoreGestures: true,
+                        updateOnDrag: false,
+                        itemCount: 5,
+                        allowHalfRating: false,
+                        initialRating: 3,
+                        onRatingUpdate: (double value) {},
+                        ratingWidget: RatingWidget(
+                            full:
+                                Icon(Icons.star, color: Colors.amber),
+                            half: Icon(
+                              Icons.star_border,
+                              color: Colors.white,
+                            ),
+                            empty: Icon(Icons.star_border,
+                                color: Colors.amber)),
+                      ),
+                    ))
+              ],
+            ),
+            Column(
+              children: [
+                WidgetProfileButton(
+                  text: "Mis Ventas",
+                  onPressed: () {
+                    Get.to(() => SoldProducts());
+                  },
+                ),
+                WidgetProfileButton(
+                  text: "Mis Datos",
+                  onPressed: () {
+                    Get.to(() => MyData());
+                  },
+                ),
+                WidgetProfileButton(
+                  text: "Productos en Venta",
+                  onPressed: () {
+                    Get.to(() => ProductsOnSale());
+                  },
+                )
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 15, right: 15),
+              child: Row(
                 children: [
-                  Expanded(
-                    flex: 3,
-                    child: WidgetRoundedImage(
-                      image: 'https://googleflutter.com/sample_image.jpg',
-                    ),
-                  ),
-                  Expanded(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          Text("Jhon Doe",
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold)),
-                          Text("Vendedor",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w300)),
-                          TextButton(
-                              onPressed: () => {Get.to(() => Reputation())},
-                              child: Container(
-                                margin: EdgeInsets.only(top: 2),
-                                child: RatingBar(
-                                  ignoreGestures: true,
-                                  updateOnDrag: false,
-                                  itemCount: 5,
-                                  allowHalfRating: false,
-                                  initialRating: 3,
-                                  onRatingUpdate: (double value) {},
-                                  ratingWidget: RatingWidget(
-                                      full:
-                                          Icon(Icons.star, color: Colors.amber),
-                                      half: Icon(
-                                        Icons.star_border,
-                                        color: Colors.white,
-                                      ),
-                                      empty: Icon(Icons.star_border,
-                                          color: Colors.amber)),
-                                ),
-                              ))
-                        ],
-                      )),
-                  Expanded(
-                      flex: 3,
-                      child: Column(
-                        children: [
-                          WidgetProfileButton(
-                            text: "Mis Ventas",
-                            onPressed: () {
-                              Get.to(() => SoldProducts());
-                            },
-                          ),
-                          WidgetProfileButton(
-                            text: "Mis Datos",
-                            onPressed: () {
-                              Get.to(() => MyData());
-                            },
-                          ),
-                          WidgetProfileButton(
-                            text: "Productos en Venta",
-                            onPressed: () {
-                              Get.to(() => ProductsOnSale());
-                            },
-                          )
-                        ],
-                      )),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: EdgeInsets.only(left: 15, right: 15),
-                        child: Row(
-                          children: [
-                            WidgetButton(
-                                text: "Cerrar Sesión",
-                                onPressed: () {},
-                                typeMain: false),
-                          ],
-                        ),
-                      )),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        margin: EdgeInsets.only(left: 30),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: TextButton(
-                            onPressed: () {
-                              Get.to(() => Shopper());
-                            },
-                            child: Text("Volver a Comprador",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w300,
-                                    color: Color.fromRGBO(51, 51, 51, 1))),
-                          ),
-                        ),
-                      ))
+                  WidgetButton(
+                      text: "Cerrar Sesión",
+                      onPressed: () {},
+                      typeMain: false),
                 ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 30),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                  onPressed: () {
+                    Get.to(() => Shopper());
+                  },
+                  child: Text("Volver a Comprador",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromRGBO(51, 51, 51, 1))),
+                ),
               ),
             )
           ],

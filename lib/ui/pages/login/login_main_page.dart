@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/ui/pages/home/main.dart';
 import 'package:xytek/ui/pages/login/login_number.dart';
-import 'package:xytek/ui/pages/profile/shopper_page.dart';
+
 import 'package:xytek/ui/pages/signup/first_register_page.dart';
-import 'package:xytek/ui/pages/updateuserdata/directions_page.dart';
-import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
+
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'login_by_credentials.dart';
 
@@ -68,9 +68,9 @@ class LoginMainPage extends StatelessWidget {
                           typeMain: false),
                     ],
                   ),
-                  /*ElevatedButton(
-                      onPressed: () => {Get.to(() => Shopper())},
-                      child: Text("Ir a Mis datos"))*/
+                  ElevatedButton(
+                      onPressed: () => {Get.to(() => Main())},
+                      child: Text("Ver Main"))
                 ],
               ),
             ),

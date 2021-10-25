@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:xytek/ui/pages/home/main.dart';
+import 'package:xytek/ui/pages/profile/shopper_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -7,10 +10,15 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           DrawerHeader(
-              child: Text(
-                "John Doe",
-                style: TextStyle(
-                  color: Colors.white,
+              child: TextButton(
+                onPressed: () {
+                  Get.to(() => Shopper());
+                },
+                child: Text(
+                  "John Doe",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
               decoration: BoxDecoration(
@@ -19,26 +27,20 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             title: Text("Inicio"),
             onTap: () {
-              Navigator.pushNamed(context, "/home");
+              Get.to(() => Main());
             },
           ),
           ListTile(
             title: Text("Categorías"),
-            onTap: () {
-              Navigator.pushNamed(context, "/categories");
-            },
+            onTap: () {},
           ),
           ListTile(
             title: Text("Productos"),
-            onTap: () {
-              Navigator.pushNamed(context, "/products");
-            },
+            onTap: () {},
           ),
           ListTile(
             title: Text("Historial"),
-            onTap: () {
-              Navigator.pushNamed(context, "/history");
-            },
+            onTap: () {},
           ),
         ],
       ),

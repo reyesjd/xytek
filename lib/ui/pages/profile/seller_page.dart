@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xytek/ui/pages/profile/my_shoppings.dart';
-import 'package:xytek/ui/pages/profile/seller_page.dart';
+import 'package:xytek/ui/pages/product/products_on_sale.dart';
+import 'package:xytek/ui/pages/product/sold_products.dart';
+import 'package:xytek/ui/pages/profile/reputation_page.dart';
+import 'package:xytek/ui/pages/profile/shopper_page.dart';
 import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_profile_button.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
-class Shopper extends StatelessWidget {
-  Shopper({Key? key}) : super(key: key);
+class Seller extends StatelessWidget {
+  Seller({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +38,37 @@ class Shopper extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                      flex: 1,
+                      flex: 2,
                       child: Column(
                         children: [
                           Text("Jhon Doe",
                               style: TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold)),
-                          Text("Comprador",
+                          Text("Vendedor",
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w300))
+                                  fontSize: 18, fontWeight: FontWeight.w300)),
+                          TextButton(
+                              onPressed: () => {Get.to(() => Reputation())},
+                              child: Container(
+                                margin: EdgeInsets.only(top: 2),
+                                child: RatingBar(
+                                  ignoreGestures: true,
+                                  updateOnDrag: false,
+                                  itemCount: 5,
+                                  allowHalfRating: false,
+                                  initialRating: 3,
+                                  onRatingUpdate: (double value) {},
+                                  ratingWidget: RatingWidget(
+                                      full:
+                                          Icon(Icons.star, color: Colors.amber),
+                                      half: Icon(
+                                        Icons.star_border,
+                                        color: Colors.white,
+                                      ),
+                                      empty: Icon(Icons.star_border,
+                                          color: Colors.amber)),
+                                ),
+                              ))
                         ],
                       )),
                   Expanded(
@@ -51,15 +76,21 @@ class Shopper extends StatelessWidget {
                       child: Column(
                         children: [
                           WidgetProfileButton(
-                            text: "Mis Compras",
+                            text: "Mis Ventas",
                             onPressed: () {
-                              Get.to(() => MyShoppings());
+                              Get.to(() => SoldProducts());
                             },
                           ),
                           WidgetProfileButton(
                             text: "Mis Datos",
                             onPressed: () {
                               Get.to(() => MyData());
+                            },
+                          ),
+                          WidgetProfileButton(
+                            text: "Productos en Venta",
+                            onPressed: () {
+                              Get.to(() => ProductsOnSale());
                             },
                           )
                         ],
@@ -85,9 +116,9 @@ class Shopper extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: TextButton(
                             onPressed: () {
-                              Get.to(() => Seller());
+                              Get.to(() => Shopper());
                             },
-                            child: Text("Ser un Vendedor",
+                            child: Text("Volver a Comprador",
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w300,

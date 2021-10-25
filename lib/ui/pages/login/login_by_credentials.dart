@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/ui/pages/home/main.dart';
 import 'package:xytek/ui/pages/login/login_recovery_password.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
@@ -139,6 +140,7 @@ class LoginCredentials extends StatelessWidget {
                                                     _password.text);
                                                 if (logged) {
                                                   Get.back();
+                                                  Get.to(() => Main());
                                                   Get.snackbar(
                                                       "Ha ingresado correctamente",
                                                       "Los datos ingresados han sido correctos",

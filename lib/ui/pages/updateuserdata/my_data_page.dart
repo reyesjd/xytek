@@ -4,6 +4,7 @@ import 'package:xytek/ui/pages/updateuserdata/directions_page.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
+import 'package:xytek/ui/widgets/widget_text_align.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class MyData extends StatelessWidget {
@@ -44,13 +45,13 @@ class MyData extends StatelessWidget {
                   height: media.height - 130,
                   child: Column(
                     children: [
-                      textAlign("Mis Datos", 26),
+                      WidgetAlignText(text: "Mis Datos", size: 26),
                       Expanded(
                         flex: 1,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            textAlign("Datos de Cuenta", 18),
+                            WidgetAlignText(text: "Datos de Cuenta", size: 18),
                             WidgetTextField(
                               label: "Correo electronico",
                               controller: emailTextController,
@@ -72,7 +73,7 @@ class MyData extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            textAlign("Datos Personales", 18),
+                            WidgetAlignText(text: "Datos Personales", size: 18),
                             WidgetTextField(
                               label: "Nombres",
                               controller: nameTextController,
@@ -101,7 +102,7 @@ class MyData extends StatelessWidget {
                           flex: 1,
                           child: Column(
                             children: [
-                              textAlign("Direcciones", 18),
+                              WidgetAlignText(text: "Direcciones", size: 18),
                               Row(
                                 children: [
                                   dropDown(
@@ -149,20 +150,6 @@ class MyData extends StatelessWidget {
                 )
               ],
             ),
-          ),
-        ));
-  }
-
-  Widget textAlign(text, double size) {
-    return Container(
-        padding: EdgeInsets.only(left: 10, right: 10),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            text,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 5,
-            style: TextStyle(fontSize: size, fontWeight: FontWeight.bold),
           ),
         ));
   }

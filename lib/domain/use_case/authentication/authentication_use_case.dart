@@ -14,7 +14,7 @@ class Auth {
 
   Future<UserModel?> loginEmail(String email, String password) async {
     try {
-      UserModel? user =await authService.loginByCredentials(email, password);
+      UserModel? user = await authService.loginByCredentials(email, password);
       return user;
     } catch (e) {
       return Future.error(e);
@@ -47,10 +47,13 @@ class Auth {
     }
   }
 
-  Future<UserModel?> verifyCodeSmS({smsCode, verificationId, phoneNumber}) async {
+  Future<UserModel?> verifyCodeSmS(
+      {smsCode, verificationId, phoneNumber}) async {
     try {
       UserModel? user = await authService.verifyCodeSmS(
-          smsCode: smsCode, verificationId: verificationId,phoneNumber: phoneNumber);
+          smsCode: smsCode,
+          verificationId: verificationId,
+          phoneNumber: phoneNumber);
       return user;
     } catch (e) {
       return Future.error(e);
@@ -60,6 +63,19 @@ class Auth {
   Future<void> signOut() async {
     try {
       await authService.signOutFirebase();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<bool> changeIsSeller() async {
+    try {
+      UserModel? user = await authService.getLoggedUser();
+      print(user.toString());
+      if (user == null) {
+        return false;
+      }
+      return true;
     } catch (e) {
       return Future.error(e);
     }

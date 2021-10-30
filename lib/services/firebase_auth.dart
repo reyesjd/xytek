@@ -13,12 +13,12 @@ class AuthService {
 
   Future<UserModel?> getLoggedUser() async {
     if (auth.currentUser != null) {
-      print(auth.currentUser.toString());
       try {
         if (auth.currentUser!.phoneNumber!.isNotEmpty) {
           String colPhoneNumber = auth.currentUser!.phoneNumber!.substring(3);
           UserModel? user = await getInformationUserByPhoneNumber(
               phoneNumber: int.parse(colPhoneNumber));
+          print(user.toString());
           return user;
         }
         UserModel? user =
@@ -64,9 +64,7 @@ class AuthService {
             credentials.add(verificationId);
           },
         );
-        
       } else {
-        
         credentials.add("Error: Number phone no registered");
       }
     } on FirebaseAuthException catch (e) {

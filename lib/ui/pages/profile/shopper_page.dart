@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/profile/my_shoppings.dart';
 import 'package:xytek/ui/pages/profile/seller_page.dart';
 import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
@@ -11,6 +12,19 @@ import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
 class Shopper extends StatelessWidget {
   Shopper({Key? key}) : super(key: key);
+
+  AuthController auth = Get.find();
+
+  void handlerSeller() async {
+    bool isSeller = await auth.updateIsSeller();
+
+    if (isSeller) {
+      Get.snackbar("", "Ahora eres un vendedir");
+      Get.to(() => Seller());
+    } else {
+      Get.snackbar("", "Uy parece que hubo un error, intenta de nuevo");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +98,7 @@ class Shopper extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: TextButton(
-                            onPressed: () {
-                              Get.to(() => Seller());
-                            },
+                            onPressed: handlerSeller,
                             child: Text("Ser un Vendedor",
                                 style: TextStyle(
                                     fontSize: 18,

@@ -31,7 +31,8 @@ class SecondRegisterPage extends StatelessWidget {
             name: argumentData[1],
             phoneNumber: int.parse(argumentData[2]),
             user: userTextController.text,
-            password: passTextController.text);
+            password: passTextController.text,
+            isSeller: false);
         var val = await authController.signUp(newUser);
         registred = val;
       } catch (e) {

@@ -5,6 +5,7 @@ class UserModel {
   final String user;
   final String? uid;
   final String password;
+  final bool isSeller;
   /*
   final String identification;
   final String? linkPhoto;
@@ -19,7 +20,8 @@ class UserModel {
       required this.phoneNumber,
       required this.user,
       this.uid,
-      required this.password});
+      required this.password,
+      required this.isSeller});
 
   Map<String, dynamic> toMap({bool withUserID = true}) {
     if (withUserID) {
@@ -29,7 +31,8 @@ class UserModel {
         "phoneNumber": phoneNumber,
         "user": user,
         "uid": uid,
-        "password": password
+        "password": password,
+        "isSeller": isSeller,
       };
     } else {
       return {
@@ -37,7 +40,8 @@ class UserModel {
         'name': name,
         "phoneNumber": phoneNumber,
         "user": user,
-        "password": password
+        "password": password,
+        "isSeller": isSeller,
       };
     }
   }
@@ -49,11 +53,12 @@ class UserModel {
         phoneNumber: map?['phoneNumber'],
         user: map?['user'],
         password: map?["password"],
-        uid: map?["uid"]);
+        uid: map?["uid"],
+        isSeller: map?["isSeller"]);
   }
 
   @override
   String toString() {
-    return "$email/$name/$password/$phoneNumber/$user";
+    return "$email/$name/$password/$phoneNumber/$user/$isSeller";
   }
 }

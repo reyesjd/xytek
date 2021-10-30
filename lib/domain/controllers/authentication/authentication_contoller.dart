@@ -125,4 +125,12 @@ class AuthController extends GetxController {
       return Future.error(e);
     }
   }
+
+  Future<bool> updateIsSeller() async {
+    try {
+      return await _auth.changeIsSeller();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
 }

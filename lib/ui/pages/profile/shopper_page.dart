@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/profile/my_shoppings.dart';
 import 'package:xytek/ui/pages/profile/seller_page.dart';
 import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
@@ -14,14 +15,15 @@ class Shopper extends StatelessWidget {
   Shopper({Key? key}) : super(key: key);
 
   AuthController auth = Get.find();
+  StorageController store = Get.find();
 
   void handlerSeller() async {
-    bool isSeller = await auth.updateIsSeller();
-
-    if (isSeller) {
-      Get.snackbar("", "Ahora eres un vendedir");
-      Get.to(() => Seller());
-    } else {
+    try {
+      auth.userModelLogged.isSeller = true;
+      await store.updateUser(auth.userModelLogged);
+      await Get.to(() => Seller());
+      Get.snackbar("", "Ahora eres un vendedor");
+    } catch (e) {
       Get.snackbar("", "Uy parece que hubo un error, intenta de nuevo");
     }
   }
@@ -99,7 +101,7 @@ class Shopper extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: TextButton(
                             onPressed: handlerSeller,
-                            child: Text("Ser un Vendedor",
+                            child: Text(auth.userModelLogged.isSeller?"Abrir la ventana de vendedor":"Ser un Vendedor",
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w300,

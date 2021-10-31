@@ -1,11 +1,17 @@
+import 'package:xytek/data/models/product_model.dart';
+
 class UserModel {
-  final String email;
-  final String name;
-  final int phoneNumber;
-  final String user;
-  final String? uid;
-  final String password;
-  final bool isSeller;
+  String email;
+  String name;
+  int phoneNumber;
+  String user;
+  String? uid;
+  String password;
+  bool isSeller;
+  //latitud,length
+  String? coordinates;
+  List<ProductModel>? saleProducts;
+
   /*
   final String identification;
   final String? linkPhoto;
@@ -21,29 +27,22 @@ class UserModel {
       required this.user,
       this.uid,
       required this.password,
-      required this.isSeller});
+      required this.isSeller,
+      this.coordinates,
+      this.saleProducts});
 
-  Map<String, dynamic> toMap({bool withUserID = true}) {
-    if (withUserID) {
-      return {
-        'email': email,
-        'name': name,
-        "phoneNumber": phoneNumber,
-        "user": user,
-        "uid": uid,
-        "password": password,
-        "isSeller": isSeller,
-      };
-    } else {
-      return {
-        'email': email,
-        'name': name,
-        "phoneNumber": phoneNumber,
-        "user": user,
-        "password": password,
-        "isSeller": isSeller,
-      };
-    }
+  Map<String, dynamic> toMap() {
+    return {
+      "coordinates": coordinates,
+      'email': email,
+      'name': name,
+      "phoneNumber": phoneNumber,
+      "user": user,
+      "uid": uid,
+      "password": password,
+      "isSeller": isSeller,
+      "saleProducts": saleProducts
+    };
   }
 
   factory UserModel.fromMap(Map<String, dynamic>? map) {
@@ -54,7 +53,9 @@ class UserModel {
         user: map?['user'],
         password: map?["password"],
         uid: map?["uid"],
-        isSeller: map?["isSeller"]);
+        isSeller: map?["isSeller"],
+        coordinates: map?["coordinates"],
+        saleProducts: map?["saleProducts"]);
   }
 
   @override

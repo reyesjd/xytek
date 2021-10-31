@@ -14,12 +14,13 @@ class AuthService {
   Future<UserModel?> getLoggedUser() async {
     if (auth.currentUser != null) {
       try {
-        if (auth.currentUser!.phoneNumber!.isNotEmpty) {
-          String colPhoneNumber = auth.currentUser!.phoneNumber!.substring(3);
-          UserModel? user = await getInformationUserByPhoneNumber(
-              phoneNumber: int.parse(colPhoneNumber));
-          print(user.toString());
-          return user;
+        if (auth.currentUser!.phoneNumber != null) {
+          if (auth.currentUser!.phoneNumber!.isNotEmpty) {
+            String colPhoneNumber = auth.currentUser!.phoneNumber!.substring(3);
+            UserModel? user = await getInformationUserByPhoneNumber(
+                phoneNumber: int.parse(colPhoneNumber));
+            return user;
+          }
         }
         UserModel? user =
             await getInformationUserByUserID(userId: auth.currentUser!.uid);

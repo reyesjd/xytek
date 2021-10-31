@@ -40,6 +40,7 @@ class AuthController extends GetxController {
     _userModelLogged = await _auth.getLoggedUser();
     if (_userModelLogged != null) {
       _userIDLogged.value = _userModelLogged.uid;
+      print(_userModelLogged.toMap());
     } else {
       _userIDLogged.value = "";
     }
@@ -88,11 +89,7 @@ class AuthController extends GetxController {
         }
       }
       actionInStream(data);
-    }, onDone: () {
-      print("Task Done");
-    }, onError: (error) {
-      print("Some Error");
-    });
+    }, onDone: () {}, onError: (error) {});
     try {
       await _auth.logingByPhoneNumber(
           phoneNumber: phoneNumber, credential: credentialPhoneStream);
@@ -121,14 +118,6 @@ class AuthController extends GetxController {
       _userIDLogged.value = "";
       _userModelLogged = null;
       return true;
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
-
-  Future<bool> updateIsSeller() async {
-    try {
-      return await _auth.changeIsSeller();
     } catch (e) {
       return Future.error(e);
     }

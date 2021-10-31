@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/data/models/product_model.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -17,14 +18,7 @@ class NewProduct extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
   var dropdownValue = "Teclados".obs;
-  List<String> categorias = [
-    "Teclados",
-    "Tarjetas Graficas",
-    "CPU",
-    "Mother Board",
-    "RAM",
-    "Refrigeracion"
-  ];
+  List<String> categorias = ProductModel.getCategorias();
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +111,10 @@ class NewProduct extends StatelessWidget {
                         children: [
                           WidgetButton(
                               text: "Añadir Producto",
-                              onPressed: () {},
+                              onPressed: () {
+
+                                
+                              },
                               typeMain: true),
                         ],
                       )

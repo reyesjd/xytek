@@ -68,16 +68,4 @@ class Auth {
     }
   }
 
-  Future<bool> changeIsSeller() async {
-    try {
-      UserModel? user = await authService.getLoggedUser();
-      print(user.toString());
-      if (user == null) {
-        return false;
-      }
-      return true;
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
 }

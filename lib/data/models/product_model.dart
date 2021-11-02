@@ -38,7 +38,7 @@ class ProductModel {
         uid: map?["uid"]);
   }
 
-  static getCategorias() {
+  static List<String> getCategorias() {
     return [
       "Placas Base",
       "Procesadores",

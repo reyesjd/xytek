@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/services/firebase_store.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -17,7 +19,7 @@ class NewProduct extends StatelessWidget {
   final TextEditingController description = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  var dropdownValue = "Teclados".obs;
+  var dropdownValue = "Placas Base".obs;
   List<String> categorias = ProductModel.getCategorias();
 
   @override
@@ -111,9 +113,19 @@ class NewProduct extends StatelessWidget {
                         children: [
                           WidgetButton(
                               text: "Añadir Producto",
-                              onPressed: () {
-
-                                
+                              onPressed: () async {
+                                AuthController controlle = Get.find();
+                                StoreService service = StoreService();
+                                await service.addproduct(
+                                    ProductModel(
+                                        name: "sdasdasd",
+                                        category: "ausdahjsda",
+                                        description: "jhsgjdjasd",
+                                        price: 1000,
+                                        urlImage: " urlImage",
+                                        id: "id",
+                                        uid: "uid"),
+                                    controlle.userModelLogged);
                               },
                               typeMain: true),
                         ],

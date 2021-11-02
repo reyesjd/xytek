@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xytek/data/models/user_model.dart';
+import 'package:xytek/services/firebase_store.dart';
 
 class AuthService {
   late FirebaseAuth auth;
-  late FirebaseFirestore store;
+  late StoreService storeService;
 
   AuthService() {
     auth = FirebaseAuth.instance;
-    store = FirebaseFirestore.instance;
+    storeService = StoreService();
   }
 
   Future<UserModel?> getLoggedUser() async {
@@ -17,13 +18,14 @@ class AuthService {
         if (auth.currentUser!.phoneNumber != null) {
           if (auth.currentUser!.phoneNumber!.isNotEmpty) {
             String colPhoneNumber = auth.currentUser!.phoneNumber!.substring(3);
-            UserModel? user = await getInformationUserByPhoneNumber(
-                phoneNumber: int.parse(colPhoneNumber));
+            UserModel? user =
+                await storeService.getInformationUserByPhoneNumber(
+                    phoneNumber: int.parse(colPhoneNumber));
             return user;
           }
         }
-        UserModel? user =
-            await getInformationUserByUserID(userId: auth.currentUser!.uid);
+        UserModel? user = await storeService.getInformationUserByUserID(
+            userId: auth.currentUser!.uid);
         return user;
       } catch (e) {
         return null;
@@ -37,7 +39,7 @@ class AuthService {
       UserCredential result = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = result.user!;
-      return getInformationUserByUserID(userId: user.uid);
+      return storeService.getInformationUserByUserID(userId: user.uid);
     } on FirebaseAuthException catch (e) {
       return Future.error(e.code);
     }
@@ -45,7 +47,7 @@ class AuthService {
 
   Future<void> logingByPhoneNumber({phoneNumber, credentials}) async {
     try {
-      UserModel? user = await getInformationUserByPhoneNumber(
+      UserModel? user = await storeService.getInformationUserByPhoneNumber(
           phoneNumber: int.parse(phoneNumber));
       if (user != null) {
         await auth.verifyPhoneNumber(
@@ -83,7 +85,7 @@ class AuthService {
 
       await auth.signInWithCredential(credential);
 
-      UserModel? user = await getInformationUserByPhoneNumber(
+      UserModel? user = await storeService.getInformationUserByPhoneNumber(
           phoneNumber: int.parse(phoneNumber));
       return user;
     } on FirebaseAuthException catch (e) {
@@ -93,55 +95,12 @@ class AuthService {
     }
   }
 
-  Future<UserModel?> getInformationUserByUserID({userId}) async {
-    try {
-      var infoUser = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .get();
-      var dicc = infoUser.data();
-      if (dicc!.isNotEmpty) {
-        UserModel? user = UserModel.fromMap(dicc);
-        return user;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Future<UserModel?> getInformationUserByPhoneNumber({phoneNumber}) async {
-    try {
-      var infoUser = store
-          .collection('users')
-          .where("phoneNumber", isEqualTo: phoneNumber);
-      var result = await infoUser.get();
-      var dicc = result.docs.first.data();
-      if (dicc.isNotEmpty) {
-        return UserModel.fromMap(result.docs.first.data());
-      } else {
-        return null;
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-
   Future<void> signUp(UserModel newUser) async {
     try {
       UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: newUser.email, password: newUser.password);
-
-      User user = result.user!;
-      var dicc = newUser.toMap();
-      var uid = user.uid;
-
-      dicc.addAll({"uid": uid});
-
-      await store.collection('users').doc(uid).set(dicc);
-      await store.waitForPendingWrites();
+      storeService.addUser(newUser, result.user!);
     } on FirebaseAuthException catch (e) {
       return Future.error(e.code);
     } on FirebaseException catch (e) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/ui/pages/login/login_main_page.dart';
 import 'package:xytek/ui/pages/product/products_on_sale.dart';
 import 'package:xytek/ui/pages/product/sold_products.dart';
 import 'package:xytek/ui/pages/profile/reputation_page.dart';
@@ -14,6 +16,8 @@ import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
 class Seller extends StatelessWidget {
   Seller({Key? key}) : super(key: key);
+
+  AuthController auth = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +37,11 @@ class Seller extends StatelessWidget {
             Column(
               children: [
                 Text("Jhon Doe",
-                    style: TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold)),
+                    style:
+                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 Text("Vendedor",
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w300)),
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.w300)),
                 TextButton(
                     onPressed: () => {Get.to(() => Reputation())},
                     child: Container(
@@ -50,14 +54,13 @@ class Seller extends StatelessWidget {
                         initialRating: 3,
                         onRatingUpdate: (double value) {},
                         ratingWidget: RatingWidget(
-                            full:
-                                Icon(Icons.star, color: Colors.amber),
+                            full: Icon(Icons.star, color: Colors.amber),
                             half: Icon(
                               Icons.star_border,
                               color: Colors.white,
                             ),
-                            empty: Icon(Icons.star_border,
-                                color: Colors.amber)),
+                            empty:
+                                Icon(Icons.star_border, color: Colors.amber)),
                       ),
                     ))
               ],
@@ -90,7 +93,10 @@ class Seller extends StatelessWidget {
                 children: [
                   WidgetButton(
                       text: "Cerrar Sesión",
-                      onPressed: () {},
+                      onPressed: () async {
+                        await auth.signOut();
+                        Get.to(() => LoginMainPage());
+                      },
                       typeMain: false),
                 ],
               ),

@@ -10,8 +10,8 @@ import 'package:xytek/ui/widgets/widget_text_align.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 // ignore: must_be_immutable
-class NewProduct extends StatelessWidget {
-  NewProduct({Key? key}) : super(key: key);
+class EditProduct extends StatelessWidget {
+  EditProduct({Key? key}) : super(key: key);
 
   final TextEditingController name = TextEditingController();
   final TextEditingController price = TextEditingController();

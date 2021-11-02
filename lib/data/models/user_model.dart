@@ -10,7 +10,7 @@ class UserModel {
   bool isSeller;
   //latitud,length
   String? coordinates;
-  List<ProductModel>? saleProducts;
+  List? salesProducts;
 
   /*
   final String identification;
@@ -29,7 +29,7 @@ class UserModel {
       required this.password,
       required this.isSeller,
       this.coordinates,
-      this.saleProducts});
+      this.salesProducts});
 
   Map<String, dynamic> toMap() {
     return {
@@ -41,7 +41,7 @@ class UserModel {
       "uid": uid,
       "password": password,
       "isSeller": isSeller,
-      "saleProducts": saleProducts
+      "salesProducts": salesProducts
     };
   }
 
@@ -55,7 +55,7 @@ class UserModel {
         uid: map?["uid"],
         isSeller: map?["isSeller"],
         coordinates: map?["coordinates"],
-        saleProducts: map?["saleProducts"]);
+        salesProducts: map?["salesProducts"]);
   }
 
   @override

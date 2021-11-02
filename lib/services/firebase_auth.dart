@@ -100,7 +100,7 @@ class AuthService {
       UserCredential result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: newUser.email, password: newUser.password);
-      storeService.addUser(newUser, result.user!);
+      await storeService.addUser(newUser, result.user!);
     } on FirebaseAuthException catch (e) {
       return Future.error(e.code);
     } on FirebaseException catch (e) {

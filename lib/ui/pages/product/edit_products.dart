@@ -11,7 +11,12 @@ import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 // ignore: must_be_immutable
 class EditProduct extends StatelessWidget {
-  EditProduct({Key? key}) : super(key: key);
+  EditProduct({Key? key}) : super(key: key) {
+    product = Get.arguments[0];
+    initValues();
+  }
+
+  late RxMap<String,dynamic> product;
 
   final TextEditingController name = TextEditingController();
   final TextEditingController price = TextEditingController();
@@ -20,26 +25,44 @@ class EditProduct extends StatelessWidget {
   final StorageController storageController = Get.find();
   final AuthController authController = Get.find();
 
+  initValues() {
+    name.text = product["name"];
+    price.text = "${product["price"]}";
+    description.text = product["description"];
+    urlImage.text = product["urlImage"];
+    dropdownValue = RxString(product["category"]);
+  }
+
+  setValues() {
+    product["name"] = name.text;
+    product["price"] = int.parse(price.text);
+    product["description"] = description.text;
+    product["urlImage"] = urlImage.text;
+    product["category"] = dropdownValue.value;
+  }
+
   final _formKey = GlobalKey<FormState>();
-  var dropdownValue = "Placas Base".obs;
+  late RxString dropdownValue;
   List<String> categorias = ProductModel.getCategorias();
 
   void handlerAddProduct() async {
     try {
       String uid = authController.userIDLogged;
-      await storageController.addNewProduct(
+      await storageController.updateInfoProduct(
           name: name.text,
           category: dropdownValue.value,
           description: description.text,
           price: int.parse(price.text),
           urlImage: urlImage.text,
-          uid: uid);
-      Get.snackbar("Exito", "¡Producto añadido exitosamente!",
+          uid: uid,
+          id: product["id"]);
+      setValues();
+      Get.back(result: product);
+      Get.snackbar("Exito", "¡Producto actualizado exitosamente!",
           backgroundColor: Colors.green);
-      Get.back();
     } catch (e) {
       Get.snackbar("Error al Crear Producto",
-          "Uy parece que hubo un error al crear un nuevo producto, por favor intenta de nuevo.",
+          "Uy parece que hubo un error al actualizar el producto, por favor intenta de nuevo.",
           backgroundColor: Colors.red);
     }
   }
@@ -62,7 +85,7 @@ class EditProduct extends StatelessWidget {
                   height: media.height - 130,
                   child: Column(
                     children: [
-                      WidgetAlignText(text: "Nuevo Producto", size: 26),
+                      WidgetAlignText(text: "Actualiza tu Producto", size: 26),
                       Expanded(
                         flex: 2,
                         child: Column(
@@ -111,12 +134,12 @@ class EditProduct extends StatelessWidget {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold))),
-                                dropDown(
-                                    icon: Icon(Icons.arrow_drop_down),
-                                    initValue: dropdownValue,
-                                    items: categorias),
                               ],
                             ),
+                            dropDown(
+                                icon: Icon(Icons.arrow_drop_down),
+                                initValue: dropdownValue,
+                                items: categorias),
                             WidgetTextField(
                               label: "URL Imagen",
                               controller: urlImage,
@@ -134,7 +157,7 @@ class EditProduct extends StatelessWidget {
                       Row(
                         children: [
                           WidgetButton(
-                              text: "Añadir Producto",
+                              text: "Actualizar Producto",
                               onPressed: handlerAddProduct,
                               typeMain: true),
                         ],

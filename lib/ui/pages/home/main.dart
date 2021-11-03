@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/cart.dart';
 import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/ui/widgets/category_chip.dart';
@@ -8,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:xytek/ui/widgets/widget_text_align.dart';
 
 class Main extends StatelessWidget {
+  StorageController store = Get.find();
+
   final List<Map> categories = [
     {"label": "Categoría 1"},
     {"label": "Categoría 2"},

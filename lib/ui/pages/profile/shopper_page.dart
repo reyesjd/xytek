@@ -22,7 +22,7 @@ class Shopper extends StatelessWidget {
     try {
       auth.userModelLogged.isSeller = true;
       await store.updateUser(auth.userModelLogged);
-      await Get.to(() => Seller());
+      Get.to(() => Seller());
       Get.snackbar("", "Ahora eres un vendedor");
     } catch (e) {
       Get.snackbar("", "Uy parece que hubo un error, intenta de nuevo");

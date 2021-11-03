@@ -34,9 +34,9 @@ class NewProduct extends StatelessWidget {
           price: int.parse(price.text),
           urlImage: urlImage.text,
           uid: uid);
+      Get.back();
       Get.snackbar("Exito", "¡Producto añadido exitosamente!",
           backgroundColor: Colors.green);
-      Get.back();
     } catch (e) {
       Get.snackbar("Error al Crear Producto",
           "Uy parece que hubo un error al crear un nuevo producto, por favor intenta de nuevo.",
@@ -111,12 +111,12 @@ class NewProduct extends StatelessWidget {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold))),
-                                dropDown(
-                                    icon: Icon(Icons.arrow_drop_down),
-                                    initValue: dropdownValue,
-                                    items: categorias),
                               ],
                             ),
+                            dropDown(
+                                icon: Icon(Icons.arrow_drop_down),
+                                initValue: dropdownValue,
+                                items: categorias),
                             WidgetTextField(
                               label: "URL Imagen",
                               controller: urlImage,

@@ -1,4 +1,3 @@
-import 'package:xytek/data/models/product_model.dart';
 
 class UserModel {
   String email;
@@ -10,7 +9,9 @@ class UserModel {
   bool isSeller;
   //latitud,length
   String? coordinates;
-  List? salesProducts;
+  List? salesProductsReferences;
+  //Lista para almaenar en el sistema los modelos de los productos 
+  List? salesProductsModels;
 
   /*
   final String identification;
@@ -29,7 +30,7 @@ class UserModel {
       required this.password,
       required this.isSeller,
       this.coordinates,
-      this.salesProducts});
+      this.salesProductsReferences});
 
   Map<String, dynamic> toMap() {
     return {
@@ -41,7 +42,7 @@ class UserModel {
       "uid": uid,
       "password": password,
       "isSeller": isSeller,
-      "salesProducts": salesProducts
+      "salesProducts": salesProductsReferences,
     };
   }
 
@@ -55,11 +56,11 @@ class UserModel {
         uid: map?["uid"],
         isSeller: map?["isSeller"],
         coordinates: map?["coordinates"],
-        salesProducts: map?["salesProducts"]);
+        salesProductsReferences: map?["salesProducts"]);
   }
-
+/*
   @override
   String toString() {
-    return "$email/$name/$password/$phoneNumber/$user/$isSeller";
-  }
+    return toMap().toString();
+  }*/
 }

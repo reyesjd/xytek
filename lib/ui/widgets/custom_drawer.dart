@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/home/main.dart';
 import 'package:xytek/ui/pages/profile/shopper_page.dart';
 
 class CustomDrawer extends StatelessWidget {
+  AuthController authController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -15,7 +18,7 @@ class CustomDrawer extends StatelessWidget {
                   Get.to(() => Shopper());
                 },
                 child: Text(
-                  "John Doe",
+                  authController.userModelLogged.name,
                   style: TextStyle(
                     color: Colors.white,
                   ),

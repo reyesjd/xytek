@@ -17,8 +17,8 @@ class ProductModel {
       required this.id,
       required this.uid});
 
-  Map<String, dynamic> toMap() {
-    return {
+  Map<String, dynamic> toMap({List withKeys = const []}) {
+    Map<String, dynamic> map = {
       "id": id,
       "uid": uid,
       "name": name,
@@ -27,6 +27,10 @@ class ProductModel {
       "price": price,
       "urlImage": urlImage
     };
+    if (withKeys.isNotEmpty) {
+      map.removeWhere((key, value) => !withKeys.contains(key));
+    }
+    return map;
   }
 
   factory ProductModel.fromMap(Map<String, dynamic>? map) {
@@ -60,4 +64,10 @@ class ProductModel {
       "Otra"
     ];
   }
+/*
+  @override
+  String toString() {
+    return "\n"+toMap().toString()+"\n";
+  }
+  */
 }

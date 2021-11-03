@@ -26,13 +26,32 @@ class Storage {
   Future<ProductModel?> getLastSalesProduct(String uid) async {
     try {
       List<ProductModel> products =
-          await storeService.getInfoSaleProductsUser(uid);
-      print(products);
+          await storeService.getInfoSalesProductsUser(uid);
       if (products.isEmpty) {
         return null;
       } else {
         return products.last;
       }
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+
+  Future<void>  updateInfoProduct(ProductModel newProduct) async {
+    try {
+      await storeService.updateInfoProduct(newProduct);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+
+  Future<List<ProductModel>> getInfoSalesProducts(String uid) async {
+    try {
+      List<ProductModel> products =
+          await storeService.getInfoSalesProductsUser(uid);
+      return products;
     } catch (e) {
       return Future.error(e);
     }

@@ -107,7 +107,12 @@ class Seller extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => Shopper());
+                    var val = Get.isSnackbarOpen;
+                    if (val != null) {
+                      if (val == true) {
+                        Get.close(2);
+                      }
+                    }
                   },
                   child: Text("Volver a Comprador",
                       style: TextStyle(

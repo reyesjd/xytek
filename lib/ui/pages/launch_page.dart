@@ -2,20 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 
 class LaunchPage extends StatelessWidget {
-  changeLoaded() {
-    AuthController controller = Get.find();
-    controller.setloadedApp = true;
-  }
-
-  waitSeconds() async {
-    await Future.delayed(Duration(seconds: 3), changeLoaded);
+  waitforUserLogged() async {
+    AuthController authController = Get.find();
+    
+    await authController.init();
+    authController.setloadedApp = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    waitSeconds();
+    waitforUserLogged();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

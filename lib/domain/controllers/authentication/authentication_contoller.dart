@@ -4,9 +4,12 @@ import 'package:get/get.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/use_case/authentication/authentication_use_case.dart';
 
+import 'storage_controller.dart';
+
 class AuthController extends GetxController {
   AuthController() {
-    init();
+    _auth = Get.find();
+    storageController = Get.find();
   }
 
   get userIDLogged => _userIDLogged.value;
@@ -34,12 +37,14 @@ class AuthController extends GetxController {
   String phoneNumber = "";
 
   //Use Case
-  final Auth _auth = Get.find();
+  late Auth _auth;
+  late StorageController storageController;
 
   init() async {
     _userModelLogged = await _auth.getLoggedUser();
     if (_userModelLogged != null) {
       _userIDLogged.value = _userModelLogged.uid;
+    _userModelLogged.salesProductsModels= await storageController.getInfoSalesProducts(_userIDLogged.value);
       print(_userModelLogged.toMap());
     } else {
       _userIDLogged.value = "";

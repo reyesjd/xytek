@@ -33,7 +33,7 @@ class SecondRegisterPage extends StatelessWidget {
             user: userTextController.text,
             password: passTextController.text,
             isSeller: false,
-            salesProducts: [],
+            salesProductsReferences: [],
             coordinates: "0,0");
         var val = await authController.signUp(newUser);
         registred = val;

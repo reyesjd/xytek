@@ -21,6 +21,19 @@ class StoreService {
     }
   }
 
+  Future<void> updateInfoProduct(ProductModel product)async {
+    try {
+      var dicc = product.toMap();
+      var id = product.id;
+      await store.collection('salesProducts').doc(id).update(dicc);
+      await store.waitForPendingWrites();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  
+
   Future<void> addproduct(ProductModel product) async {
     try {
       var dicc = product.toMap();
@@ -39,7 +52,7 @@ class StoreService {
     }
   }
 
-  Future<List<ProductModel>> getInfoSaleProductsUser(String uid) async {
+  Future<List<ProductModel>> getInfoSalesProductsUser(String uid) async {
     try {
       List<ProductModel> listProducts = [];
       DocumentReference userF = store.collection('users').doc(uid);

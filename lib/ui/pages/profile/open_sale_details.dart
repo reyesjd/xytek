@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:xytek/ui/pages/product/edit_products.dart';
 
-import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_opinion.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
 class OpenDetailsSale extends StatelessWidget {
-  OpenDetailsSale({Key? key}) : super(key: key);
+  OpenDetailsSale({Key? key}) : super(key: key) {
+    product = RxMap(Get.arguments[0]);
+  }
 
-  //Pedir Info de una clase Product
-  String price = "1000";
+  late RxMap<String, dynamic> product;
+
+  final formatCurrency = NumberFormat.currency(
+    decimalDigits: 0,
+    symbol: '\$',
+    customPattern: '\u00a4 ###,###',
+  );
+
   String amount = "10";
-  String state = "disponible";
+
   //Hay que pedir la informacion desde la clase userModel o userSaler el vendedor
   String nameBuyer = "Nombre del comprador";
   String category = "Tarjeta Grafica";
@@ -21,10 +30,32 @@ class OpenDetailsSale extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: WidgetAppBarBack(actionButtonBack: () {
-          Get.back();
-        }).build(context),
+    return Obx(() => Scaffold(
+        appBar: AppBar(
+          actions: [
+            TextButton.icon(
+                onPressed: () {
+                  Get.to(() => EditProduct(), arguments: [product])
+                      ?.then((value) {
+                    if (value != null) {
+                      product = value;
+                    }
+                  });
+                },
+                icon: Icon(
+                  Icons.edit,
+                ),
+                label: Text("Editar Producto"))
+          ],
+          leading: IconButton(
+              color: Colors.black,
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(Icons.arrow_back)),
+          backgroundColor: Color.fromRGBO(244, 244, 244, 1),
+          elevation: 0,
+        ),
         body: Container(
           padding: EdgeInsets.all(20),
           color: Color.fromRGBO(244, 244, 244, 1),
@@ -33,15 +64,19 @@ class OpenDetailsSale extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  WidgetRoundedImage(
-                      image:
-                          "https://conceptodefinicion.de/wp-content/uploads/2015/02/tarjeta-de-video-pny-nvidia-quadro-600-1gb-ddr3-profesional.jpg"),
-                  Text("Nvidia GT210",
+                  WidgetRoundedImage(image: product["urlImage"]),
+                  Text(product["name"],
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  Text(category),
-                  Text("$price X $amount"),
-                  Text(state),
+                  Text(product["category"]),
+                  Text(
+                    formatCurrency
+                        .format(product["price"])
+                        .replaceAll(',', '.'),
+                  ),
+                  Text(int.parse(amount) > 0
+                      ? "$amount disponibles"
+                      : "no disponible"),
                 ],
               ),
               Column(
@@ -99,7 +134,7 @@ class OpenDetailsSale extends StatelessWidget {
                   ))
             ],
           ),
-        ));
+        )));
   }
 
   Widget textAlign(text, double size) {

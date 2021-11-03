@@ -37,15 +37,18 @@ class ProductCard extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  flex: 4,
-                  child: Image(
-                    height: 80,
-                    fit: BoxFit.contain,
-                    image: NetworkImage(
-                      image,
-                    ),
-                  ),
-                ),
+                    flex: 4,
+                    child: Image(
+                      height: 80,
+                      fit: BoxFit.contain,
+                      image: NetworkImage(
+                        image,
+                      ),
+                      errorBuilder:
+                          (BuildContext context, Object exception, stackTrace) {
+                        return Icon(Icons.image_not_supported_outlined);
+                      },
+                    )),
                 Expanded(
                   flex: 6,
                   child: Column(

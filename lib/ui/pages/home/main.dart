@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/cart.dart';
 import 'package:xytek/ui/pages/product/product_details.dart';
@@ -11,76 +12,39 @@ import 'package:xytek/ui/widgets/widget_text_align.dart';
 class Main extends StatelessWidget {
   StorageController store = Get.find();
 
-  final List<Map> categories = [
-    {"label": "Categoría 1"},
-    {"label": "Categoría 2"},
-    {"label": "Categoría 3"},
-    {"label": "Categoría 4"},
-    {"label": "Categoría 5"},
-  ];
+  final List<String> categories = ProductModel.getCategorias().obs;
 
   final List<Map> products = [
     {
+      "id": "1",
       "name": "Tarjeta de video Nvidia Gigabyte",
       "image":
           'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
       "price": 350000,
     },
     {
+      "id": "2",
       "name": "Tarjeta de video Nvidia Gigabyte",
       "image":
           'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
       "price": 350000,
     },
     {
+      "id": "3",
       "name": "Tarjeta de video Nvidia Gigabyte",
       "image":
           'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
       "price": 350000,
     },
     {
+      "id": "4",
       "name": "Tarjeta de video Nvidia Gigabyte",
       "image":
           'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
       "price": 350000,
     },
     {
-      "name": "Tarjeta de video Nvidia Gigabyte",
-      "image":
-          'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
-      "price": 350000,
-    },
-    {
-      "name": "Tarjeta de video Nvidia Gigabyte",
-      "image":
-          'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
-      "price": 350000,
-    },
-    {
-      "name": "Tarjeta de video Nvidia Gigabyte",
-      "image":
-          'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
-      "price": 350000,
-    },
-    {
-      "name": "Tarjeta de video Nvidia Gigabyte",
-      "image":
-          'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
-      "price": 350000,
-    },
-    {
-      "name": "Tarjeta de video Nvidia Gigabyte",
-      "image":
-          'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
-      "price": 350000,
-    },
-    {
-      "name": "Tarjeta de video Nvidia Gigabyte",
-      "image":
-          'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
-      "price": 350000,
-    },
-    {
+      "id": "5",
       "name": "Tarjeta de video Nvidia Gigabyte",
       "image":
           'https://http2.mlstatic.com/D_NQ_NP_831583-MCO40904870588_022020-O.webp',
@@ -148,13 +112,11 @@ class Main extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 12),
                       scrollDirection: Axis.horizontal,
                       itemCount: categories.length,
-                      separatorBuilder: (context, index) => SizedBox(
-                        width: 8,
-                        height: 8,
-                      ),
+                      separatorBuilder: (context, index) => SizedBox(width: 8),
                       itemBuilder: (context, index) {
                         return CategoryChip(
-                          label: categories[index]["label"],
+                          key: Key(categories[index]),
+                          label: categories[index],
                           onPressed: () {},
                         );
                       },
@@ -169,6 +131,7 @@ class Main extends StatelessWidget {
                       itemCount: products.length,
                       itemBuilder: (context, index) {
                         return ProductCard(
+                          keyButton: Key(products[index]["id"]),
                           onPressed: () {
                             Get.to(() => DetailsProduct());
                           },

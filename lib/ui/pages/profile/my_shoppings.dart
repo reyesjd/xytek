@@ -55,7 +55,6 @@ class MyShoppings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -66,7 +65,6 @@ class MyShoppings extends StatelessWidget {
         Get.back();
       }).build(context),
       body: Container(
-        padding: EdgeInsets.all(20),
         color: Color.fromRGBO(244, 244, 244, 1),
         child: Column(
           children: [
@@ -74,7 +72,7 @@ class MyShoppings extends StatelessWidget {
             Expanded(
               flex: 1,
               child: ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 12),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 scrollDirection: Axis.horizontal,
                 itemCount: categories.length,
                 separatorBuilder: (context, index) => SizedBox(width: 8),
@@ -90,8 +88,7 @@ class MyShoppings extends StatelessWidget {
             Expanded(
                 flex: 9,
                 child: ListView.builder(
-                  padding:
-                      EdgeInsets.only(right: 8, left: 8, bottom: 8, top: 0),
+                  padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     return ProductCard(

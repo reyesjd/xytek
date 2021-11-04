@@ -19,140 +19,159 @@ class NewProduct extends StatelessWidget {
   final TextEditingController urlImage = TextEditingController();
   final StorageController storageController = Get.find();
   final AuthController authController = Get.find();
+  final _loading = false.obs;
+
+  bool get loading => _loading.value;
+
+  set loading(bool value) {
+    _loading.value = value;
+  }
 
   final _formKey = GlobalKey<FormState>();
   var dropdownValue = "Placas Base".obs;
   List<String> categorias = ProductModel.getCategorias();
 
   void handlerAddProduct() async {
+    loading = true;
     try {
       var user = authController.userModelLogged;
       await storageController.addNewProduct(
-          name: name.text,
-          category: dropdownValue.value,
-          description: description.text,
-          price: int.parse(price.text),
-          urlImage: urlImage.text,
-          user: user);
+        name: name.text,
+        category: dropdownValue.value,
+        description: description.text,
+        price: int.parse(price.text),
+        urlImage: urlImage.text,
+        user: user,
+      );
 
       Get.back();
       Get.snackbar("Exito", "¡Producto añadido exitosamente!",
           backgroundColor: Colors.green);
     } catch (e) {
-      Get.snackbar("Error al Crear Producto",
-          "Uy parece que hubo un error al crear un nuevo producto, por favor intenta de nuevo.",
-          backgroundColor: Colors.red);
+      Get.snackbar(
+        "Error al Crear Producto",
+        "Uy parece que hubo un error al crear un nuevo producto, por favor intenta de nuevo.",
+        backgroundColor: Colors.red,
+      );
     }
+    loading = false;
   }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return Scaffold(
-        appBar: WidgetAppBarBack(actionButtonBack: () {
-          Get.back();
-        }).build(context),
-        body: Form(
-          key: _formKey,
-          child: Container(
-            padding: EdgeInsets.all(20),
-            color: Color.fromRGBO(244, 244, 244, 1),
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: media.height - 130,
-                  child: Column(
-                    children: [
-                      WidgetAlignText(text: "Nuevo Producto", size: 26),
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            WidgetAlignText(
-                                text: "Datos del producto", size: 18),
-                            WidgetTextField(
-                              keyText: Key("nameTf"),
-                              label: "Nombre",
-                              controller: name,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Por favor ingrese el nombre del producto";
-                                }
-                              },
-                              obscure: false,
-                              digitsOnly: false,
-                            ),
-                            WidgetTextField(
-                              keyText: Key("priceTf"),
-                              label: "Precio",
-                              controller: price,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Por favor ingrese el precio del producto";
-                                }
-                              },
-                              obscure: false,
-                              digitsOnly: true,
-                            ),
-                            WidgetTextField(
-                              keyText: Key("descriptionTf"),
-                              label: "Descripcion",
-                              controller: description,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Por favor ingrese una breve descripcion";
-                                }
-                              },
-                              obscure: false,
-                              digitsOnly: false,
-                            ),
-                            Row(
-                              children: [
-                                Container(
+    return Obx(
+      () => Scaffold(
+          appBar: WidgetAppBarBack(actionButtonBack: () {
+            Get.back();
+          }).build(context),
+          body: Form(
+            key: _formKey,
+            child: Container(
+              color: Color.fromRGBO(244, 244, 244, 1),
+              child: ListView(
+                padding: EdgeInsets.all(20),
+                children: [
+                  SizedBox(
+                    height: media.height - 130,
+                    child: Column(
+                      children: [
+                        WidgetAlignText(text: "Nuevo Producto", size: 26),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              WidgetAlignText(
+                                  text: "Datos del producto", size: 18),
+                              WidgetTextField(
+                                keyText: Key("nameTf"),
+                                label: "Nombre",
+                                controller: name,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Por favor ingrese el nombre del producto";
+                                  }
+                                },
+                                obscure: false,
+                                digitsOnly: false,
+                              ),
+                              WidgetTextField(
+                                keyText: Key("priceTf"),
+                                label: "Precio",
+                                controller: price,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Por favor ingrese el precio del producto";
+                                  }
+                                },
+                                obscure: false,
+                                digitsOnly: true,
+                              ),
+                              WidgetTextField(
+                                keyText: Key("descriptionTf"),
+                                label: "Descripcion",
+                                controller: description,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Por favor ingrese una breve descripcion";
+                                  }
+                                },
+                                obscure: false,
+                                digitsOnly: false,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
                                     margin: EdgeInsets.only(left: 25),
-                                    child: Text("Categoria: ",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold))),
-                              ],
-                            ),
-                            dropDown(
-                                key: Key("categoryDb"),
-                                icon: Icon(Icons.arrow_drop_down),
-                                initValue: dropdownValue,
-                                items: categorias),
-                            WidgetTextField(
-                              keyText: Key("urlTf"),
-                              label: "URL Imagen",
-                              controller: urlImage,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Por favor ingrese la url del producto";
-                                }
-                              },
-                              obscure: false,
-                              digitsOnly: false,
-                            )
-                          ],
+                                    child: Text(
+                                      "Categoria: ",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              dropDown(
+                                  key: Key("categoryDb"),
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  initValue: dropdownValue,
+                                  items: categorias),
+                              WidgetTextField(
+                                keyText: Key("urlTf"),
+                                label: "URL Imagen",
+                                controller: urlImage,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Por favor ingrese la url del producto";
+                                  }
+                                },
+                                obscure: false,
+                                digitsOnly: false,
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          WidgetButton(
+                        Row(
+                          children: [
+                            WidgetButton(
+                              loading: loading,
                               keyButton: Key("addproductBtn"),
                               text: "Añadir Producto",
                               onPressed: handlerAddProduct,
-                              typeMain: true),
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
+                              typeMain: true,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
   Widget dropDown({initValue, List<String> items = const [], icon, key}) {

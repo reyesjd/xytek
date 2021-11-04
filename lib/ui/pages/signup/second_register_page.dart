@@ -78,6 +78,7 @@ class SecondRegisterPage extends StatelessWidget {
             padding: EdgeInsets.all(20),
             color: Color.fromRGBO(244, 244, 244, 1),
             child: ListView(
+              key: Key("signupLv"),
               children: [
                 SizedBox(
                   height: media.height - 130,

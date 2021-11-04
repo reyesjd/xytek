@@ -102,6 +102,7 @@ class LoginCredentials extends StatelessWidget {
                               child: Column(
                                 children: [
                                   WidgetTextField(
+                                    keyText: Key("userTf"),
                                     label: "Usuario",
                                     controller: _email,
                                     validator: (value) {
@@ -115,6 +116,7 @@ class LoginCredentials extends StatelessWidget {
                                     digitsOnly: false,
                                   ),
                                   WidgetTextField(
+                                      keyText: Key("passwordTf"),
                                       label: "Contraseña",
                                       controller: _password,
                                       validator: (value) {
@@ -130,6 +132,7 @@ class LoginCredentials extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         WidgetButton(
+                                            keyButton: Key("loginByEmailBtn"),
                                             text: "Iniciar Sesión",
                                             onPressed: () async {
                                               final form =
@@ -160,6 +163,7 @@ class LoginCredentials extends StatelessWidget {
                                     ),
                                   ),
                                   TextButton(
+                                    key: Key("recoveryBtn"),
                                     style: TextButton.styleFrom(
                                       padding: const EdgeInsets.all(16.0),
                                       primary: Colors.grey,

@@ -6,6 +6,7 @@ class ProductCard extends StatelessWidget {
   final String image;
   final int price;
   final Function onPressed;
+  final Key keyButton;
 
   final formatCurrency = NumberFormat.currency(
     decimalDigits: 0,
@@ -17,11 +18,13 @@ class ProductCard extends StatelessWidget {
       {required this.name,
       required this.image,
       required this.price,
-      required this.onPressed});
+      required this.onPressed,
+      required this.keyButton});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
+        key: keyButton,
         onPressed: () => {onPressed()},
         child: Card(
           elevation: 0,

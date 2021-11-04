@@ -16,7 +16,7 @@ class EditProduct extends StatelessWidget {
     initValues();
   }
 
-  late RxMap<String,dynamic> product;
+  late RxMap<String, dynamic> product;
 
   final TextEditingController name = TextEditingController();
   final TextEditingController price = TextEditingController();
@@ -94,6 +94,7 @@ class EditProduct extends StatelessWidget {
                             WidgetAlignText(
                                 text: "Datos del producto", size: 18),
                             WidgetTextField(
+                              keyText: Key("nameTf"),
                               label: "Nombre",
                               controller: name,
                               validator: (value) {
@@ -105,6 +106,7 @@ class EditProduct extends StatelessWidget {
                               digitsOnly: false,
                             ),
                             WidgetTextField(
+                              keyText: Key("priceTf"),
                               label: "Precio",
                               controller: price,
                               validator: (value) {
@@ -116,6 +118,7 @@ class EditProduct extends StatelessWidget {
                               digitsOnly: true,
                             ),
                             WidgetTextField(
+                              keyText: Key("descriptionTf"),
                               label: "Descripcion",
                               controller: description,
                               validator: (value) {
@@ -137,10 +140,12 @@ class EditProduct extends StatelessWidget {
                               ],
                             ),
                             dropDown(
+                                key: Key("categoryDb"),
                                 icon: Icon(Icons.arrow_drop_down),
                                 initValue: dropdownValue,
                                 items: categorias),
                             WidgetTextField(
+                              keyText: Key("urlTf"),
                               label: "URL Imagen",
                               controller: urlImage,
                               validator: (value) {
@@ -157,6 +162,7 @@ class EditProduct extends StatelessWidget {
                       Row(
                         children: [
                           WidgetButton(
+                              keyButton: Key("updateproductBtn"),
                               text: "Actualizar Producto",
                               onPressed: handlerAddProduct,
                               typeMain: true),
@@ -171,7 +177,7 @@ class EditProduct extends StatelessWidget {
         ));
   }
 
-  Widget dropDown({initValue, List<String> items = const [], icon}) {
+  Widget dropDown({initValue, List<String> items = const [], icon, key}) {
     return Container(
       padding: EdgeInsets.only(left: 30, right: 30),
       decoration: BoxDecoration(
@@ -182,6 +188,7 @@ class EditProduct extends StatelessWidget {
           )),
       child: ObxValue(
         (data) => DropdownButton(
+          key: key,
           value: initValue.value,
           icon: icon,
           underline: SizedBox(),

@@ -33,8 +33,8 @@ class NewProduct extends StatelessWidget {
           description: description.text,
           price: int.parse(price.text),
           urlImage: urlImage.text,
-          user:user );
-      
+          user: user);
+
       Get.back();
       Get.snackbar("Exito", "¡Producto añadido exitosamente!",
           backgroundColor: Colors.green);
@@ -72,6 +72,7 @@ class NewProduct extends StatelessWidget {
                             WidgetAlignText(
                                 text: "Datos del producto", size: 18),
                             WidgetTextField(
+                              keyText: Key("nameTf"),
                               label: "Nombre",
                               controller: name,
                               validator: (value) {
@@ -83,6 +84,7 @@ class NewProduct extends StatelessWidget {
                               digitsOnly: false,
                             ),
                             WidgetTextField(
+                              keyText: Key("priceTf"),
                               label: "Precio",
                               controller: price,
                               validator: (value) {
@@ -94,6 +96,7 @@ class NewProduct extends StatelessWidget {
                               digitsOnly: true,
                             ),
                             WidgetTextField(
+                              keyText: Key("descriptionTf"),
                               label: "Descripcion",
                               controller: description,
                               validator: (value) {
@@ -115,10 +118,12 @@ class NewProduct extends StatelessWidget {
                               ],
                             ),
                             dropDown(
+                                key: Key("categoryDb"),
                                 icon: Icon(Icons.arrow_drop_down),
                                 initValue: dropdownValue,
                                 items: categorias),
                             WidgetTextField(
+                              keyText: Key("urlTf"),
                               label: "URL Imagen",
                               controller: urlImage,
                               validator: (value) {
@@ -135,6 +140,7 @@ class NewProduct extends StatelessWidget {
                       Row(
                         children: [
                           WidgetButton(
+                              keyButton: Key("addproductBtn"),
                               text: "Añadir Producto",
                               onPressed: handlerAddProduct,
                               typeMain: true),
@@ -149,7 +155,7 @@ class NewProduct extends StatelessWidget {
         ));
   }
 
-  Widget dropDown({initValue, List<String> items = const [], icon}) {
+  Widget dropDown({initValue, List<String> items = const [], icon, key}) {
     return Container(
       padding: EdgeInsets.only(left: 30, right: 30),
       decoration: BoxDecoration(
@@ -160,6 +166,7 @@ class NewProduct extends StatelessWidget {
           )),
       child: ObxValue(
         (data) => DropdownButton(
+          key: key,
           value: initValue.value,
           icon: icon,
           underline: SizedBox(),

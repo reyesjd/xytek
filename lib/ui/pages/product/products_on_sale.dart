@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/product_model.dart';
-import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/product/new_product.dart';
@@ -41,6 +40,7 @@ class ProductsOnSale extends StatelessWidget {
       getSalesProducts();
       return Scaffold(
         floatingActionButton: FloatingActionButton(
+          key: Key("addBtn"),
           child: Icon(Icons.add),
           onPressed: () => {Get.to(() => NewProduct())},
           backgroundColor: Color.fromRGBO(42, 157, 143, 1),
@@ -63,6 +63,7 @@ class ProductsOnSale extends StatelessWidget {
                   separatorBuilder: (context, index) => SizedBox(width: 8),
                   itemBuilder: (context, index) {
                     return CategoryChip(
+                      key: Key(categories[index]),
                       label: categories[index],
                       onPressed: () {},
                     );
@@ -77,6 +78,7 @@ class ProductsOnSale extends StatelessWidget {
                     itemCount: products.length,
                     itemBuilder: (context, index) {
                       return ProductCard(
+                        keyButton: Key(products[index]["id"]),
                         onPressed: () {
                           Get.to(() => OpenDetailsSale(),
                               arguments: [products[index]]);

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xytek/ui/pages/home/main.dart';
 import 'package:xytek/ui/pages/login/login_number.dart';
 
 import 'package:xytek/ui/pages/signup/first_register_page.dart';
@@ -40,12 +39,14 @@ class LoginMainPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       WidgetButton(
+                          keyButton: Key("emailBtn"),
                           text: "E-mail",
                           onPressed: () {
                             Get.to(() => LoginCredentials());
                           },
                           typeMain: true),
                       WidgetButton(
+                          keyButton: Key("phoneBtn"),
                           text: "Celular",
                           onPressed: () {
                             Get.to(() => LoginPhoneNumber());
@@ -61,6 +62,7 @@ class LoginMainPage extends StatelessWidget {
                   Row(
                     children: [
                       WidgetButton(
+                          keyButton: Key("signupBtn"),
                           text: "Registrate",
                           onPressed: () {
                             Get.to(() => FirstRegisterPage());
@@ -68,9 +70,6 @@ class LoginMainPage extends StatelessWidget {
                           typeMain: false),
                     ],
                   ),
-                  ElevatedButton(
-                      onPressed: () => {Get.to(() => Main())},
-                      child: Text("Ver Main"))
                 ],
               ),
             ),

@@ -103,6 +103,7 @@ class LoginPhoneNumber extends StatelessWidget {
                               child: Column(
                                 children: [
                                   WidgetTextField(
+                                    keyText: Key("phoneNumberTf"),
                                     label: "¿Cuál es tu número celular?",
                                     controller: inputController,
                                     validator: (value) {
@@ -130,6 +131,7 @@ class LoginPhoneNumber extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         WidgetButton(
+                                            keyButton: Key("smsBtn"),
                                             text: "Enviar Código",
                                             onPressed: () {
                                               /*Aqui se debe verificar si el email existe en la bd,
@@ -160,28 +162,5 @@ class LoginPhoneNumber extends StatelessWidget {
             ),
           ),
         ));
-
-    /*
-
-    return GetX<AuthController>(
-      builder: (AuthController controller) {
-        // ignore: invalid_use_of_protected_member
-        bool isNotUser = controller.credential.whereType<String>().isEmpty;
-        bool isNotError =
-            controller.credential.whereType<FirebaseAuthException>().isEmpty;
-
-        if (!isNotError) {
-          message = controller.credential
-              .whereType<FirebaseAuthException>()
-              .toList()[0]
-              .code;
-          Get.snackbar("Error", message);
-        }
-        if (isNotError && isNotUser) {
-          return LoginVerifyCode(phoneNumber: inputController.text);
-        }
-        return pageLoginPhoneNumber();
-      },
-    );*/
   }
 }

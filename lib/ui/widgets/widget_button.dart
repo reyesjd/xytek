@@ -19,6 +19,7 @@ class WidgetButton extends StatelessWidget {
           height: 47,
           margin: EdgeInsets.all(10),
           child: ElevatedButton(
+            key: keyButton,
             style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(

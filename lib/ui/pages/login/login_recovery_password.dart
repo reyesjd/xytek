@@ -72,6 +72,7 @@ class LoginRecoveryPassword extends StatelessWidget {
                               child: Column(
                                 children: [
                                   WidgetTextField(
+                                    keyText: Key("recoveryemailTf"),
                                     label:
                                         "Digite su correo para  recuperar la contraseña",
                                     controller: inputController,
@@ -100,6 +101,7 @@ class LoginRecoveryPassword extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         WidgetButton(
+                                            keyButton: Key("sendemailBtn"),
                                             text: "Enviar Correo",
                                             onPressed: () {
                                               /*Aqui se debe verificar si el email existe en la bd,

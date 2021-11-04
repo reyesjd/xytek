@@ -23,6 +23,7 @@ class WidgetProfileButton extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(8)),
       child: TextButton(
+        key: keyProfileButton,
         onPressed: () {
           onPressed();
         },

@@ -83,6 +83,7 @@ class LoginVerifyCode extends StatelessWidget {
                                               fontWeight: FontWeight.w300)),
                                     ),
                                     WidgetTextField(
+                                      keyText: Key("verificationcodeTf"),
                                       label: "",
                                       controller: inputController,
                                       validator: (value) {
@@ -101,6 +102,7 @@ class LoginVerifyCode extends StatelessWidget {
                                       child: Row(
                                         children: [
                                           WidgetButton(
+                                              keyButton: Key("verifyBtn"),
                                               text: "Continuar",
                                               onPressed: () {
                                                 onPressed(

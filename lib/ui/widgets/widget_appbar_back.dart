@@ -13,6 +13,7 @@ class WidgetAppBarBack {
         style: TextStyle(color: Colors.black),
       ),
       leading: IconButton(
+          key: Key("backBtn"),
           color: Colors.black,
           onPressed: () {
             actionButtonBack();

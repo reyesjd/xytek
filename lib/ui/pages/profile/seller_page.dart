@@ -5,7 +5,6 @@ import 'package:xytek/ui/pages/login/login_main_page.dart';
 import 'package:xytek/ui/pages/product/products_on_sale.dart';
 import 'package:xytek/ui/pages/product/sold_products.dart';
 import 'package:xytek/ui/pages/profile/reputation_page.dart';
-import 'package:xytek/ui/pages/profile/shopper_page.dart';
 import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -21,7 +20,6 @@ class Seller extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: WidgetAppBarBack(actionButtonBack: () {
         Get.back();
@@ -36,13 +34,14 @@ class Seller extends StatelessWidget {
             ),
             Column(
               children: [
-                Text("Jhon Doe",
+                Text(auth.userModelLogged.name,
                     style:
                         TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 Text("Vendedor",
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.w300)),
                 TextButton(
+                  key: Key("reputationBtn"),
                     onPressed: () => {Get.to(() => Reputation())},
                     child: Container(
                       margin: EdgeInsets.only(top: 2),
@@ -68,18 +67,21 @@ class Seller extends StatelessWidget {
             Column(
               children: [
                 WidgetProfileButton(
+                  keyProfileButton: Key("mysalesBtn"),
                   text: "Mis Ventas",
                   onPressed: () {
                     Get.to(() => SoldProducts());
                   },
                 ),
                 WidgetProfileButton(
+                  keyProfileButton: Key("mydataBtn"),
                   text: "Mis Datos",
                   onPressed: () {
                     Get.to(() => MyData());
                   },
                 ),
                 WidgetProfileButton(
+                  keyProfileButton: Key("salesproductsBtn"),
                   text: "Productos en Venta",
                   onPressed: () {
                     Get.to(() => ProductsOnSale());
@@ -92,6 +94,7 @@ class Seller extends StatelessWidget {
               child: Row(
                 children: [
                   WidgetButton(
+                    keyButton: Key("signoutBtn"),
                       text: "Cerrar Sesión",
                       onPressed: () async {
                         await auth.signOut();
@@ -115,6 +118,7 @@ class Seller extends StatelessWidget {
                     }
                   },
                   child: Text("Volver a Comprador",
+                  key: Key("toshopperBtn"),
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,

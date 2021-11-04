@@ -34,6 +34,7 @@ class OpenDetailsSale extends StatelessWidget {
         appBar: AppBar(
           actions: [
             TextButton.icon(
+              key: Key("editBtn"),
                 onPressed: () {
                   Get.to(() => EditProduct(), arguments: [product])
                       ?.then((value) {

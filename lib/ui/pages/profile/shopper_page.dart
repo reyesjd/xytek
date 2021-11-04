@@ -23,7 +23,8 @@ class Shopper extends StatelessWidget {
       auth.userModelLogged.isSeller = true;
       await store.updateUser(auth.userModelLogged);
       Get.to(() => Seller());
-      Get.snackbar("", "Ahora eres un vendedor");
+      Get.snackbar("Perfil de Vendedor", auth.userModelLogged.isSeller
+                                    ? "Ahora estás en la ventana de vendedor":"Ahora eres un vendedor");
     } catch (e) {
       Get.snackbar("", "Uy parece que hubo un error, intenta de nuevo");
     }
@@ -68,12 +69,14 @@ class Shopper extends StatelessWidget {
                       child: Column(
                         children: [
                           WidgetProfileButton(
+                            keyProfileButton: Key("myshopsBtn"),
                             text: "Mis Compras",
                             onPressed: () {
                               Get.to(() => MyShoppings());
                             },
                           ),
                           WidgetProfileButton(
+                            keyProfileButton: Key("mydataBtn"),
                             text: "Mis Datos",
                             onPressed: () {
                               Get.to(() => MyData());
@@ -88,6 +91,7 @@ class Shopper extends StatelessWidget {
                         child: Row(
                           children: [
                             WidgetButton(
+                              keyButton: Key("signoutBtn"),
                                 text: "Cerrar Sesión",
                                 onPressed: () async {
                                   await auth.signOut();
@@ -104,6 +108,7 @@ class Shopper extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: TextButton(
+                            key: Key("tosellerBtn"),
                             onPressed: handlerSeller,
                             child: Text(
                                 auth.userModelLogged.isSeller

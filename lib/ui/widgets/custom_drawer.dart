@@ -13,7 +13,9 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           DrawerHeader(
+            key: Key("menuDh"),
               child: TextButton(
+                key: Key("profileBtn"),
                 onPressed: () {
                   Get.to(() => Shopper());
                 },

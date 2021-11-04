@@ -115,6 +115,7 @@ class SecondRegisterPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             WidgetTextField(
+                              keyText: Key("userTf"),
                               label: "Usuario",
                               controller: userTextController,
                               validator: (value) {
@@ -126,6 +127,7 @@ class SecondRegisterPage extends StatelessWidget {
                               digitsOnly: false,
                             ),
                             WidgetTextField(
+                              keyText: Key("passwordTf"),
                               label: "Contraseña",
                               controller: passTextController,
                               validator: (value) {},
@@ -133,6 +135,7 @@ class SecondRegisterPage extends StatelessWidget {
                               digitsOnly: false,
                             ),
                             WidgetTextField(
+                              keyText: Key("confirpassTf"),
                               label: "Confirmar contraseña",
                               controller: confirPassTextController,
                               validator: (value) {
@@ -155,6 +158,7 @@ class SecondRegisterPage extends StatelessWidget {
                             Row(
                               children: [
                                 WidgetButton(
+                                  keyButton: Key("signupBtn"),
                                     text: "Registrarme!",
                                     onPressed: () async {
                                       await singUp();

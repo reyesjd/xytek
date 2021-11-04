@@ -73,6 +73,7 @@ class FirstRegisterPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             WidgetTextField(
+                              keyText: Key("nameTf"),
                               label: "Nombre Completo",
                               controller: nameTextController,
                               validator: (value) {
@@ -84,6 +85,7 @@ class FirstRegisterPage extends StatelessWidget {
                               digitsOnly: false,
                             ),
                             WidgetTextField(
+                              keyText: Key("emailTf"),
                               label: "Correo electronico",
                               controller: emailTextController,
                               validator: (value) {
@@ -97,6 +99,7 @@ class FirstRegisterPage extends StatelessWidget {
                               digitsOnly: false,
                             ),
                             WidgetTextField(
+                              keyText: Key("phoneTf"),
                               label: "Telefono",
                               controller: phoneNTextController,
                               validator: (value) {
@@ -112,6 +115,7 @@ class FirstRegisterPage extends StatelessWidget {
                             Row(
                               children: [
                                 WidgetButton(
+                                  keyButton: Key("nextBtn"),
                                     text: "Siguiente",
                                     onPressed: () {
                                       Get.to(() => SecondRegisterPage(),

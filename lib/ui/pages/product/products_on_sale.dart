@@ -27,65 +27,70 @@ class ProductsOnSale extends StatelessWidget {
   var products = [].obs;
 
   getSalesProducts() {
-    UserModel user = authController.userModelLogged as UserModel;
-    for (ProductModel product in user.salesProductsModels!) {
-      products.add(product.toMap());
+    products.value = [];
+    if (storageController.salesProductsModels.isNotEmpty) {
+      for (ProductModel product in storageController.salesProductsModels) {
+        products.add(product.toMap());
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () => {Get.to(() => NewProduct())},
-            backgroundColor: Color.fromRGBO(42, 157, 143, 1),
-          ),
-          appBar: WidgetAppBarBack(actionButtonBack: () {
-            Get.back();
-          }).build(context),
-          body: Container(
-            padding: EdgeInsets.all(20),
-            color: Color.fromRGBO(244, 244, 244, 1),
-            child: Column(
-              children: [
-                WidgetAlignText(text: "Productos en venta", size: 20),
-                Expanded(
-                  flex: 1,
-                  child: ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: categories.length,
-                    separatorBuilder: (context, index) => SizedBox(width: 8),
+    return GetX(builder: (StorageController controller) {
+      getSalesProducts();
+      return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () => {Get.to(() => NewProduct())},
+          backgroundColor: Color.fromRGBO(42, 157, 143, 1),
+        ),
+        appBar: WidgetAppBarBack(actionButtonBack: () {
+          Get.back();
+        }).build(context),
+        body: Container(
+          padding: EdgeInsets.all(20),
+          color: Color.fromRGBO(244, 244, 244, 1),
+          child: Column(
+            children: [
+              WidgetAlignText(text: "Productos en venta", size: 20),
+              Expanded(
+                flex: 1,
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  separatorBuilder: (context, index) => SizedBox(width: 8),
+                  itemBuilder: (context, index) {
+                    return CategoryChip(
+                      label: categories[index],
+                      onPressed: () {},
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                  flex: 9,
+                  child: ListView.builder(
+                    padding:
+                        EdgeInsets.only(right: 8, left: 8, bottom: 8, top: 0),
+                    itemCount: products.length,
                     itemBuilder: (context, index) {
-                      return CategoryChip(
-                        label: categories[index],
-                        onPressed: () {},
+                      return ProductCard(
+                        onPressed: () {
+                          Get.to(() => OpenDetailsSale(),
+                              arguments: [products[index]]);
+                        },
+                        name: products[index]["name"],
+                        image: products[index]["urlImage"],
+                        price: products[index]["price"],
                       );
                     },
-                  ),
-                ),
-                Expanded(
-                    flex: 9,
-                    child: ListView.builder(
-                      padding:
-                          EdgeInsets.only(right: 8, left: 8, bottom: 8, top: 0),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        return ProductCard(
-                          onPressed: () {
-                            Get.to(() => OpenDetailsSale(),
-                                arguments: [products[index]]);
-                          },
-                          name: products[index]["name"],
-                          image: products[index]["urlImage"],
-                          price: products[index]["price"],
-                        );
-                      },
-                    ))
-              ],
-            ),
+                  ))
+            ],
           ),
-        ));
+        ),
+      );
+    });
   }
 }

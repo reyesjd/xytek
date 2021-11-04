@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xytek/data/models/product_model.dart';
 
 class UserModel {
   String email;
@@ -10,8 +12,7 @@ class UserModel {
   //latitud,length
   String? coordinates;
   List? salesProductsReferences;
-  //Lista para almaenar en el sistema los modelos de los productos 
-  List? salesProductsModels;
+  //Lista para almaenar en el sistema los modelos de los productos
 
   /*
   final String identification;
@@ -31,6 +32,12 @@ class UserModel {
       required this.isSeller,
       this.coordinates,
       this.salesProductsReferences});
+
+    void addSaleProductReference(DocumentReference productReference) {
+    if (salesProductsReferences != null) {
+      salesProductsReferences?.add(productReference);
+    }
+  }
 
   Map<String, dynamic> toMap() {
     return {

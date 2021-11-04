@@ -44,7 +44,7 @@ class AuthController extends GetxController {
     _userModelLogged = await _auth.getLoggedUser();
     if (_userModelLogged != null) {
       _userIDLogged.value = _userModelLogged.uid;
-    _userModelLogged.salesProductsModels= await storageController.getInfoSalesProducts(_userIDLogged.value);
+      await storageController.init(_userModelLogged);
       print(_userModelLogged.toMap());
     } else {
       _userIDLogged.value = "";

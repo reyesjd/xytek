@@ -7,6 +7,7 @@ class Storage {
   Storage() {
     storeService = StoreService();
   }
+  
   Future<void> updateUser(UserModel user) async {
     try {
       storeService.updateUser(user);

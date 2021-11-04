@@ -26,14 +26,15 @@ class NewProduct extends StatelessWidget {
 
   void handlerAddProduct() async {
     try {
-      String uid = authController.userIDLogged;
+      var user = authController.userModelLogged;
       await storageController.addNewProduct(
           name: name.text,
           category: dropdownValue.value,
           description: description.text,
           price: int.parse(price.text),
           urlImage: urlImage.text,
-          uid: uid);
+          user:user );
+      
       Get.back();
       Get.snackbar("Exito", "¡Producto añadido exitosamente!",
           backgroundColor: Colors.green);

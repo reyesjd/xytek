@@ -16,6 +16,7 @@ class ProductModel {
       required this.urlImage,
       required this.id,
       required this.uid});
+  
 
   Map<String, dynamic> toMap({List withKeys = const []}) {
     Map<String, dynamic> map = {

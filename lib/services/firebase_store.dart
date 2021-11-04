@@ -21,7 +21,7 @@ class StoreService {
     }
   }
 
-  Future<void> updateInfoProduct(ProductModel product)async {
+  Future<void> updateInfoProduct(ProductModel product) async {
     try {
       var dicc = product.toMap();
       var id = product.id;
@@ -32,20 +32,19 @@ class StoreService {
     }
   }
 
-  
-
   Future<void> addproduct(ProductModel product) async {
     try {
       var dicc = product.toMap();
-      var id = product.id;
-      DocumentReference productF = store.collection('salesProducts').doc(id);
-      await productF.set(dicc);
+
+      DocumentReference productF =
+          await store.collection('salesProducts').add(dicc);
 
       DocumentReference userF = store.collection('users').doc(product.uid);
 
       await userF.update({
         "salesProducts": FieldValue.arrayUnion([productF])
       });
+      
       await store.waitForPendingWrites();
     } catch (e) {
       return Future.error(e);
@@ -60,7 +59,11 @@ class StoreService {
       List list = info.get("salesProducts");
       for (DocumentReference productRefence in list) {
         var v = await productRefence.get();
-        listProducts.add(ProductModel.fromMap(v.data()));
+        if (v.data() != null) {
+          Map<String, dynamic> dicc = v.data()!;
+          dicc.update("id", (value) => productRefence.id);
+          listProducts.add(ProductModel.fromMap(dicc));
+        }
       }
       return listProducts;
     } catch (e) {

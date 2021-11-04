@@ -36,6 +36,7 @@ class FirstRegisterPage extends StatelessWidget {
             padding: EdgeInsets.all(20),
             color: Color.fromRGBO(244, 244, 244, 1),
             child: ListView(
+              key: Key("signLv"),
               children: [
                 SizedBox(
                   height: media.height - 130,
@@ -115,7 +116,7 @@ class FirstRegisterPage extends StatelessWidget {
                             Row(
                               children: [
                                 WidgetButton(
-                                  keyButton: Key("nextBtn"),
+                                    keyButton: Key("nextBtn"),
                                     text: "Siguiente",
                                     onPressed: () {
                                       Get.to(() => SecondRegisterPage(),

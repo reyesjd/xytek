@@ -29,9 +29,54 @@ void main() {
 
   testWidgets("Authentication Test", (WidgetTester tester) async {
     Widget w = await createHome();
+
     await tester.pumpWidget(w);
-    print("hola");
-    expect(find.byKey(Key('"signupBtn"')), findsOneWidget);
+
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.byKey(Key("signupBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("signupBtn")));
+    await tester.pump();
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.text("Crea tu Nueva Cuenta"), findsOneWidget);
+
+    expect(find.byKey(Key("nameTf")), findsOneWidget);
+    expect(find.byKey(Key("emailTf")), findsOneWidget);
+    expect(find.byKey(Key("phoneTf")), findsOneWidget);
+    expect(find.byKey(Key("nextBtn")), findsOneWidget);
+
+    await tester.enterText(find.byKey(Key("nameTf")), 'Pedro Perez');
+    await tester.enterText(find.byKey(Key("emailTf")), 'pperez@email.com');
+    await tester.enterText(find.byKey(Key("phoneTf")), '3015439863');
+
+    await tester.drag(find.byKey(Key("signLv")), const Offset(0.0, -500.0));
+
+    await tester.tap(find.byKey(Key("nextBtn")));
+    await tester.pump();
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.text("Ya casi está"), findsOneWidget);
+
+    expect(find.byKey(Key("userTf")), findsOneWidget);
+    expect(find.byKey(Key("passwordTf")), findsOneWidget);
+    expect(find.byKey(Key("confirpassTf")), findsOneWidget);
+    expect(find.byKey(Key("signupBtn")), findsOneWidget);
+
+    await tester.enterText(find.byKey(Key("userTf")), 'pperez');
+    await tester.enterText(find.byKey(Key("passwordTf")), 'pp123456@');
+    await tester.enterText(find.byKey(Key("confirpassTf")), 'pp123456@');
+
+    await tester.tap(find.byKey(Key("signupBtn")));
+    await tester.pump();
+    await tester.pumpAndSettle(Duration(seconds: 3));
+
+    expect(find.text("Registro exitoso"), findsOneWidget);
+
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.byKey(Key("emailBtn")), findsOneWidget);
 
     /*
 

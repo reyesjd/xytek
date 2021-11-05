@@ -103,7 +103,7 @@ class LoginCredentials extends StatelessWidget {
                                 children: [
                                   WidgetTextField(
                                     keyText: Key("userTf"),
-                                    label: "Usuario",
+                                    label: "Email",
                                     controller: _email,
                                     validator: (value) {
                                       if (value!.isEmpty) {

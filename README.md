@@ -1,16 +1,8 @@
 # xytek
 
-A new Flutter project.
+## Videos de demostración
 
-## Getting Started
+- [Demo de la app](https://drive.google.com/file/d/1LHLLFNzgyHz0Ukmw7oq4OFXMzKNb_L7t/view?usp=sharing)
+- [Pruebas](https://youtu.be/Iv3JeRRBxlA)
+- [Explicación de código](https://drive.google.com/file/d/1mnSdZWN9a-LQY1OO-a5RSw9-WVIcf19W/view?usp=sharing)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

@@ -46,27 +46,24 @@ class MyData extends StatelessWidget {
                   child: Column(
                     children: [
                       WidgetAlignText(text: "Mis Datos", size: 26),
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            WidgetAlignText(text: "Datos de Cuenta", size: 18),
-                            WidgetTextField(
-                              label: "Correo electronico",
-                              controller: emailTextController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Por favor ingrese su E-mail.";
-                                } else if (!isEmail(value)) {
-                                  return "Por favor ingrese un E-mail valido.";
-                                }
-                              },
-                              obscure: false,
-                              digitsOnly: false,
-                            ),
-                          ],
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          WidgetAlignText(text: "Datos de Cuenta", size: 18),
+                          WidgetTextField(
+                            label: "Correo electronico",
+                            controller: emailTextController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Por favor ingrese su E-mail.";
+                              } else if (!isEmail(value)) {
+                                return "Por favor ingrese un E-mail valido.";
+                              }
+                            },
+                            obscure: false,
+                            digitsOnly: false,
+                          ),
+                        ],
                       ),
                       Expanded(
                         flex: 2,

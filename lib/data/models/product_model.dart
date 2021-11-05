@@ -16,7 +16,24 @@ class ProductModel {
       required this.urlImage,
       required this.id,
       required this.uid});
-  
+
+  updateProduct({name, category, description, price, urlImage, id, uid}) {
+    if (name != null) {
+      this.name = name;
+    }
+    if (category != null) {
+      this.category = category;
+    }
+    if (description != null) {
+      this.description = description;
+    }
+    if (price != null) {
+      this.price = price;
+    }
+    if (urlImage != null) {
+      this.urlImage = urlImage;
+    }
+  }
 
   Map<String, dynamic> toMap({List withKeys = const []}) {
     Map<String, dynamic> map = {

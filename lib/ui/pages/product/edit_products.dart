@@ -57,6 +57,17 @@ class EditProduct extends StatelessWidget {
           uid: uid,
           id: product["id"]);
       setValues();
+      storageController.salesProductsModels
+          .removeWhere((element) => element.id == product["id"]);
+
+      storageController.salesProductsModels.add(ProductModel(name: name.text,
+          category: dropdownValue.value,
+          description: description.text,
+          price: int.parse(price.text),
+          urlImage: urlImage.text,
+          uid: uid,
+          id: product["id"]));
+
       Get.back(result: product);
       Get.snackbar("Exito", "¡Producto actualizado exitosamente!",
           backgroundColor: Colors.green);

@@ -10,6 +10,7 @@ import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 class OpenDetailsSale extends StatelessWidget {
   OpenDetailsSale({Key? key}) : super(key: key) {
     product = RxMap(Get.arguments[0]);
+    
   }
 
   late RxMap<String, dynamic> product;

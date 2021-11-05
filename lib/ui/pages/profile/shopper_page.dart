@@ -23,8 +23,11 @@ class Shopper extends StatelessWidget {
       auth.userModelLogged.isSeller = true;
       await store.updateUser(auth.userModelLogged);
       Get.to(() => Seller());
-      Get.snackbar("Perfil de Vendedor", auth.userModelLogged.isSeller
-                                    ? "Ahora estás en la ventana de vendedor":"Ahora eres un vendedor");
+      Get.snackbar(
+          "Perfil de Vendedor",
+          auth.userModelLogged.isSeller
+              ? "Ahora estás en la ventana de vendedor"
+              : "Ahora eres un vendedor");
     } catch (e) {
       Get.snackbar("", "Uy parece que hubo un error, intenta de nuevo");
     }
@@ -56,7 +59,7 @@ class Shopper extends StatelessWidget {
                       flex: 1,
                       child: Column(
                         children: [
-                          Text("Jhon Doe",
+                          Text(auth.userModelLogged.name,
                               style: TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold)),
                           Text("Comprador",
@@ -91,7 +94,7 @@ class Shopper extends StatelessWidget {
                         child: Row(
                           children: [
                             WidgetButton(
-                              keyButton: Key("signoutBtn"),
+                                keyButton: Key("signoutBtn"),
                                 text: "Cerrar Sesión",
                                 onPressed: () async {
                                   await auth.signOut();

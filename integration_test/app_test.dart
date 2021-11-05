@@ -76,36 +76,109 @@ void main() {
 
     await tester.pumpAndSettle(Duration(seconds: 15));
 
-  //  expect(find.text("Registro exitoso"), findsOneWidget);
+    //  expect(find.text("Registro exitoso"), findsOneWidget);
 
     await tester.pumpAndSettle(Duration(seconds: 5));
 
     expect(find.byKey(Key("emailBtn")), findsOneWidget);
 
-    /*
+    await tester.tap(find.byKey(Key("emailBtn")));
 
-    await tester.tap(find.byKey(Key('footballNewsButton')));
+    await tester.pumpAndSettle(Duration(seconds: 5));
 
-    await tester.pumpAndSettle();
+    expect(find.byKey(Key("userTf")), findsOneWidget);
+    expect(find.byKey(Key("passwordTf")), findsOneWidget);
+    expect(find.byKey(Key("loginByEmailBtn")), findsOneWidget);
 
-    expect(find.byKey(Key('readMoreButton')), findsWidgets);
+    await tester.enterText(find.byKey(Key("userTf")), 'pperez@email.com');
+    await tester.enterText(find.byKey(Key("passwordTf")), 'pp123456@');
 
-    // Therefore: (The command Offset uses Cartesian 'directions') - lets see: a) Left Dragging: Offset(-500.0, 0.0) b) Right Dragging: Offset(+500.0, 0.0) c) Up Dragging: Offset(0.0, +500.0) d) Down Dragging: Offset(0.0, -500.0)
-    await tester.drag(find.byKey(Key('refreshList')), const Offset(0.0, 500.0));
+    await tester.tap(find.byKey(Key("loginByEmailBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 15));
 
-    await tester.pumpAndSettle();
+    expect(find.byKey(Key("drawer")), findsOneWidget);
 
-    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(Key("drawer")));
+    await tester.pumpAndSettle(Duration(seconds: 5));
 
-    expect(find.byKey(Key('readMoreButton')), findsWidgets);
+    expect(find.byKey(Key("profileBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("profileBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.text('Pedro Perez'), findsOneWidget);
+
+    expect(find.byKey(Key("myshopsBtn")), findsOneWidget);
+    expect(find.byKey(Key("mydataBtn")), findsOneWidget);
+    expect(find.byKey(Key("tosellerBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("tosellerBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 10));
+
+    expect(find.text('Pedro Perez'), findsOneWidget);
+
+    expect(find.byKey(Key("mysalesBtn")), findsOneWidget);
+    expect(find.byKey(Key("mydataBtn")), findsOneWidget);
+    expect(find.byKey(Key("salesproductsBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("salesproductsBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.byKey(Key("addBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("addBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.text("Nuevo Producto"), findsOneWidget);
+
+    expect(find.byKey(Key("nameTf")), findsOneWidget);
+    expect(find.byKey(Key("priceTf")), findsOneWidget);
+    expect(find.byKey(Key("descriptionTf")), findsOneWidget);
+    expect(find.byKey(Key("categoryDb")), findsOneWidget);
+    expect(find.byKey(Key("urlTf")), findsOneWidget);
+    expect(find.byKey(Key("addproductBtn")), findsOneWidget);
+
+    await tester.enterText(find.byKey(Key("nameTf")), 'Asus H81m-k');
+    await tester.enterText(find.byKey(Key("priceTf")), '450000');
+    await tester.enterText(find.byKey(Key("descriptionTf")),
+        'Placa base Asus chipset H81, socket LGA-1150 y soporte para la cuarta generacion de intel.');
+    await tester.enterText(find.byKey(Key("urlTf")),
+        'https://ae01.alicdn.com/kf/HTB1wlKmN7voK1RjSZFNq6AxMVXai/Placa-base-LGA-1150-ASUS-H81M-K-Micro-ATX-H81M-K-H81M-DDR3-para-Intel-H81.jpg');
 
     await tester.drag(
-        find.byKey(Key('dragToResetGesture')), const Offset(500.0, 0.0));
+        find.byKey(Key("addproducLv")), const Offset(0.0, -500.0));
+    await tester.pumpAndSettle(Duration(seconds: 2));
 
-    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(Key("addproductBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 15));
 
-    await tester.pumpAndSettle();
+    //Creo que despues de estos explotara
+    expect(find.text("Productos en venta"), findsOneWidget);
+    expect(find.text('Asus H81m-k'), findsOneWidget);
 
-    expect(find.byKey(Key('readMoreButton')), findsNothing);*/
+    //en este tap puede explotar porque no se como hacer tap en el ProductCard sin saber el id que da la bd
+    await tester.tap(find.text('Asus H81m-k'));
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.byKey(Key("editBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("editBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.text("Actualiza tu Producto"), findsOneWidget);
+    expect(find.byKey(Key("priceTf")), findsOneWidget);
+
+    await tester.enterText(find.byKey(Key("priceTf")), '');
+    await tester.pumpAndSettle(Duration(seconds: 2));
+    await tester.enterText(find.byKey(Key("priceTf")), '1000000');
+
+    await tester.drag(
+        find.byKey(Key("editproductLv")), const Offset(0.0, -500.0));
+    await tester.pumpAndSettle(Duration(seconds: 2));
+
+    await tester.tap(find.byKey(Key("updateproductBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 15));
+
+    expect(find.byKey(Key("editBtn")), findsOneWidget);
   });
 }

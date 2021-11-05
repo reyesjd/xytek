@@ -70,6 +70,7 @@ class NewProduct extends StatelessWidget {
             child: Container(
               color: Color.fromRGBO(244, 244, 244, 1),
               child: ListView(
+                key: Key("addproducLv"),
                 padding: EdgeInsets.all(20),
                 children: [
                   SizedBox(

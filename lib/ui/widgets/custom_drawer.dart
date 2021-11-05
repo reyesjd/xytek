@@ -10,10 +10,11 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      key: Key("drawer"),
       child: ListView(
         children: <Widget>[
           DrawerHeader(
-            key: Key("menuDh"),
+              key: Key("menuDh"),
               child: TextButton(
                 key: Key("profileBtn"),
                 onPressed: () {

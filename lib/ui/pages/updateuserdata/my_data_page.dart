@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/data/models/user_model.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/updateuserdata/directions_page.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
@@ -8,17 +11,43 @@ import 'package:xytek/ui/widgets/widget_text_align.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class MyData extends StatelessWidget {
-  MyData({Key? key}) : super(key: key);
+  MyData({Key? key}) : super(key: key) {
+    initValues();
+  }
 
-  final String typeLogin = "";
   final TextEditingController nameTextController = TextEditingController();
-  final TextEditingController apellidosTextController = TextEditingController();
   final TextEditingController emailTextController = TextEditingController();
-  final TextEditingController telefonoTextController = TextEditingController();
   final TextEditingController phoneNTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var dropdownValue = "Mi casa".obs;
   List<String> direcciones = ["Mi casa", "Trabajo", "Tienda"];
+  AuthController authController = Get.find();
+  StorageController storageController = Get.find();
+
+  initValues() {
+    UserModel user = authController.userModelLogged;
+    nameTextController.text = user.name;
+    emailTextController.text = user.email;
+    phoneNTextController.text = "${user.phoneNumber}";
+  }
+
+  update() async {
+    UserModel user = authController.userModelLogged;
+    await storageController.updateUser(
+        uid: user.uid,
+        phoneNumber: int.parse(phoneNTextController.text),
+        name: nameTextController.text);
+    authController.userModelLoggedOBX.update((value) {
+      user.update(
+          email: emailTextController.text,
+          name: nameTextController.text,
+          phoneNumber: phoneNTextController.text);
+    });
+    Get.back();
+    Get.snackbar("Actualización Exitosa",
+        "Los datos digitados han sido actualizados correctamente",
+        backgroundColor: Colors.green);
+  }
 
   bool isEmail(String em) {
     String p =
@@ -50,18 +79,19 @@ class MyData extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           WidgetAlignText(text: "Datos de Cuenta", size: 18),
-                          WidgetTextField(
-                            label: "Correo electronico",
-                            controller: emailTextController,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Por favor ingrese su E-mail.";
-                              } else if (!isEmail(value)) {
-                                return "Por favor ingrese un E-mail valido.";
-                              }
-                            },
-                            obscure: false,
-                            digitsOnly: false,
+                          Container(
+                            padding: EdgeInsets.only(top: 10),
+                            child: TextFormField(
+                              controller: emailTextController,
+                              enabled: false,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                labelStyle:
+                                    TextStyle(fontWeight: FontWeight.bold),
+                                    labelText: "Correo Electronico",
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -72,22 +102,15 @@ class MyData extends StatelessWidget {
                           children: [
                             WidgetAlignText(text: "Datos Personales", size: 18),
                             WidgetTextField(
-                              label: "Nombres",
+                              label: "Nombre",
                               controller: nameTextController,
                               validator: (value) {},
                               obscure: false,
                               digitsOnly: false,
                             ),
                             WidgetTextField(
-                              label: "Apellidos",
-                              controller: apellidosTextController,
-                              validator: (value) {},
-                              obscure: false,
-                              digitsOnly: false,
-                            ),
-                            WidgetTextField(
                               label: "Teléfono",
-                              controller: telefonoTextController,
+                              controller: phoneNTextController,
                               validator: (value) {},
                               obscure: false,
                               digitsOnly: true,
@@ -138,7 +161,9 @@ class MyData extends StatelessWidget {
                         children: [
                           WidgetButton(
                               text: "Guardar Cambios",
-                              onPressed: () {},
+                              onPressed: () {
+                                update();
+                              },
                               typeMain: true),
                         ],
                       )

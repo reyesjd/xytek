@@ -10,11 +10,9 @@ class StoreService {
     store = FirebaseFirestore.instance;
   }
 
-  Future<void> updateUser(UserModel user) async {
+  Future<void> updateUser(map) async {
     try {
-      var dicc = user.toMap();
-      var uid = user.uid;
-      await store.collection('users').doc(uid).update(dicc);
+      await store.collection('users').doc(map["uid"]).update(map);
       await store.waitForPendingWrites();
     } catch (e) {
       return Future.error(e);

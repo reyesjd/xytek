@@ -5,10 +5,12 @@ import 'package:xytek/domain/use_case/authentication/storage_use_case.dart';
 
 class StorageController extends GetxController {
   late Storage storage;
+
   StorageController() {
     storage = Get.find();
     salesProductsModels = [].obs;
   }
+
   late RxList salesProductsModels;
 
   init(UserModel? user) async {
@@ -17,9 +19,27 @@ class StorageController extends GetxController {
     }
   }
 
-  Future<void> updateUser(UserModel user) async {
+  Future<void> updateUser(
+      {required uid,
+      email,
+      name,
+      phoneNumber,
+      user,
+      password,
+      isSeller,
+      coordinates,
+      salesProductsReferences}) async {
     try {
-      await storage.updateUser(user);
+      await storage.updateUser(
+          email: email,
+          name: name,
+          phoneNumber: phoneNumber,
+          user: user,
+          uid: uid,
+          password: password,
+          isSeller: isSeller,
+          coordinates: coordinates,
+          salesProductsReferences: salesProductsReferences);
     } catch (e) {
       return Future.error(e);
     }
@@ -42,7 +62,7 @@ class StorageController extends GetxController {
           id: "",
           uid: user.uid);
       await storage.addNewProduct(newProduct);
-      
+
       salesProductsModels.add(newProduct);
     } catch (e) {
       Future.error(e);

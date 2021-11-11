@@ -24,6 +24,7 @@ class AuthService {
             return user;
           }
         }
+        print(auth.currentUser);
         UserModel? user = await storeService.getInformationUserByUserID(
             userId: auth.currentUser!.uid);
         return user;
@@ -39,6 +40,7 @@ class AuthService {
       UserCredential result = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = result.user!;
+
       return storeService.getInformationUserByUserID(userId: user.uid);
     } on FirebaseAuthException catch (e) {
       return Future.error(e.code);

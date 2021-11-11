@@ -7,10 +7,43 @@ class Storage {
   Storage() {
     storeService = StoreService();
   }
-  
-  Future<void> updateUser(UserModel user) async {
+
+  Future<void> updateUser(
+      {email,
+      name,
+      phoneNumber,
+      user,
+      required uid,
+      password,
+      isSeller,
+      coordinates,
+      salesProductsReferences}) async {
     try {
-      storeService.updateUser(user);
+      Map<String, dynamic> map = {};
+      map.addAll({"uid": uid});
+      if (email != null) {
+        map.addAll({"email": email});
+      }
+      if (name != null) {
+        map.addAll({"name": name});
+      }
+      if (phoneNumber != null) {
+        map.addAll({"phoneNumber": phoneNumber});
+      }
+      if (user != null) {
+        map.addAll({"user": user});
+      }
+      if (coordinates != null) {
+        map.addAll({"coordinates": coordinates});
+      }
+      if (isSeller != null) {
+        map.addAll({"isSeller": isSeller});
+      }
+      if (salesProductsReferences!=null) {
+        map.addAll({"salesProducts": salesProductsReferences});
+      }
+
+      storeService.updateUser(map);
     } catch (e) {
       return Future.error(e);
     }
@@ -38,15 +71,13 @@ class Storage {
     }
   }
 
-
-  Future<void>  updateInfoProduct(ProductModel newProduct) async {
+  Future<void> updateInfoProduct(ProductModel newProduct) async {
     try {
       await storeService.updateInfoProduct(newProduct);
     } catch (e) {
       return Future.error(e);
     }
   }
-
 
   Future<List<ProductModel>> getInfoSalesProducts(String uid) async {
     try {

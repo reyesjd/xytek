@@ -13,10 +13,10 @@ class AuthController extends GetxController {
   }
 
   get userIDLogged => _userIDLogged.value;
-  get userModelLogged => _userModelLogged;
+  get userModelLogged => _userModelLogged.value;
   get isLogged => _isLogged.value;
   get loadedApp => _loadedApp.value;
-
+  get userModelLoggedOBX => _userModelLogged;
   set setIsLogged(value) => _isLogged.value = value;
   set setUserIDLogged(value) => _userIDLogged.value = value;
   set setUserModelLogged(value) => _userModelLogged = value;
@@ -25,7 +25,13 @@ class AuthController extends GetxController {
   // General Variables
   var _isLogged = false.obs;
   var _userIDLogged = "".obs;
-  var _userModelLogged;
+  late Rx<UserModel?> _userModelLogged = UserModel(
+      email: "email",
+      name: "name",
+      phoneNumber: 12,
+      user: "user",
+      password: "password",
+      isSeller: false).obs;
 
   // InitialUILoad
   var _loadedApp = false.obs;
@@ -41,11 +47,15 @@ class AuthController extends GetxController {
   late StorageController storageController;
 
   init() async {
-    _userModelLogged = await _auth.getLoggedUser();
-    if (_userModelLogged != null) {
-      _userIDLogged.value = _userModelLogged.uid;
-      await storageController.init(_userModelLogged);
-      print(_userModelLogged.toMap());
+    var user = await _auth.getLoggedUser();
+    _userModelLogged.value = user;
+    print(user);
+    if (_userModelLogged.value != null) {
+      if (_userModelLogged.value!.uid != null) {
+        _userIDLogged.value = _userModelLogged.value!.uid!;
+        await storageController.init(_userModelLogged.value);
+        print(_userModelLogged.value!.toMap());
+      }
     } else {
       _userIDLogged.value = "";
     }
@@ -55,7 +65,7 @@ class AuthController extends GetxController {
     try {
       UserModel? user = await _auth.loginEmail(email, password);
       if (user != null) {
-        _userModelLogged = user;
+        _userModelLogged.value = user;
         _userIDLogged.value = user.uid!;
       }
       return true;
@@ -86,8 +96,8 @@ class AuthController extends GetxController {
     credentialPhoneStream = StreamController();
     credentialPhoneStream?.stream.listen((data) {
       if (data.runtimeType == UserModel) {
-        _userModelLogged = data as UserModel;
-        _userIDLogged.value = _userModelLogged.uid;
+        _userModelLogged.value = data as UserModel;
+        _userIDLogged.value = _userModelLogged.value!.uid!;
       } else {
         if (data.runtimeType == String) {
           verificationId = data as String;
@@ -109,7 +119,7 @@ class AuthController extends GetxController {
           smsCode: smsCode,
           verificationId: verificationId,
           phoneNumber: phoneNumber);
-      _userModelLogged = user;
+      _userModelLogged.value = user;
       _userIDLogged.value = user!.uid!;
       return true;
     } catch (e) {
@@ -121,7 +131,7 @@ class AuthController extends GetxController {
     try {
       await _auth.signOut();
       _userIDLogged.value = "";
-      _userModelLogged = null;
+      _userModelLogged.value = null;
       return true;
     } catch (e) {
       return Future.error(e);

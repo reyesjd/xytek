@@ -33,9 +33,27 @@ class UserModel {
       this.coordinates,
       this.salesProductsReferences});
 
-    void addSaleProductReference(DocumentReference productReference) {
+  void addSaleProductReference(DocumentReference productReference) {
     if (salesProductsReferences != null) {
       salesProductsReferences?.add(productReference);
+    }
+  }
+
+  update({email, name, phoneNumber, user, coordinates}) {
+    if (email != null) {
+      this.email = email;
+    }
+    if (name != null) {
+      this.name = name;
+    }
+    if (phoneNumber != null) {
+      this.phoneNumber = int.parse(phoneNumber);
+    }
+    if (user != null) {
+      this.user = user;
+    }
+    if (coordinates != null) {
+      this.coordinates = coordinates;
     }
   }
 

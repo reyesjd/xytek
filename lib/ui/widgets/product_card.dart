@@ -21,6 +21,20 @@ class ProductCard extends StatelessWidget {
       required this.onPressed,
       required this.keyButton});
 
+ Widget getWidgetImageUrl() {
+    try {
+     return Image(
+        height: 80,
+        fit: BoxFit.contain,
+        image: NetworkImage(
+          image,
+        ),
+      );
+    } catch (e) {
+      return Icon(Icons.image_not_supported_outlined);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -49,7 +63,7 @@ class ProductCard extends StatelessWidget {
                       ),
                       errorBuilder:
                           (BuildContext context, Object exception, stackTrace) {
-                        return Icon(Icons.image_not_supported_outlined);
+                        return Icon(Icons.image_not_supported_outlined,size: 80,);
                       },
                     )),
                 Expanded(

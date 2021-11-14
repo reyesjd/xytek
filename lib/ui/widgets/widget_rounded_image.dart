@@ -13,6 +13,7 @@ class WidgetRoundedImage extends StatelessWidget {
     return Container(
       width: small ? 100 : 200,
       height: small ? 100 : 200,
+      /*
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.white,
@@ -20,6 +21,7 @@ class WidgetRoundedImage extends StatelessWidget {
         ),
         shape: BoxShape.circle,
       ),
+      */
       child: Image(
         image: NetworkImage(image),
         fit: BoxFit.contain,

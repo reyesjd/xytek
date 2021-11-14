@@ -80,7 +80,7 @@ class MyData extends StatelessWidget {
                         children: [
                           WidgetAlignText(text: "Datos de Cuenta", size: 18),
                           Container(
-                            padding: EdgeInsets.only(top: 10),
+                            padding: EdgeInsets.only(top: 20),
                             child: TextFormField(
                               controller: emailTextController,
                               enabled: false,

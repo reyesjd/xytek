@@ -8,50 +8,18 @@ class Storage {
     storeService = StoreService();
   }
 
-  Future<void> updateUser(
-      {email,
-      name,
-      phoneNumber,
-      user,
-      required uid,
-      password,
-      isSeller,
-      coordinates,
-      salesProductsReferences}) async {
+  Future<void> addNewProduct(ProductModel newProduct) async {
     try {
-      Map<String, dynamic> map = {};
-      map.addAll({"uid": uid});
-      if (email != null) {
-        map.addAll({"email": email});
-      }
-      if (name != null) {
-        map.addAll({"name": name});
-      }
-      if (phoneNumber != null) {
-        map.addAll({"phoneNumber": phoneNumber});
-      }
-      if (user != null) {
-        map.addAll({"user": user});
-      }
-      if (coordinates != null) {
-        map.addAll({"coordinates": coordinates});
-      }
-      if (isSeller != null) {
-        map.addAll({"isSeller": isSeller});
-      }
-      if (salesProductsReferences!=null) {
-        map.addAll({"salesProducts": salesProductsReferences});
-      }
-
-      storeService.updateUser(map);
+      await storeService.addproduct(newProduct);
     } catch (e) {
       return Future.error(e);
     }
   }
 
-  Future<void> addNewProduct(ProductModel newProduct) async {
+  Future<List<ProductModel>> getallProducts() async {
     try {
-      await storeService.addproduct(newProduct);
+      List<ProductModel> list = await storeService.getallProducts();
+      return Future.value(list);
     } catch (e) {
       return Future.error(e);
     }
@@ -84,6 +52,47 @@ class Storage {
       List<ProductModel> products =
           await storeService.getInfoSalesProductsUser(uid);
       return products;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> updateUser(
+      {email,
+      name,
+      phoneNumber,
+      user,
+      required uid,
+      password,
+      isSeller,
+      coordinates,
+      salesProductsReferences}) async {
+    try {
+      Map<String, dynamic> map = {};
+      map.addAll({"uid": uid});
+      if (email != null) {
+        map.addAll({"email": email});
+      }
+      if (name != null) {
+        map.addAll({"name": name});
+      }
+      if (phoneNumber != null) {
+        map.addAll({"phoneNumber": phoneNumber});
+      }
+      if (user != null) {
+        map.addAll({"user": user});
+      }
+      if (coordinates != null) {
+        map.addAll({"coordinates": coordinates});
+      }
+      if (isSeller != null) {
+        map.addAll({"isSeller": isSeller});
+      }
+      if (salesProductsReferences != null) {
+        map.addAll({"salesProducts": salesProductsReferences});
+      }
+
+      storeService.updateUser(map);
     } catch (e) {
       return Future.error(e);
     }

@@ -25,7 +25,7 @@ class OpenDetailsSale extends StatelessWidget {
 
   //Hay que pedir la informacion desde la clase userModel o userSaler el vendedor
   String nameBuyer = "Nombre del comprador";
-  String category = "Tarjeta Grafica";
+
   String dateSale = "00/000/000";
   String paymentMethod = "Efectivo";
 

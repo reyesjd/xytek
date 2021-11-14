@@ -49,7 +49,6 @@ class AuthController extends GetxController {
   init() async {
     var user = await _auth.getLoggedUser();
     _userModelLogged.value = user;
-    print(user);
     if (_userModelLogged.value != null) {
       if (_userModelLogged.value!.uid != null) {
         _userIDLogged.value = _userModelLogged.value!.uid!;

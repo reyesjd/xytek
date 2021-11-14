@@ -9,13 +9,16 @@ class StorageController extends GetxController {
   StorageController() {
     storage = Get.find();
     salesProductsModels = [].obs;
+    mainProductsModels = [].obs;
   }
 
   late RxList salesProductsModels;
+  late RxList mainProductsModels;
 
   init(UserModel? user) async {
     if (user != null) {
       salesProductsModels.value = await getInfoSalesProducts(user.uid!);
+      await getallProducts();
     }
   }
 
@@ -69,6 +72,15 @@ class StorageController extends GetxController {
     }
   }
 
+  Future<void> getallProducts() async {
+    try {
+      List<ProductModel> list = await storage.getallProducts();
+      mainProductsModels.value = list;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
   Future<void> updateInfoProduct(
       {required name,
       required category,
@@ -99,6 +111,22 @@ class StorageController extends GetxController {
       return products;
     } catch (e) {
       return Future.error(e);
+    }
+  }
+
+  Future<void> addNewCommentProduct(
+      {required name,
+      required urlImage,
+      required idShopperUser,
+      required idProduct,
+      required rating,
+      required date
+}) async {
+    try {
+
+
+    } catch (e) {
+      Future.error(e);
     }
   }
 }

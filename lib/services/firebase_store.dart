@@ -10,26 +10,6 @@ class StoreService {
     store = FirebaseFirestore.instance;
   }
 
-  Future<void> updateUser(map) async {
-    try {
-      await store.collection('users').doc(map["uid"]).update(map);
-      await store.waitForPendingWrites();
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
-
-  Future<void> updateInfoProduct(ProductModel product) async {
-    try {
-      var dicc = product.toMap();
-      var id = product.id;
-      await store.collection('salesProducts').doc(id).update(dicc);
-      await store.waitForPendingWrites();
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
-
   Future<void> addproduct(ProductModel product) async {
     try {
       var dicc = product.toMap();
@@ -42,7 +22,18 @@ class StoreService {
       await userF.update({
         "salesProducts": FieldValue.arrayUnion([productF])
       });
-      
+
+      await store.waitForPendingWrites();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> updateInfoProduct(ProductModel product) async {
+    try {
+      var dicc = product.toMap();
+      var id = product.id;
+      await store.collection('salesProducts').doc(id).update(dicc);
       await store.waitForPendingWrites();
     } catch (e) {
       return Future.error(e);
@@ -69,6 +60,25 @@ class StoreService {
     }
   }
 
+  Future<List<ProductModel>> getallProducts() async {
+    try {
+      List<ProductModel> listProducts = [];
+
+      var v = await store.collection('salesProducts').get();
+      print("todos los productos");
+      print(v);
+      if (v.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot docSnap in v.docs) {
+          print(docSnap.data());
+          listProducts.add(ProductModel.fromMap(docSnap.data()));
+        }
+      }
+      return listProducts;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
   Future<void> addUser(UserModel newUserModel, User newUserFirebase) async {
     try {
       User user = newUserFirebase;
@@ -76,6 +86,15 @@ class StoreService {
       var uid = user.uid;
       dicc.addAll({"uid": uid});
       await store.collection('users').doc(uid).set(dicc);
+      await store.waitForPendingWrites();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> updateUser(map) async {
+    try {
+      await store.collection('users').doc(map["uid"]).update(map);
       await store.waitForPendingWrites();
     } catch (e) {
       return Future.error(e);

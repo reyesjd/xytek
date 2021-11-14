@@ -131,11 +131,8 @@ class StoreService {
       List<ProductModel> listProducts = [];
 
       var v = await store.collection('salesProducts').get();
-      print("todos los productos");
-      print(v);
       if (v.docs.isNotEmpty) {
         for (QueryDocumentSnapshot docSnap in v.docs) {
-          print(docSnap.data());
           listProducts.add(ProductModel.fromMap(docSnap.data()));
         }
       }

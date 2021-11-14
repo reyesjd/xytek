@@ -137,6 +137,7 @@ class StorageController extends GetxController {
           rating: rating,
           urlImage: urlImage,
           comment: comment);
+      print(newComment.toMap());
 
       await storage.addNewRatingProduct(newComment);
     } catch (e) {
@@ -167,6 +168,15 @@ class StorageController extends GetxController {
       await storage.addNewRatingUser(newComment);
     } catch (e) {
       Future.error(e);
+    }
+  }
+
+  Future<List<RatingProductModel>> getProductsRating(String pid) async {
+    try {
+      List<RatingProductModel> list = await storage.getProductsRating(pid);
+      return Future.value(list);
+    } catch (e) {
+      return Future.error(e);
     }
   }
 

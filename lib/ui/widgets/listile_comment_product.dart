@@ -6,18 +6,18 @@ import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 class WidgetCommentProduct extends StatelessWidget {
   WidgetCommentProduct(
       {Key? key,
-      required String linkImage,
-      required String name,
-      required double rating,
-      required String date,
-      required String comment})
+      required this.linkImage,
+      required this.name,
+      required this.rating,
+      required this.date,
+      required this.comment})
       : super(key: key);
 
-  late final String linkImage;
-  late final String name;
-  late final double rating;
-  late final String date;
-  late final String comment;
+  late  String linkImage;
+  late String name;
+  late  double rating;
+  late  String date;
+  late  String comment;
 
   @override
   Widget build(BuildContext context) {

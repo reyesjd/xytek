@@ -14,16 +14,16 @@ class AuthController extends GetxController {
 
   get userIDLogged => _userIDLogged.value;
   get userModelLogged => _userModelLogged.value;
-  get isLogged => _isLogged.value;
+
   get loadedApp => _loadedApp.value;
   get userModelLoggedOBX => _userModelLogged;
-  set setIsLogged(value) => _isLogged.value = value;
+
   set setUserIDLogged(value) => _userIDLogged.value = value;
   set setUserModelLogged(value) => _userModelLogged = value;
   set setloadedApp(value) => _loadedApp.value = value;
 
   // General Variables
-  var _isLogged = false.obs;
+
   var _userIDLogged = "".obs;
   late Rx<UserModel?> _userModelLogged = UserModel(
       email: "email",

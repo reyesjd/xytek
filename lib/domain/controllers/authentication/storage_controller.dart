@@ -1,15 +1,19 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/data/models/rating_product_model.dart';
+import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/use_case/authentication/storage_use_case.dart';
 
 class StorageController extends GetxController {
   late Storage storage;
-
+  late DateFormat format;
   StorageController() {
     storage = Get.find();
     salesProductsModels = [].obs;
     mainProductsModels = [].obs;
+    format = DateFormat('yyyy-MM-dd');
   }
 
   late RxList salesProductsModels;
@@ -120,13 +124,53 @@ class StorageController extends GetxController {
       required idShopperUser,
       required idProduct,
       required rating,
-      required date
-}) async {
+      required comment}) async {
     try {
+      DateTime newDate = DateTime.now();
+      String date = format.format(newDate);
 
+      RatingProductModel newComment = RatingProductModel(
+          date: date,
+          idProduct: idProduct,
+          idShopperUser: idShopperUser,
+          name: name,
+          rating: rating,
+          urlImage: urlImage,
+          comment: comment);
 
+      await storage.addNewRatingProduct(newComment);
     } catch (e) {
       Future.error(e);
     }
+  }
+
+  Future<void> addNewCommentUser(
+      {required name,
+      required urlImage,
+      required idShopperUser,
+      required idUser,
+      required rating,
+      required comment}) async {
+    try {
+      DateTime newDate = DateTime.now();
+      String date = format.format(newDate);
+
+      RatingUserModel newComment = RatingUserModel(
+          name: name,
+          urlImage: urlImage,
+          idShopperUser: idShopperUser,
+          idUser: idUser,
+          rating: rating,
+          date: date,
+          comment: comment);
+
+      await storage.addNewRatingUser(newComment);
+    } catch (e) {
+      Future.error(e);
+    }
+  }
+
+  Future<UserModel?> getUserById(uid) async {
+    return await storage.getUserById(uid);
   }
 }

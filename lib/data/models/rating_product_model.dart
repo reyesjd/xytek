@@ -5,7 +5,8 @@ class RatingProductModel {
       required this.idShopperUser,
       required this.idProduct,
       required this.rating,
-      required this.date});
+      required this.date,
+      required this.comment});
 
   String name;
   String urlImage;
@@ -13,6 +14,7 @@ class RatingProductModel {
   String idProduct;
   double rating;
   String date;
+  String comment;
 
   Map<String, dynamic> toMap() {
     return {
@@ -21,7 +23,8 @@ class RatingProductModel {
       "idShopperUser": idShopperUser,
       "idProduct": idProduct,
       "rating": rating,
-      "date": date
+      "date": date,
+      "comment": comment
     };
   }
 
@@ -32,6 +35,7 @@ class RatingProductModel {
         idShopperUser: map?["idShopperUser"],
         idProduct: map?["idProduct"],
         rating: map?["rating"],
-        date: map?["date"]);
+        date: map?["date"],
+        comment: map?["comment"]);
   }
 }

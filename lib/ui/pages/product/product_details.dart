@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:get/get.dart';
+import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/data/models/user_model.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/product/add_comment.dart';
 import 'package:xytek/ui/widgets/listile_comment_product.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
-import 'package:xytek/ui/widgets/widget_button.dart';
+
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 import 'package:xytek/ui/widgets/widget_text_align.dart';
 
 // ignore: must_be_immutable
 class DetailsProduct extends StatelessWidget {
-  DetailsProduct({Key? key}) : super(key: key);
-
   var product = Get.arguments[0];
 
   String amount = "10";
+
+  AuthController auth = Get.find();
+  StorageController storage = Get.find();
+  late UserModel? sellerUser;
+
+  DetailsProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,26 +97,33 @@ class DetailsProduct extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Row(
-                            children: [
-                              WidgetButton(
-                                  text: "Añadir comentario",
-                                  onPressed: () {
-                                    Get.to(() => AddComment());
-                                  },
-                                  typeMain: false),
-                            ],
-                          ),
                           Container(
                               padding: EdgeInsets.only(top: 20, bottom: 10),
                               child: WidgetAlignText(
                                   text: "Calificación del vendedor:",
                                   size: 18)),
-                          Container(
-                              padding: EdgeInsets.only(top: 20, bottom: 10),
-                              child: WidgetAlignText(
-                                  text: "Calificación del producto:",
-                                  size: 18)),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                      padding:
+                                          EdgeInsets.only(top: 20, bottom: 10),
+                                      child: WidgetAlignText(
+                                          text: "Calificación del producto:",
+                                          size: 18))),
+                              if (auth.isLogged)
+                                Expanded(
+                                  child: ElevatedButton(
+                                    child: Text("Añadir calificacion"),
+                                    onPressed: () {
+                                      Get.to(() => AddComment(), arguments: [
+                                        ProductModel.fromMap(product)
+                                      ]);
+                                    },
+                                  ),
+                                )
+                            ],
+                          ),
                           Column(
                             children: [
                               WidgetCommentProduct(
@@ -128,5 +144,32 @@ class DetailsProduct extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  Future<Widget> listTile({linkImage, name, rating}) async {
+    return ListTile(
+      leading: WidgetRoundedImage(
+        image: linkImage,
+        small: true,
+      ),
+      title: Text(name),
+      subtitle: Container(
+          margin: EdgeInsets.only(top: 2),
+          child: RatingBar(
+            ignoreGestures: true,
+            updateOnDrag: false,
+            itemCount: 5,
+            allowHalfRating: false,
+            initialRating: rating,
+            onRatingUpdate: (double value) {},
+            ratingWidget: RatingWidget(
+                full: Icon(Icons.star, color: Colors.amber),
+                half: Icon(
+                  Icons.star_border,
+                  color: Colors.white,
+                ),
+                empty: Icon(Icons.star_border, color: Colors.amber)),
+          )),
+    );
   }
 }

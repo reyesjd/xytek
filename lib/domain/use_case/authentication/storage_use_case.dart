@@ -1,4 +1,6 @@
 import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/data/models/rating_product_model.dart';
+import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/services/firebase_store.dart';
 
@@ -6,6 +8,12 @@ class Storage {
   late StoreService storeService;
   Storage() {
     storeService = StoreService();
+  }
+
+  Future<UserModel?> getUserById(String uid) async {
+    UserModel? user =
+        await storeService.getInformationUserByUserID(userId: uid);
+    return user;
   }
 
   Future<void> addNewProduct(ProductModel newProduct) async {
@@ -52,6 +60,41 @@ class Storage {
       List<ProductModel> products =
           await storeService.getInfoSalesProductsUser(uid);
       return products;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> addNewRatingProduct(RatingProductModel rating) async {
+    try {
+      await storeService.addRatingProduct(rating);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> addNewRatingUser(RatingUserModel rating) async {
+    try {
+      await storeService.addRatingUser(rating);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<List<RatingProductModel>> getProductsRating(String pid) async {
+    try {
+      List<RatingProductModel> list =
+          await storeService.getRatingsByProductId(pid);
+      return Future.value(list);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<List<RatingUserModel>> getUserRating(String uid) async {
+    try {
+      List<RatingUserModel> list = await storeService.getRatingsByUserId(uid);
+      return Future.value(list);
     } catch (e) {
       return Future.error(e);
     }

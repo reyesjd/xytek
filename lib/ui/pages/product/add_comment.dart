@@ -5,8 +5,7 @@ import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class AddComment extends StatelessWidget {
-  AddComment({Key? key, isProduct = true, required this.onPressed})
-      : super(key: key) {
+  AddComment({Key? key, isProduct = true}) : super(key: key) {
     commentController = TextEditingController();
     globalKey = GlobalKey<FormState>();
     valueRating = RxDouble(0);
@@ -16,7 +15,6 @@ class AddComment extends StatelessWidget {
   late TextEditingController commentController;
   late bool isProduct;
   late RxDouble valueRating;
-  late Function onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +60,7 @@ class AddComment extends StatelessWidget {
                           text: "Calificar",
                           onPressed: () {
                             if (isProduct) {
-                              
                             } else {}
-                            onPressed();
                           },
                           typeMain: true)
                     ],

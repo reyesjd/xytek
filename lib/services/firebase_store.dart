@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/data/models/rating_product_model.dart';
+import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 
 class StoreService {
@@ -55,6 +57,70 @@ class StoreService {
         }
       }
       return listProducts;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<List<RatingProductModel>> getRatingsByProductId(String pid) async {
+    try {
+      List<RatingProductModel> listRating = [];
+
+      var v = await store
+          .collection('ratingsProducts')
+          .where('idProduct', isEqualTo: pid)
+          .get();
+
+      if (v.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot docSnap in v.docs) {
+          listRating.add(RatingProductModel.fromMap(docSnap.data()));
+        }
+      }
+      return listRating;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> addRatingProduct(RatingProductModel rating) async {
+    try {
+      var dicc = rating.toMap();
+
+      await store.collection('ratingsProducts').add(dicc);
+
+      await store.waitForPendingWrites();
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<List<RatingUserModel>> getRatingsByUserId(String uid) async {
+    try {
+      List<RatingUserModel> listRating = [];
+
+      var v = await store
+          .collection('ratingsUser')
+          .where('idUser', isEqualTo: uid)
+          .get();
+
+      if (v.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot docSnap in v.docs) {
+          listRating.add(RatingUserModel.fromMap(docSnap.data()));
+        }
+      }
+      return listRating;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> addRatingUser(RatingUserModel rating) async {
+    try {
+      var dicc = rating.toMap();
+
+      await store.collection('ratingsUser').add(dicc);
+
+      await store.waitForPendingWrites();
     } catch (e) {
       return Future.error(e);
     }

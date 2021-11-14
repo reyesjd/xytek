@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import 'package:get/get.dart';
 import 'package:xytek/ui/pages/product/add_comment.dart';
 import 'package:xytek/ui/widgets/listile_comment_product.dart';
@@ -15,11 +15,6 @@ class DetailsProduct extends StatelessWidget {
   var product = Get.arguments[0];
 
   String amount = "10";
-
-  String description =
-      "Esto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensaEsto es una descricion extensa";
-  //Hay que pedir la informacion desde la clase userModel o userSaler el vendedor
-  String nameSaler = "Nombre del vendedor";
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +93,7 @@ class DetailsProduct extends StatelessWidget {
                               WidgetButton(
                                   text: "Añadir comentario",
                                   onPressed: () {
-                                    Get.to(() => AddComment(onPressed: (commet, ) {
-
-                                    }));
+                                    Get.to(() => AddComment());
                                   },
                                   typeMain: false),
                             ],

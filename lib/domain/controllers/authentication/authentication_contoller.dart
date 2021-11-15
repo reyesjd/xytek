@@ -26,12 +26,13 @@ class AuthController extends GetxController {
 
   var _userIDLogged = "".obs;
   late Rx<UserModel?> _userModelLogged = UserModel(
-      email: "email",
-      name: "name",
-      phoneNumber: 12,
-      user: "user",
-      password: "password",
-      isSeller: false).obs;
+          email: "email",
+          name: "name",
+          phoneNumber: 12,
+          user: "user",
+          password: "password",
+          isSeller: false)
+      .obs;
 
   // InitialUILoad
   var _loadedApp = false.obs;
@@ -48,15 +49,17 @@ class AuthController extends GetxController {
 
   init() async {
     var user = await _auth.getLoggedUser();
-    _userModelLogged.value = user;
-    if (_userModelLogged.value != null) {
-      if (_userModelLogged.value!.uid != null) {
-        _userIDLogged.value = _userModelLogged.value!.uid!;
-        await storageController.init(_userModelLogged.value);
-        print(_userModelLogged.value!.toMap());
+    if (user != null) {
+      _userModelLogged.value = user;
+      if (_userModelLogged.value != null) {
+        if (_userModelLogged.value!.uid != null) {
+          _userIDLogged.value = _userModelLogged.value!.uid!;
+          await storageController.init(_userModelLogged.value);
+          print(_userModelLogged.value!.toMap());
+        }
+      } else {
+        _userIDLogged.value = "";
       }
-    } else {
-      _userIDLogged.value = "";
     }
   }
 

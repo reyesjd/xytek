@@ -13,11 +13,13 @@ class StorageController extends GetxController {
     storage = Get.find();
     salesProductsModels = [].obs;
     mainProductsModels = [].obs;
+    cartProductsModels = [].obs;
     format = DateFormat('yyyy-MM-dd');
   }
 
   late RxList salesProductsModels;
   late RxList mainProductsModels;
+  late RxList cartProductsModels;
 
   init(UserModel? user) async {
     if (user != null) {
@@ -58,7 +60,8 @@ class StorageController extends GetxController {
       required description,
       required price,
       required urlImage,
-      required user}) async {
+      required user,
+      required amountAvalaible}) async {
     try {
       ProductModel newProduct = ProductModel(
           name: name,
@@ -67,7 +70,8 @@ class StorageController extends GetxController {
           price: price,
           urlImage: urlImage,
           id: "",
-          uid: user.uid);
+          uid: user.uid,
+          amountAvalaible: amountAvalaible);
       await storage.addNewProduct(newProduct);
 
       salesProductsModels.add(newProduct);
@@ -92,7 +96,8 @@ class StorageController extends GetxController {
       required price,
       required urlImage,
       required uid,
-      required id}) async {
+      required id,
+      required amountAvalaible}) async {
     try {
       ProductModel newProduct = ProductModel(
           name: name,
@@ -101,7 +106,8 @@ class StorageController extends GetxController {
           price: price,
           urlImage: urlImage,
           id: id,
-          uid: uid);
+          uid: uid,
+          amountAvalaible: amountAvalaible);
 
       await storage.updateInfoProduct(newProduct);
     } catch (e) {
@@ -124,7 +130,8 @@ class StorageController extends GetxController {
       required idShopperUser,
       required idProduct,
       required rating,
-      required comment}) async {
+      required comment,
+      listCommentsOBX}) async {
     try {
       DateTime newDate = DateTime.now();
       String date = format.format(newDate);
@@ -140,6 +147,9 @@ class StorageController extends GetxController {
       print(newComment.toMap());
 
       await storage.addNewRatingProduct(newComment);
+      if (listCommentsOBX != null) {
+        listCommentsOBX.add(newComment);
+      }
     } catch (e) {
       Future.error(e);
     }
@@ -149,9 +159,10 @@ class StorageController extends GetxController {
       {required name,
       required urlImage,
       required idShopperUser,
-      required idUser,
+      required idSeller,
       required rating,
-      required comment}) async {
+      required comment,
+      listCommentsOBX}) async {
     try {
       DateTime newDate = DateTime.now();
       String date = format.format(newDate);
@@ -160,12 +171,15 @@ class StorageController extends GetxController {
           name: name,
           urlImage: urlImage,
           idShopperUser: idShopperUser,
-          idUser: idUser,
+          idSeller: idSeller,
           rating: rating,
           date: date,
           comment: comment);
 
       await storage.addNewRatingUser(newComment);
+      if (listCommentsOBX != null) {
+        listCommentsOBX.add(newComment);
+      }
     } catch (e) {
       Future.error(e);
     }
@@ -174,6 +188,15 @@ class StorageController extends GetxController {
   Future<List<RatingProductModel>> getProductsRating(String pid) async {
     try {
       List<RatingProductModel> list = await storage.getProductsRating(pid);
+      return Future.value(list);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<List<RatingUserModel>> getUserRatings(String uid) async {
+    try {
+      List<RatingUserModel> list = await storage.getUserRating(uid);
       return Future.value(list);
     } catch (e) {
       return Future.error(e);

@@ -3,7 +3,7 @@ class RatingUserModel {
       {required this.name,
       required this.urlImage,
       required this.idShopperUser,
-      required this.idUser,
+      required this.idSeller,
       required this.rating,
       required this.date,
       required this.comment});
@@ -11,7 +11,7 @@ class RatingUserModel {
   String name;
   String urlImage;
   String idShopperUser;
-  String idUser;
+  String idSeller;
   double rating;
   String date;
   String comment;
@@ -21,7 +21,7 @@ class RatingUserModel {
       "name": name,
       "urlImage": urlImage,
       "idShopperUser": idShopperUser,
-      "idProduct": idUser,
+      "idSeller": idSeller,
       "rating": rating,
       "date": date,
       "comment": comment
@@ -33,7 +33,7 @@ class RatingUserModel {
         name: map?["name"],
         urlImage: map?["urlImage"],
         idShopperUser: map?["idShopperUser"],
-        idUser: map?["idProduct"],
+        idSeller: map?["idSeller"],
         rating: map?["rating"],
         date: map?["date"],
         comment: map?["comment"]);

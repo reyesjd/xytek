@@ -26,7 +26,10 @@ class WidgetRoundedImage extends StatelessWidget {
         image: NetworkImage(image),
         fit: BoxFit.contain,
         errorBuilder: (BuildContext context, Object exception, stackTrace) {
-          return Icon(Icons.image_not_supported_outlined);
+          return Icon(
+            Icons.image_not_supported_outlined,
+            size: small ? 60 : 100,
+          );
         },
       ),
     );

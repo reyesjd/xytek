@@ -100,7 +100,7 @@ class StoreService {
 
       var v = await store
           .collection('ratingsUser')
-          .where('idUser', isEqualTo: uid)
+          .where('idSeller', isEqualTo: uid)
           .get();
 
       if (v.docs.isNotEmpty) {

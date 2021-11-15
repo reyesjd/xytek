@@ -1,12 +1,12 @@
 class ProductModel {
   String uid;
-  //uid + autoIncremental
   String id;
   String name;
   String description;
   int price;
   String category;
   String urlImage;
+  int amountAvalaible;
 
   ProductModel(
       {required this.name,
@@ -15,9 +15,18 @@ class ProductModel {
       required this.price,
       required this.urlImage,
       required this.id,
-      required this.uid});
+      required this.uid,
+      required this.amountAvalaible});
 
-  updateProduct({name, category, description, price, urlImage, id, uid}) {
+  updateProduct(
+      {name,
+      category,
+      description,
+      price,
+      urlImage,
+      id,
+      uid,
+      amountAvalaible}) {
     if (name != null) {
       this.name = name;
     }
@@ -33,6 +42,9 @@ class ProductModel {
     if (urlImage != null) {
       this.urlImage = urlImage;
     }
+    if (amountAvalaible != null) {
+      this.amountAvalaible = amountAvalaible;
+    }
   }
 
   Map<String, dynamic> toMap({List withKeys = const []}) {
@@ -43,7 +55,8 @@ class ProductModel {
       "category": category,
       "description": description,
       "price": price,
-      "urlImage": urlImage
+      "urlImage": urlImage,
+      "amountAvalaible": amountAvalaible
     };
     if (withKeys.isNotEmpty) {
       map.removeWhere((key, value) => !withKeys.contains(key));
@@ -59,7 +72,8 @@ class ProductModel {
         price: map?["price"],
         urlImage: map?["urlImage"],
         id: map?["id"],
-        uid: map?["uid"]);
+        uid: map?["uid"],
+        amountAvalaible: map?["amountAvalaible"]);
   }
 
   static List<String> getCategorias() {

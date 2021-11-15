@@ -17,6 +17,7 @@ class NewProduct extends StatelessWidget {
   final TextEditingController price = TextEditingController();
   final TextEditingController description = TextEditingController();
   final TextEditingController urlImage = TextEditingController();
+  final TextEditingController amountAvalaible = TextEditingController();
   final StorageController storageController = Get.find();
   final AuthController authController = Get.find();
   final _loading = false.obs;
@@ -42,6 +43,7 @@ class NewProduct extends StatelessWidget {
         price: int.parse(price.text),
         urlImage: urlImage.text,
         user: user,
+        amountAvalaible: int.parse(amountAvalaible.text)
       );
 
       Get.back();
@@ -59,7 +61,7 @@ class NewProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
+
     return Obx(
       () => Scaffold(
           appBar: WidgetAppBarBack(actionButtonBack: () {
@@ -73,88 +75,106 @@ class NewProduct extends StatelessWidget {
                 key: Key("addproducLv"),
                 padding: EdgeInsets.all(20),
                 children: [
-                  SizedBox(
-                    height: media.height - 130,
-                    child: Column(
-                      children: [
-                        WidgetAlignText(text: "Nuevo Producto", size: 26),
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Column(
+                    children: [
+                      Container(padding: EdgeInsets.only(top: 20,bottom: 20),child: WidgetAlignText(text: "Nuevo Producto", size: 26)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(padding: EdgeInsets.only(bottom: 10),child: WidgetAlignText(text: "Datos del producto", size: 18)),
+                          WidgetTextField(
+                            keyText: Key("nameTf"),
+                            label: "Nombre",
+                            controller: name,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Por favor ingrese el nombre del producto";
+                              }
+                            },
+                            obscure: false,
+                            digitsOnly: false,
+                          ),
+                          WidgetTextField(
+                            keyText: Key("priceTf"),
+                            label: "Precio",
+                            controller: price,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Por favor ingrese el precio del producto";
+                              }
+                            },
+                            obscure: false,
+                            digitsOnly: true,
+                          ),
+                          WidgetTextField(
+                            keyText: Key(""),
+                            label: "Cantidad Disponible",
+                            controller: amountAvalaible,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                if (int.parse(value) == 0) {
+                                  return "Por favor ingrese una cantidad valida";
+                                }
+                              }
+                            },
+                            obscure: false,
+                            digitsOnly: true,
+                          ),
+                          WidgetTextField(
+                            keyText: Key("urlTf"),
+                            label: "URL Imagen",
+                            controller: urlImage,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Por favor ingrese la url del producto";
+                              }
+                            },
+                            obscure: false,
+                            digitsOnly: false,
+                          ),
+                          WidgetTextField(
+                            keyText: Key("descriptionTf"),
+                            label: "Descripción",
+                            controller: description,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Por favor ingrese una breve descripcion";
+                              }
+                            },
+                            obscure: false,
+                            digitsOnly: false,
+                            maxLine: 5,
+                          ),
+                          Row(
                             children: [
-                              WidgetAlignText(
-                                  text: "Datos del producto", size: 18),
-                              WidgetTextField(
-                                keyText: Key("nameTf"),
-                                label: "Nombre",
-                                controller: name,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Por favor ingrese el nombre del producto";
-                                  }
-                                },
-                                obscure: false,
-                                digitsOnly: false,
+                              Container(
+                                margin: EdgeInsets.only(left: 25),
+                                child: Text(
+                                  "Categoria: ",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                              WidgetTextField(
-                                keyText: Key("priceTf"),
-                                label: "Precio",
-                                controller: price,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Por favor ingrese el precio del producto";
-                                  }
-                                },
-                                obscure: false,
-                                digitsOnly: true,
-                              ),
-                              WidgetTextField(
-                                keyText: Key("descriptionTf"),
-                                label: "Descripcion",
-                                controller: description,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Por favor ingrese una breve descripcion";
-                                  }
-                                },
-                                obscure: false,
-                                digitsOnly: false,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(left: 25),
-                                    child: Text(
-                                      "Categoria: ",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              dropDown(
-                                  key: Key("categoryDb"),
-                                  icon: Icon(Icons.arrow_drop_down),
-                                  initValue: dropdownValue,
-                                  items: categorias),
-                              WidgetTextField(
-                                keyText: Key("urlTf"),
-                                label: "URL Imagen",
-                                controller: urlImage,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Por favor ingrese la url del producto";
-                                  }
-                                },
-                                obscure: false,
-                                digitsOnly: false,
-                              )
                             ],
                           ),
-                        ),
-                        Row(
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Row(
+                              children: [
+                                dropDown(
+                                    key: Key("categoryDb"),
+                                    icon: Icon(Icons.arrow_drop_down),
+                                    initValue: dropdownValue,
+                                    items: categorias),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Row(
                           children: [
                             WidgetButton(
                               loading: loading,
@@ -164,9 +184,9 @@ class NewProduct extends StatelessWidget {
                               typeMain: true,
                             ),
                           ],
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -176,28 +196,33 @@ class NewProduct extends StatelessWidget {
   }
 
   Widget dropDown({initValue, List<String> items = const [], icon, key}) {
-    return Container(
-      padding: EdgeInsets.only(left: 30, right: 30),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.0),
-          border: Border.all(
-            color: Colors.grey,
-            width: 1.0,
-          )),
-      child: ObxValue(
-        (data) => DropdownButton(
-          key: key,
-          value: initValue.value,
-          icon: icon,
-          underline: SizedBox(),
-          items: items.map<DropdownMenuItem<String>>((String items) {
-            return DropdownMenuItem(value: items, child: Text(items));
-          }).toList(),
-          onChanged: (newValue) {
-            initValue.value = newValue;
-          },
-        ), // Rx has a _callable_ function! You could use (flag) => data.value = flag,
-        initValue as RxString,
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.only(left: 10,right: 10),
+        padding: EdgeInsets.only(left: 10,right: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30.0),
+            border: Border.all(
+              color: Colors.grey,
+              width: 1.0,
+            )),
+        child: ObxValue(
+          (data) => DropdownButton(
+            iconSize: 50,
+            isExpanded: true,
+            key: key,
+            value: initValue.value,
+            icon: icon,
+            underline: SizedBox(),
+            items: items.map<DropdownMenuItem<String>>((String items) {
+              return DropdownMenuItem(value: items, child: Text(items));
+            }).toList(),
+            onChanged: (newValue) {
+              initValue.value = newValue;
+            },
+          ), // Rx has a _callable_ function! You could use (flag) => data.value = flag,
+          initValue as RxString,
+        ),
       ),
     );
   }

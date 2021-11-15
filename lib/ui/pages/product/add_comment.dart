@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:xytek/data/models/product_model.dart';
-import 'package:xytek/data/models/user_model.dart';
+import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
@@ -11,12 +10,17 @@ import 'package:xytek/ui/widgets/widget_text_align.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 class AddComment extends StatelessWidget {
-  AddComment({Key? key, this.isProduct = true}) : super(key: key) {
+  AddComment({
+    Key? key,
+  }) : super(key: key) {
     commentController = TextEditingController();
     globalKey = GlobalKey<FormState>();
     valueRating = RxDouble(0);
     storage = Get.find();
     auth = Get.find();
+    id = Get.arguments[0];
+    isProduct = Get.arguments[1];
+    listComments = Get.arguments[2];
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -27,9 +31,10 @@ class AddComment extends StatelessWidget {
   late StorageController storage;
   late AuthController auth;
   final url = "https://i1.sndcdn.com/avatars-000396582750-afqhbt-t240x240.jpg";
-  ProductModel? product = Get.arguments[0];
-  UserModel? user;
+  late String id;
   RxBool isLoading = false.obs;
+  // ignore: prefer_typing_uninitialized_variables
+  var listComments;
 
   addcomment() async {
     isLoading.value = true;
@@ -38,33 +43,32 @@ class AddComment extends StatelessWidget {
       form!.save();
       if (form.validate()) {
         if (isProduct) {
-          if (product != null) {
-            await storage.addNewCommentProduct(
-                name: auth.userModelLogged.name,
-                urlImage: url,
-                idShopperUser: auth.userIDLogged,
-                idProduct: product!.id,
-                rating: valueRating.value,
-                comment: commentController.text);
-          }
+          await storage.addNewCommentProduct(
+              name: auth.userModelLogged.name,
+              urlImage: url,
+              idShopperUser: auth.userIDLogged,
+              idProduct: id,
+              rating: valueRating.value,
+              comment: commentController.text);
         } else {
-          if (user != null) {
-            await storage.addNewCommentUser(
-                name: auth.userModelLogged.name,
-                urlImage: url,
-                idShopperUser: auth.userIDLogged,
-                idUser: user!.uid,
-                rating: valueRating.value,
-                comment: commentController.text);
-          }
+          await storage.addNewCommentUser(
+              name: auth.userModelLogged.name,
+              urlImage: url,
+              idShopperUser: auth.userIDLogged,
+              idSeller: id,
+              rating: valueRating.value,
+              comment: commentController.text,
+              listCommentsOBX: listComments);
         }
       }
       Get.back();
       Get.snackbar(
-          "Comentario Exitoso", "Se ha agregado correctamente el comentario");
+          "Comentario Exitoso", "Se ha agregado correctamente el comentario",
+          backgroundColor: Colors.green);
     } catch (e) {
-      Get.snackbar(
-          "Error con el comentario", "No ha sido posible agregar el comentario, intentelo nuevamente");
+      Get.snackbar("Error con el comentario",
+          "No ha sido posible agregar el comentario, intentelo nuevamente",
+          backgroundColor: Colors.red);
       isLoading.value = false;
     }
   }
@@ -127,11 +131,15 @@ class AddComment extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 10),
-                    child: WidgetButton(
-                      text: "Calificar",
-                      onPressed: addcomment,
-                      typeMain: true,
-                      loading: isLoading.value,
+                    child: Row(
+                      children: [
+                        WidgetButton(
+                          text: "Calificar",
+                          onPressed: addcomment,
+                          typeMain: true,
+                          loading: isLoading.value,
+                        ),
+                      ],
                     ),
                   )
                 ],

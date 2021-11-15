@@ -24,9 +24,11 @@ class Storage {
     }
   }
 
-  Future<List<ProductModel>> getallProducts() async {
+  Future<List<ProductModel>> getallProducts(
+      {category = "", searchedName = ""}) async {
     try {
-      List<ProductModel> list = await storeService.getallProducts();
+      List<ProductModel> list = await storeService.getallProducts(
+          category: category, searchedName: searchedName);
       return Future.value(list);
     } catch (e) {
       return Future.error(e);

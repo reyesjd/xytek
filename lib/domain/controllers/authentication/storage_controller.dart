@@ -80,9 +80,10 @@ class StorageController extends GetxController {
     }
   }
 
-  Future<void> getallProducts() async {
+  Future<void> getallProducts({category = "", searchedName = ""}) async {
     try {
-      List<ProductModel> list = await storage.getallProducts();
+      List<ProductModel> list = await storage.getallProducts(
+          category: category, searchedName: searchedName);
       mainProductsModels.value = list;
     } catch (e) {
       return Future.error(e);

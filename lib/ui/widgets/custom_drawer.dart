@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/home/main.dart';
+import 'package:xytek/ui/pages/login/login_main_page.dart';
 import 'package:xytek/ui/pages/profile/shopper_page.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -15,18 +16,31 @@ class CustomDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
               key: Key("menuDh"),
-              child: TextButton(
-                key: Key("profileBtn"),
-                onPressed: () {
-                  Get.to(() => Shopper());
-                },
-                child: Text(
-                  authController.userModelLogged.name,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              child: !authController.userIDLogged.isEmpty
+                  ? TextButton(
+                      key: Key("profileBtn"),
+                      onPressed: () {
+                        Get.to(() => Shopper());
+                      },
+                      child: Text(
+                        authController.userModelLogged.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  : TextButton(
+                      key: Key("profileBtn"),
+                      onPressed: () {
+                        Get.to(() => LoginMainPage());
+                      },
+                      child: Text(
+                        "Iniciar Sesión",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
               decoration: BoxDecoration(
                 color: Colors.teal,
               )),
@@ -35,14 +49,6 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Get.to(() => Main());
             },
-          ),
-          ListTile(
-            title: Text("Categorías"),
-            onTap: () {},
-          ),
-          ListTile(
-            title: Text("Productos"),
-            onTap: () {},
           ),
           ListTile(
             title: Text("Historial"),

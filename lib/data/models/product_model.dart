@@ -78,6 +78,7 @@ class ProductModel {
 
   static List<String> getCategorias() {
     return [
+      "Todas",
       "Placas Base",
       "Procesadores",
       "Discos Duros",
@@ -92,8 +93,7 @@ class ProductModel {
       "Modding",
       "Computadores Portatiles",
       "Computadores de Mesa",
-      "Redes",
-      "Otra"
+      "Redes"
     ];
   }
 /*

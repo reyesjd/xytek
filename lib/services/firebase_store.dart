@@ -126,11 +126,37 @@ class StoreService {
     }
   }
 
-  Future<List<ProductModel>> getallProducts() async {
+  Future<List<ProductModel>> getallProducts(
+      {category = "", searchedName = ""}) async {
     try {
       List<ProductModel> listProducts = [];
+      var v;
+      if (searchedName == "") {
+        if (category == "") {
+          v = await store.collection('salesProducts').get();
+        } else {
+          v = await store
+              .collection('salesProducts')
+              .where('category', isEqualTo: category)
+              .get();
+        }
+      } else {
+        if (category == "") {
+          v = await store
+              .collection('salesProducts')
+              .where('name', isGreaterThanOrEqualTo: searchedName)
+              .get();
+        } else {
+          print(category);
+          print(searchedName);
+          v = await store
+              .collection('salesProducts')
+              .where('name', isGreaterThanOrEqualTo: searchedName)
+              .where('category', isEqualTo: category)
+              .get();
+        }
+      }
 
-      var v = await store.collection('salesProducts').get();
       if (v.docs.isNotEmpty) {
         for (QueryDocumentSnapshot docSnap in v.docs) {
           listProducts.add(ProductModel.fromMap(docSnap.data()));

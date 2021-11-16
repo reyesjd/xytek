@@ -163,6 +163,8 @@ class PaymentPage extends StatelessWidget {
                           await storageController.addPurchase(
                               payment: dropdownValuePay.value,
                               shopperId: auth.userIDLogged);
+                          storageController.cartProductsModels.value = [];
+                          Get.offNamed("/");
                           Get.snackbar(
                               "Pedido Exitoso", "Pedido realizado con exito.",
                               backgroundColor: Colors.green);
@@ -171,8 +173,6 @@ class PaymentPage extends StatelessWidget {
                               "Error al crear pedido, revise los datos o la conexion a internet.",
                               backgroundColor: Colors.red);
                         }
-                        storageController.cartProductsModels.value = [];
-                        Get.offNamed("/");
                       },
                       typeMain: true),
                 ],

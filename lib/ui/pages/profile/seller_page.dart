@@ -71,10 +71,8 @@ class Seller extends StatelessWidget {
                                   ratingWidget: RatingWidget(
                                       full:
                                           Icon(Icons.star, color: Colors.amber),
-                                      half: Icon(
-                                        Icons.star_border,
-                                        color: Colors.white,
-                                      ),
+                                      half: Icon(Icons.star_half,
+                                          color: Colors.amber),
                                       empty: Icon(Icons.star_border,
                                           color: Colors.amber)),
                                 ),
@@ -86,63 +84,6 @@ class Seller extends StatelessWidget {
                         return CircularProgressIndicator(); // loading
                       }
                     })
-                /*
-                FutureBuilder(
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      print(snapshot.hasData);
-
-                      double rating = 0;
-                      return TextButton(
-                          key: Key("reputationBtn"),
-                          onPressed: () => {Get.to(() => SellerProfile())},
-                          child: Container(
-                            margin: EdgeInsets.only(top: 2),
-                            child: RatingBar(
-                              ignoreGestures: true,
-                              updateOnDrag: false,
-                              itemCount: 5,
-                              allowHalfRating: false,
-                              initialRating: rating,
-                              onRatingUpdate: (double value) {},
-                              ratingWidget: RatingWidget(
-                                  full: Icon(Icons.star, color: Colors.amber),
-                                  half: Icon(
-                                    Icons.star_border,
-                                    color: Colors.white,
-                                  ),
-                                  empty: Icon(Icons.star_border,
-                                      color: Colors.amber)),
-                            ),
-                          ));
-                    } else {
-                      print("hola");
-                      return TextButton(
-                          key: Key("reputationBtn"),
-                          onPressed: () => {Get.to(() => SellerProfile())},
-                          child: Container(
-                            margin: EdgeInsets.only(top: 2),
-                            child: RatingBar(
-                              ignoreGestures: true,
-                              updateOnDrag: false,
-                              itemCount: 5,
-                              allowHalfRating: false,
-                              initialRating: 0,
-                              onRatingUpdate: (double value) {},
-                              ratingWidget: RatingWidget(
-                                  full: Icon(Icons.star, color: Colors.amber),
-                                  half: Icon(
-                                    Icons.star_border,
-                                    color: Colors.white,
-                                  ),
-                                  empty: Icon(Icons.star_border,
-                                      color: Colors.amber)),
-                            ),
-                          ));
-                    }
-                  },
-                  future: storage.getSellerAverage(auth.userIDLogged),
-                ),*/
               ],
             ),
             Column(

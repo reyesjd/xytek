@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
@@ -48,6 +49,46 @@ class SellerProfile extends StatelessWidget {
                             fontSize: 18, fontWeight: FontWeight.w300)),
                   ],
                 ),
+                FutureBuilder(
+                    future: storage.getSellerAverage(uid: user!.uid),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.data == null) {
+                          return Text('');
+                        } else {
+                          return TextButton(
+                              key: Key("reputationBtn"),
+                              onPressed: () async {
+                                List<RatingUserModel> list = await storage
+                                    .getUserRatings(auth.userIDLogged);
+                                Get.to(() => SellerProfile(),
+                                    arguments: [auth.userModelLogged, list]);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 2),
+                                child: RatingBar(
+                                  ignoreGestures: true,
+                                  updateOnDrag: false,
+                                  itemCount: 5,
+                                  allowHalfRating: true,
+                                  initialRating: snapshot.data,
+                                  onRatingUpdate: (double value) {},
+                                  ratingWidget: RatingWidget(
+                                      full:
+                                          Icon(Icons.star, color: Colors.amber),
+                                      half: Icon(Icons.star_half,
+                                          color: Colors.amber),
+                                      empty: Icon(Icons.star_border,
+                                          color: Colors.amber)),
+                                ),
+                              ));
+                        }
+                      } else if (snapshot.hasError) {
+                        return Text(''); // error
+                      } else {
+                        return CircularProgressIndicator(); // loading
+                      }
+                    }),
                 Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
                   child: Row(

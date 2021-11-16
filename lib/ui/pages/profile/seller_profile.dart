@@ -36,7 +36,7 @@ class SellerProfile extends StatelessWidget {
             child: Column(
               children: [
                 WidgetRoundedImage(
-                  image: 'https://googleflutter.com/sample_image.jpg',
+                  image: user!.urlProfile,
                 ),
                 Column(
                   children: [

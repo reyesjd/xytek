@@ -24,7 +24,7 @@ class Shopper extends StatelessWidget {
       void handlerSeller() async {
         try {
           auth.userModelLogged.isSeller = true;
-          await store.updateUser(uid:auth.userModelLogged.uid ,isSeller: true);
+          await store.updateUser(uid: auth.userModelLogged.uid, isSeller: true);
           Get.to(() => Seller());
           Get.snackbar(
               "Perfil de Vendedor",
@@ -52,7 +52,7 @@ class Shopper extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: WidgetRoundedImage(
-                        image: 'https://googleflutter.com/sample_image.jpg',
+                        image: auth.userModelLogged.urlProfile,
                       ),
                     ),
                     Expanded(

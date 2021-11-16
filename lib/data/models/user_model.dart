@@ -8,6 +8,7 @@ class UserModel {
   String? uid;
   String password;
   bool isSeller;
+  String urlProfile;
   //latitud,length
   String? coordinates;
   List? salesProductsReferences;
@@ -30,7 +31,9 @@ class UserModel {
       required this.password,
       required this.isSeller,
       this.coordinates,
-      this.salesProductsReferences});
+      this.salesProductsReferences,
+      this.urlProfile =
+          "https://i1.sndcdn.com/avatars-000396582750-afqhbt-t240x240.jpg"});
 
   void addSaleProductReference(DocumentReference productReference) {
     if (salesProductsReferences != null) {
@@ -67,6 +70,7 @@ class UserModel {
       "password": password,
       "isSeller": isSeller,
       "salesProducts": salesProductsReferences,
+      "urlProfile": urlProfile
     };
   }
 
@@ -80,7 +84,8 @@ class UserModel {
         uid: map?["uid"],
         isSeller: map?["isSeller"],
         coordinates: map?["coordinates"],
-        salesProductsReferences: map?["salesProducts"]);
+        salesProductsReferences: map?["salesProducts"],
+        urlProfile: map?["urlProfile"]);
   }
 /*
   @override

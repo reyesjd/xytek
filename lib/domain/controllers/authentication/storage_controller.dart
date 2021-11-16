@@ -207,4 +207,37 @@ class StorageController extends GetxController {
   Future<UserModel?> getUserById(uid) async {
     return await storage.getUserById(uid);
   }
+
+  Future<List> getInfoSellerAndRating({product}) async {
+    UserModel? user = await storage.getUserById(product["uid"]);
+    List<RatingUserModel> list = await getUserRatings(product["uid"]);
+    return [user, list];
+  }
+
+  double getAverageSellerRating(List<RatingUserModel> list) {
+    if (list.isEmpty) {
+      return 0;
+    } else {
+      double sum = 0;
+      for (RatingUserModel rating in list) {
+        sum = sum + rating.rating;
+      }
+      return sum / list.length;
+    }
+  }
+
+  Future<double> getSellerAverage({uid}) async {
+    List<RatingUserModel> list = await getUserRatings(uid);
+
+    if (list.isEmpty) {
+      return Future.value(0);
+    } else {
+      double sum = 0;
+      for (RatingUserModel rating in list) {
+        sum = sum + rating.rating;
+      }
+
+      return Future.value(sum / list.length);
+    }
+  }
 }

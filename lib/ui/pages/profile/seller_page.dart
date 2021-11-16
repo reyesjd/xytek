@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/login/login_main_page.dart';
 import 'package:xytek/ui/pages/product/products_on_sale.dart';
 import 'package:xytek/ui/pages/product/sold_products.dart';
-import 'package:xytek/ui/pages/profile/reputation_page.dart';
+import 'package:xytek/ui/pages/profile/seller_profile.dart';
 import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -17,6 +19,7 @@ class Seller extends StatelessWidget {
   Seller({Key? key}) : super(key: key);
 
   AuthController auth = Get.find();
+  StorageController storage = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class Seller extends StatelessWidget {
         child: ListView(
           children: [
             WidgetRoundedImage(
-              image: 'https://googleflutter.com/sample_image.jpg',
+              image: auth.userModelLogged.urlProfile,
             ),
             Column(
               children: [
@@ -40,28 +43,106 @@ class Seller extends StatelessWidget {
                 Text("Vendedor",
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.w300)),
-                TextButton(
-                  key: Key("reputationBtn"),
-                    onPressed: () => {Get.to(() => Reputation())},
-                    child: Container(
-                      margin: EdgeInsets.only(top: 2),
-                      child: RatingBar(
-                        ignoreGestures: true,
-                        updateOnDrag: false,
-                        itemCount: 5,
-                        allowHalfRating: false,
-                        initialRating: 3,
-                        onRatingUpdate: (double value) {},
-                        ratingWidget: RatingWidget(
-                            full: Icon(Icons.star, color: Colors.amber),
-                            half: Icon(
-                              Icons.star_border,
-                              color: Colors.white,
+                FutureBuilder(
+                    future:
+                        storage.getSellerAverage(uid: auth.userModelLogged.uid),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.data == null) {
+                          return Text('');
+                        } else {
+                          return TextButton(
+                              key: Key("reputationBtn"),
+                              onPressed: () async {
+                                List<RatingUserModel> list = await storage
+                                    .getUserRatings(auth.userIDLogged);
+                                Get.to(() => SellerProfile(),
+                                    arguments: [auth.userModelLogged, list]);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 2),
+                                child: RatingBar(
+                                  ignoreGestures: true,
+                                  updateOnDrag: false,
+                                  itemCount: 5,
+                                  allowHalfRating: false,
+                                  initialRating: snapshot.data,
+                                  onRatingUpdate: (double value) {},
+                                  ratingWidget: RatingWidget(
+                                      full:
+                                          Icon(Icons.star, color: Colors.amber),
+                                      half: Icon(
+                                        Icons.star_border,
+                                        color: Colors.white,
+                                      ),
+                                      empty: Icon(Icons.star_border,
+                                          color: Colors.amber)),
+                                ),
+                              ));
+                        }
+                      } else if (snapshot.hasError) {
+                        return Text(''); // error
+                      } else {
+                        return CircularProgressIndicator(); // loading
+                      }
+                    })
+                /*
+                FutureBuilder(
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      print(snapshot.hasData);
+
+                      double rating = 0;
+                      return TextButton(
+                          key: Key("reputationBtn"),
+                          onPressed: () => {Get.to(() => SellerProfile())},
+                          child: Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: RatingBar(
+                              ignoreGestures: true,
+                              updateOnDrag: false,
+                              itemCount: 5,
+                              allowHalfRating: false,
+                              initialRating: rating,
+                              onRatingUpdate: (double value) {},
+                              ratingWidget: RatingWidget(
+                                  full: Icon(Icons.star, color: Colors.amber),
+                                  half: Icon(
+                                    Icons.star_border,
+                                    color: Colors.white,
+                                  ),
+                                  empty: Icon(Icons.star_border,
+                                      color: Colors.amber)),
                             ),
-                            empty:
-                                Icon(Icons.star_border, color: Colors.amber)),
-                      ),
-                    ))
+                          ));
+                    } else {
+                      print("hola");
+                      return TextButton(
+                          key: Key("reputationBtn"),
+                          onPressed: () => {Get.to(() => SellerProfile())},
+                          child: Container(
+                            margin: EdgeInsets.only(top: 2),
+                            child: RatingBar(
+                              ignoreGestures: true,
+                              updateOnDrag: false,
+                              itemCount: 5,
+                              allowHalfRating: false,
+                              initialRating: 0,
+                              onRatingUpdate: (double value) {},
+                              ratingWidget: RatingWidget(
+                                  full: Icon(Icons.star, color: Colors.amber),
+                                  half: Icon(
+                                    Icons.star_border,
+                                    color: Colors.white,
+                                  ),
+                                  empty: Icon(Icons.star_border,
+                                      color: Colors.amber)),
+                            ),
+                          ));
+                    }
+                  },
+                  future: storage.getSellerAverage(auth.userIDLogged),
+                ),*/
               ],
             ),
             Column(
@@ -94,7 +175,7 @@ class Seller extends StatelessWidget {
               child: Row(
                 children: [
                   WidgetButton(
-                    keyButton: Key("signoutBtn"),
+                      keyButton: Key("signoutBtn"),
                       text: "Cerrar Sesión",
                       onPressed: () async {
                         await auth.signOut();
@@ -118,7 +199,7 @@ class Seller extends StatelessWidget {
                     }
                   },
                   child: Text("Volver a Comprador",
-                  key: Key("toshopperBtn"),
+                      key: Key("toshopperBtn"),
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:xytek/data/models/rating_product_model.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/product/edit_products.dart';
-
-import 'package:xytek/ui/widgets/widget_opinion.dart';
+import 'package:xytek/ui/widgets/listile_comment_product.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
 class OpenDetailsSale extends StatelessWidget {
   OpenDetailsSale({Key? key}) : super(key: key) {
     product = RxMap(Get.arguments[0]);
-    
   }
 
+  AuthController auth = Get.find();
+  StorageController storage = Get.find();
   late RxMap<String, dynamic> product;
 
   final formatCurrency = NumberFormat.currency(
@@ -35,7 +37,7 @@ class OpenDetailsSale extends StatelessWidget {
         appBar: AppBar(
           actions: [
             TextButton.icon(
-              key: Key("editBtn"),
+                key: Key("editBtn"),
                 onPressed: () {
                   Get.to(() => EditProduct(), arguments: [product])
                       ?.then((value) {
@@ -100,39 +102,33 @@ class OpenDetailsSale extends StatelessWidget {
               ),
               Expanded(
                   flex: 4,
-                  child: ListView(
-                    children: [
-                      WidgetOpinion(
-                        name: "Nombre Comprador",
-                        rating: 2,
-                        comment:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
-                      ),
-                      WidgetOpinion(
-                        name: "Nombre Comprador",
-                        rating: 2,
-                        comment:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
-                      ),
-                      WidgetOpinion(
-                        name: "Nombre Comprador",
-                        rating: 2,
-                        comment:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
-                      ),
-                      WidgetOpinion(
-                        name: "Nombre Comprador",
-                        rating: 2,
-                        comment:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
-                      ),
-                      WidgetOpinion(
-                        name: "Nombre Comprador",
-                        rating: 2,
-                        comment:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tellus lorem, auctor aliquet tellus nec, tincidunt fermentum nisi. Vivamus diam.",
-                      ),
-                    ],
+                  child: FutureBuilder(
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        List<RatingProductModel> list =
+                            snapshot.data as List<RatingProductModel>;
+                        List<Widget> listW =
+                            List.generate(list.length, (index) {
+                          return WidgetCommentProduct(
+                              linkImage: list[index].urlImage,
+                              comment: list[index].comment,
+                              date: list[index].date,
+                              name: list[index].name,
+                              rating: list[index].rating);
+                        });
+                        return ListView(
+                          children: listW,
+                        );
+                      } else {
+                        if (snapshot.hasError) {
+                          return Text(
+                              "No ha sido posible cargar los comentarios");
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      }
+                    },
+                    future: storage.getProductsRating(product["id"]),
                   ))
             ],
           ),

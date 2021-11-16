@@ -148,9 +148,10 @@ class DetailsProduct extends StatelessWidget {
                           List<RatingUserModel> listRating = list[1];
                           if (user != null) {
                             return listTile(
-                                linkImage: "",
+                                linkImage: user.urlProfile,
                                 name: user.name,
-                                rating: getAverageSellerRating(listRating),
+                                rating:
+                                    storage.getAverageSellerRating(listRating),
                                 seller: user,
                                 listRatings: listRating);
                           } else {
@@ -217,7 +218,7 @@ class DetailsProduct extends StatelessWidget {
                           }
                         }
                       },
-                      future: getInfoSellerAndRating(),
+                      future: storage.getInfoSellerAndRating(product: product),
                     ),
                     auth.userIDLogged.isNotEmpty
                         ? Container(
@@ -243,8 +244,7 @@ class DetailsProduct extends StatelessWidget {
                             text: "Calificación del producto:", size: 18)),
                     FutureBuilder(
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.done) {
+                        if (snapshot.connectionState == ConnectionState.done) {
                           List<RatingProductModel> list =
                               snapshot.data as List<RatingProductModel>;
                           List<Widget> listW =
@@ -264,8 +264,7 @@ class DetailsProduct extends StatelessWidget {
                             return Text(
                                 "No ha sido posible cargar los comentarios");
                           } else {
-                            return Center(
-                                child: CircularProgressIndicator());
+                            return Center(child: CircularProgressIndicator());
                           }
                         }
                       },
@@ -324,25 +323,5 @@ class DetailsProduct extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<List> getInfoSellerAndRating() async {
-    UserModel? user = await storage.getUserById(product["uid"]);
-    List<RatingUserModel> list = await storage.getUserRatings(product["uid"]);
-    return [user, list];
-  }
-
-  double getAverageSellerRating(List<RatingUserModel> list) {
-    print("Listaskabshxvasjdvsax");
-    print(list);
-    if (list.isEmpty) {
-      return 3.2;
-    } else {
-      double sum = 0;
-      for (RatingUserModel rating in list) {
-        sum = sum + rating.rating;
-      }
-      return sum / list.length;
-    }
   }
 }

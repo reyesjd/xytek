@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/payment_page.dart';
+import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/ui/widgets/cart_item.dart';
 import 'package:get/get.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
@@ -66,6 +67,10 @@ class Cart extends StatelessWidget {
                           ...storageController.cartProductsModels
                               .map((product) {
                             return CartItem(
+                              onPressed: () {
+                                Get.to(() => DetailsProduct(),
+                                    arguments: [product]);
+                              },
                               id: product['id'],
                               name: product["name"],
                               image: product["urlImage"],

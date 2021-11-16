@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/data/models/purchase_model.dart';
 import 'package:xytek/data/models/rating_product_model.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/use_case/authentication/storage_use_case.dart';
 
 class StorageController extends GetxController {
@@ -238,6 +240,43 @@ class StorageController extends GetxController {
       }
 
       return Future.value(sum / list.length);
+    }
+  }
+
+  Future<void> addPurchase({required payment, required shopperId}) async {
+    try {
+      DateTime newDate = DateTime.now();
+      String date = format.format(newDate);
+      PurchaseModel purchase;
+      for (Map map in cartProductsModels) {
+        purchase = PurchaseModel(
+            uidShopper: shopperId,
+            date: date,
+            paymentMethod: payment,
+            productId: map["id"],
+            uidSeller: map["uid"],
+            quantity: map["quantity"].value);
+        await storage.addPurchase(purchase);
+      }
+    } catch (e) {
+      Future.error(e);
+    }
+  }
+
+  Future<List<PurchaseModel>> getPurchases(
+      {shopperId = "", sellerId = "", required isShopper}) async {
+    try {
+      if (isShopper) {
+        List<PurchaseModel> list =
+            await storage.getPurchaseByShopperId(shopperId);
+        return Future.value(list);
+      } else {
+        List<PurchaseModel> list =
+            await storage.getPurchaseBySellerId(sellerId);
+        return Future.value(list);
+      }
+    } catch (e) {
+      return Future.error(e);
     }
   }
 }

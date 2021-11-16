@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
-import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/ui/widgets/cart_item.dart';
-import 'package:xytek/ui/widgets/product_card.dart';
+
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
-
-import 'home/main.dart';
 
 class PaymentPage extends StatelessWidget {
   PaymentPage({Key? key}) : super(key: key) {
     storageController = Get.find();
+    auth = Get.find();
   }
+  late AuthController auth;
 
   late StorageController storageController;
 
@@ -83,17 +83,15 @@ class PaymentPage extends StatelessWidget {
                     children: [
                       ...storageController.cartProductsModels.map((product) {
                         return CartItem(
-                              id: product['id'],
-                              name: product["name"],
-                              image: product["urlImage"],
-                              price: product["price"],
-                              quantity: product["quantity"],
-                              onAdd: () {
-                              },
-                              onRemove: () {
-                              },
-                              withButtons: false,
-                            );
+                          id: product['id'],
+                          name: product["name"],
+                          image: product["urlImage"],
+                          price: product["price"],
+                          quantity: product["quantity"],
+                          onAdd: () {},
+                          onRemove: () {},
+                          withButtons: false,
+                        );
                       }).toList()
                     ],
                   ),
@@ -160,7 +158,19 @@ class PaymentPage extends StatelessWidget {
                 children: [
                   WidgetButton(
                       text: "Pagar",
-                      onPressed: () {
+                      onPressed: () async {
+                        try {
+                          await storageController.addPurchase(
+                              payment: dropdownValuePay.value,
+                              shopperId: auth.userIDLogged);
+                          Get.snackbar(
+                              "Pedido Exitoso", "Pedido realizado con exito.",
+                              backgroundColor: Colors.green);
+                        } catch (e) {
+                          Get.snackbar("Error",
+                              "Error al crear pedido, revise los datos o la conexion a internet.",
+                              backgroundColor: Colors.red);
+                        }
                         storageController.cartProductsModels.value = [];
                         Get.offNamed("/");
                       },

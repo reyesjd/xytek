@@ -1,4 +1,5 @@
 import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/data/models/purchase_model.dart';
 import 'package:xytek/data/models/rating_product_model.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
@@ -96,6 +97,32 @@ class Storage {
   Future<List<RatingUserModel>> getUserRating(String uid) async {
     try {
       List<RatingUserModel> list = await storeService.getRatingsByUserId(uid);
+      return Future.value(list);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<void> addPurchase(PurchaseModel purchase) async {
+    try {
+      await storeService.addPurchase(purchase);
+    } catch (e) {
+      Future.error(e);
+    }
+  }
+
+  Future<List<PurchaseModel>> getPurchaseByShopperId(String uid) async {
+    try {
+      List<PurchaseModel> list = await storeService.getPurchaseByShopperId(uid);
+      return Future.value(list);
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<List<PurchaseModel>> getPurchaseBySellerId(String uid) async {
+    try {
+      List<PurchaseModel> list = await storeService.getPurchaseBySellerId(uid);
       return Future.value(list);
     } catch (e) {
       return Future.error(e);

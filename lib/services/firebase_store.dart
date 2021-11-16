@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/data/models/rating_product_model.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
+import 'package:xytek/data/models/purchase_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 
 class StoreService {
@@ -147,8 +148,6 @@ class StoreService {
               .where('name', isGreaterThanOrEqualTo: searchedName)
               .get();
         } else {
-          print(category);
-          print(searchedName);
           v = await store
               .collection('salesProducts')
               .where('name', isGreaterThanOrEqualTo: searchedName)
@@ -219,6 +218,58 @@ class StoreService {
       }
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<void> addPurchase(PurchaseModel purchase) async {
+    try {
+      var dicc = purchase.toMap();
+
+      await store.collection('purchasedProducts').add(dicc);
+
+      await store.waitForPendingWrites();
+    } catch (e) {
+      Future.error(e);
+    }
+  }
+
+  Future<List<PurchaseModel>> getPurchaseByShopperId(String uid) async {
+    try {
+      List<PurchaseModel> list = [];
+
+      var v = await store
+          .collection('purchasedProducts')
+          .where('uidShopper', isEqualTo: uid)
+          .get();
+
+      if (v.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot docSnap in v.docs) {
+          list.add(PurchaseModel.fromMap(docSnap.data()));
+        }
+      }
+      return list;
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<List<PurchaseModel>> getPurchaseBySellerId(String uid) async {
+    try {
+      List<PurchaseModel> list = [];
+
+      var v = await store
+          .collection('purchasedProducts')
+          .where('uidSeller', isEqualTo: uid)
+          .get();
+
+      if (v.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot docSnap in v.docs) {
+          list.add(PurchaseModel.fromMap(docSnap.data()));
+        }
+      }
+      return list;
+    } catch (e) {
+      return Future.error(e);
     }
   }
 }

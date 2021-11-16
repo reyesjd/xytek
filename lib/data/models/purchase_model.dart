@@ -1,35 +1,39 @@
-class SaleModel {
+class PurchaseModel {
   late String uidShopper;
   late String uidSeller;
   late String date;
   late String paymentMethod;
   late int totalSale;
   // (pid, numeroSolicitado)
-  late List soldProduts;
+  late String productId;
+  late int quantity;
 
-  SaleModel(
+  PurchaseModel(
       {required this.uidShopper,
       required this.date,
       required this.paymentMethod,
-      required this.soldProduts,
-      required this.uidSeller});
+      required this.productId,
+      required this.uidSeller,
+      required this.quantity});
 
   Map<String, dynamic> toMap() {
     return {
       "uidShopper": uidShopper,
       "uidSeller": uidSeller,
       "date": date,
-      "soldProduts": soldProduts,
-      "paymentMethod": paymentMethod
+      "productId": productId,
+      "paymentMethod": paymentMethod,
+      "quantity": quantity
     };
   }
 
-  factory SaleModel.fromMap(Map<String, dynamic>? map) {
-    return SaleModel(
+  factory PurchaseModel.fromMap(Map<String, dynamic>? map) {
+    return PurchaseModel(
         date: map?["date"],
         paymentMethod: map?["paymentMethod"],
-        soldProduts: map?["soldProduts"],
+        productId: map?["productId"],
         uidSeller: map?["uidSeller"],
-        uidShopper: map?["uidShopper"]);
+        uidShopper: map?["uidShopper"],
+        quantity: map?["quantity"]);
   }
 }

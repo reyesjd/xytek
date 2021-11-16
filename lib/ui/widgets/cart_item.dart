@@ -10,6 +10,7 @@ class CartItem extends StatelessWidget {
   final RxInt quantity;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
+  final bool withButtons;
 
   final formatCurrency = NumberFormat.currency(
     decimalDigits: 0,
@@ -17,15 +18,15 @@ class CartItem extends StatelessWidget {
     customPattern: '\u00a4 ###,###',
   );
 
-  CartItem({
-    required this.id,
-    required this.name,
-    required this.image,
-    required this.price,
-    required this.quantity,
-    required this.onAdd,
-    required this.onRemove,
-  });
+  CartItem(
+      {required this.id,
+      required this.name,
+      required this.image,
+      required this.price,
+      required this.quantity,
+      required this.onAdd,
+      required this.onRemove,
+      this.withButtons = true});
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +84,15 @@ class CartItem extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 8),
                       child: Row(
                         children: [
-                          Expanded(
-                            flex: 1,
-                            child: IconButton(
-                              onPressed: onRemove,
-                              icon: Icon(Icons.remove),
-                              iconSize: 20,
+                          if (withButtons)
+                            Expanded(
+                              flex: 1,
+                              child: IconButton(
+                                onPressed: onRemove,
+                                icon: Icon(Icons.remove),
+                                iconSize: 20,
+                              ),
                             ),
-                          ),
                           Expanded(
                             child: TextField(
                               textAlign: TextAlign.center,
@@ -104,14 +106,15 @@ class CartItem extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: IconButton(
-                              onPressed: onAdd,
-                              icon: Icon(Icons.add),
-                              iconSize: 20,
-                            ),
-                          )
+                          if (withButtons)
+                            Expanded(
+                              flex: 1,
+                              child: IconButton(
+                                onPressed: onAdd,
+                                icon: Icon(Icons.add),
+                                iconSize: 20,
+                              ),
+                            )
                         ],
                       )),
                   Text(

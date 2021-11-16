@@ -3,6 +3,7 @@ class SaleModel {
   late String uidSeller;
   late String date;
   late String paymentMethod;
+  late int totalSale;
   // (pid, numeroSolicitado)
   late List soldProduts;
 

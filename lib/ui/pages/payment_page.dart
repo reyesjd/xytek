@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
+import 'package:xytek/ui/pages/product/product_details.dart';
+import 'package:xytek/ui/widgets/cart_item.dart';
+import 'package:xytek/ui/widgets/product_card.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 
@@ -77,7 +80,22 @@ class PaymentPage extends StatelessWidget {
                 child: SizedBox(
                   height: 300,
                   child: ListView(
-                    children: [],
+                    children: [
+                      ...storageController.cartProductsModels.map((product) {
+                        return CartItem(
+                              id: product['id'],
+                              name: product["name"],
+                              image: product["urlImage"],
+                              price: product["price"],
+                              quantity: product["quantity"],
+                              onAdd: () {
+                              },
+                              onRemove: () {
+                              },
+                              withButtons: false,
+                            );
+                      }).toList()
+                    ],
                   ),
                 ),
               ),
@@ -143,6 +161,7 @@ class PaymentPage extends StatelessWidget {
                   WidgetButton(
                       text: "Pagar",
                       onPressed: () {
+                        storageController.cartProductsModels.value = [];
                         Get.offNamed("/");
                       },
                       typeMain: true),

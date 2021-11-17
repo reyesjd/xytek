@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/home/main.dart';
 import 'package:xytek/ui/pages/login/login_recovery_password.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
@@ -13,6 +14,15 @@ class LoginCredentials extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   String errorMessage = "No se ha podido ingresar a la aplicación";
   bool logged = false;
+  final _loading = false.obs;
+
+  bool get loading {
+    return _loading.value;
+  }
+
+  set loading(bool value) {
+    _loading.value = value;
+  }
 
   bool isEmail(String em) {
     String p =
@@ -131,7 +141,9 @@ class LoginCredentials extends StatelessWidget {
                                         EdgeInsets.only(left: 30, right: 30),
                                     child: Row(
                                       children: [
-                                        WidgetButton(
+                                        Obx(
+                                          () => WidgetButton(
+                                            loading: loading,
                                             keyButton: Key("loginByEmailBtn"),
                                             text: "Iniciar Sesión",
                                             onPressed: () async {
@@ -139,26 +151,31 @@ class LoginCredentials extends StatelessWidget {
                                                   _formKey.currentState;
                                               form!.save();
                                               if (form.validate()) {
-                                                await login(_email.text,
-                                                    _password.text);
+                                                loading = true;
+                                                await login(
+                                                  _email.text,
+                                                  _password.text,
+                                                );
                                                 if (logged) {
                                                   Get.back();
                                                   Get.to(() => Main());
-                                                  Get.snackbar(
+                                                  getCustomSnackbar(
                                                       "Ha ingresado correctamente",
                                                       "Los datos ingresados han sido correctos",
-                                                      backgroundColor:
-                                                          Colors.green);
+                                                      type: "success");
                                                 } else {
-                                                  Get.snackbar(
-                                                      "Ha ocurrido un error al ingresar",
-                                                      errorMessage,
-                                                      backgroundColor:
-                                                          Colors.red);
+                                                  getCustomSnackbar(
+                                                    "Ha ocurrido un error al ingresar",
+                                                    errorMessage,
+                                                    type: "error",
+                                                  );
                                                 }
+                                                loading = false;
                                               }
                                             },
-                                            typeMain: true),
+                                            typeMain: true,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),

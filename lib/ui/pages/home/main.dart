@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/cart.dart';
@@ -6,7 +8,6 @@ import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/ui/widgets/category_chip.dart';
 import 'package:xytek/ui/widgets/custom_drawer.dart';
 import 'package:xytek/ui/widgets/product_card.dart';
-import 'package:get/get.dart';
 import 'package:xytek/ui/widgets/widget_text_align.dart';
 
 class Main extends StatelessWidget {
@@ -22,6 +23,13 @@ class Main extends StatelessWidget {
   var products = [].obs;
   var searchValue = "".obs;
   var isSearchingObs = false.obs;
+
+  final List<String> imgList = [
+    'https://images.unsplash.com/photo-1591405351990-4726e331f141?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
+    'https://images.unsplash.com/photo-1618247130379-980b9fe0df04?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1332&q=80',
+    'https://images.unsplash.com/photo-1520520688967-7bdc16e77dc2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
+    'https://images.unsplash.com/photo-1611275485157-6e6335aa97e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+  ];
 
   getProducts({category = "", searchedName = ""}) async {
     await storageController.getallProducts(
@@ -83,11 +91,31 @@ class Main extends StatelessWidget {
         body: !isSearching
             ? Column(
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text("Slider", style: TextStyle(fontSize: 25)),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        enableInfiniteScroll: false,
+                        enlargeCenterPage: true,
+                        height: 200.0,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 6),
+                      ),
+                      items: imgList
+                          .map(
+                            (img) => Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  img,
+                                  fit: BoxFit.cover,
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
                   ),
                   WidgetAlignText(text: "Categorias", size: 18),

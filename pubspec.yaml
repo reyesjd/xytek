@@ -42,6 +42,7 @@ dependencies:
   google_maps_flutter: ^2.0.11
   google_maps_flutter_web: ^0.3.2
   loggy: ^2.0.1
+  carousel_slider: ^4.0.0
   intl: 
 
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
-import 'package:loggy/loggy.dart';
 import 'package:xytek/data/models/locations_model.dart';
 import 'package:xytek/data/models/user_location.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/location_controller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 
 class MapUpdateUser extends StatefulWidget {
   MapUpdateUser({Key? key}) : super(key: key) {
@@ -81,15 +81,19 @@ class _TrackingPageState extends State<MapUpdateUser> {
                                   authController.userModelLogged
                                       .update(locationsModel: l);
                                   Get.close(3);
-                                  Get.snackbar("Actualización exitosa",
-                                      " Se añadio la ubicación exitosamente",
-                                      backgroundColor: Colors.green);
+                                  getCustomSnackbar(
+                                    "Actualización exitosa",
+                                    " Se añadio la ubicación exitosamente",
+                                    type: CustomSnackbarType.success,
+                                  );
                                   widget.locationController
                                       .unSuscribeLocationUpdates();
                                 } else {
-                                  Get.snackbar("Error agregando la ubicación",
-                                      "Ya existe una ubicación con ese apodo",
-                                      backgroundColor: Colors.red);
+                                  getCustomSnackbar(
+                                    "Error agregando la ubicación",
+                                    "Ya existe una ubicación con ese apodo",
+                                    type: CustomSnackbarType.error,
+                                  );
                                 }
                               }
                             },
@@ -111,9 +115,11 @@ class _TrackingPageState extends State<MapUpdateUser> {
               authController.userModelLogged.update(locationsModel: l);
               widget.locationController.unSuscribeLocationUpdates();
               Get.close(1);
-              Get.snackbar("Actualización exitosa",
-                  "La ubicación se actualizó exitosamente",
-                  backgroundColor: Colors.green);
+              getCustomSnackbar(
+                "Actualización exitosa",
+                "La ubicación se actualizó exitosamente",
+                type: CustomSnackbarType.success,
+              );
             }
           },
           child: Icon(

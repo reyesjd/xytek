@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
@@ -124,16 +125,18 @@ class LoginRecoveryPassword extends StatelessWidget {
                                                         inputController.text);
                                                 print(emailSend);
                                                 if (emailSend) {
-                                                  Get.snackbar("Email enviado",
-                                                      "El correo se ha enviado correctamente al email ${inputController.text}",
-                                                      backgroundColor:
-                                                          Colors.green);
+                                                  getCustomSnackbar(
+                                                    "Email enviado",
+                                                    "El correo se ha enviado correctamente al email ${inputController.text}",
+                                                    type: CustomSnackbarType
+                                                        .success,
+                                                  );
                                                 } else {
-                                                  Get.snackbar(
+                                                  getCustomSnackbar(
                                                       "Email no enviado",
                                                       "El correo de recuperación no se ha podido enviar",
-                                                      backgroundColor:
-                                                          Colors.red[300]);
+                                                      type: CustomSnackbarType
+                                                          .error);
                                                 }
                                               }
                                             },

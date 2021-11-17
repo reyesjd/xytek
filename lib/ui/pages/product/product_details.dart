@@ -9,6 +9,7 @@ import 'package:xytek/domain/controllers/authentication/authentication_contoller
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/product/add_comment.dart';
 import 'package:xytek/ui/pages/profile/seller_profile.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/listile_comment_product.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -49,18 +50,24 @@ class DetailsProduct extends StatelessWidget {
                 if (product["amountAvalaible"] > 0) {
                   product.addAll(<String, dynamic>{'quantity': RxInt(1)});
                   storage.cartProductsModels.add(product);
-                  Get.snackbar("Producto Añadido",
-                      "El producto se ha agregado al carrito",
-                      backgroundColor: Colors.green);
+                  getCustomSnackbar(
+                    "Producto Añadido",
+                    "El producto se ha agregado al carrito",
+                    type: CustomSnackbarType.success,
+                  );
                 } else {
-                  Get.snackbar("Producto no disponible",
-                      "No se encuentran productos disponibles",
-                      backgroundColor: Colors.red);
+                  getCustomSnackbar(
+                    "Producto no disponible",
+                    "No se encuentran productos disponibles",
+                    type: CustomSnackbarType.info,
+                  );
                 }
               } else {
-                Get.snackbar("Producto en carrito",
-                    "El producto que intentas agregar ya se encuentra en el carrito",
-                    backgroundColor: Colors.red);
+                getCustomSnackbar(
+                  "Producto en carrito",
+                  "El producto que intentas agregar ya se encuentra en el carrito",
+                  type: CustomSnackbarType.info,
+                );
               }
             },
             child: Icon(

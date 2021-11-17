@@ -4,8 +4,6 @@ import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/data/models/purchase_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
-import 'package:xytek/ui/pages/product/new_product.dart';
-import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/ui/pages/profile/details_sales.dart';
 import 'package:xytek/ui/widgets/category_chip.dart';
 import 'package:xytek/ui/widgets/product_card.dart';

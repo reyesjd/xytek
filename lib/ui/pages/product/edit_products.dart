@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -75,18 +76,22 @@ class EditProduct extends StatelessWidget {
           amountAvalaible: int.parse(amountAvalaible.text)));
 
       Get.back(result: product);
-      Get.snackbar("Exito", "¡Producto actualizado exitosamente!",
-          backgroundColor: Colors.green);
+      getCustomSnackbar(
+        "Exito",
+        "¡Producto actualizado exitosamente!",
+        type: CustomSnackbarType.success,
+      );
     } catch (e) {
-      Get.snackbar("Error al Crear Producto",
-          "Uy parece que hubo un error al actualizar el producto, por favor intenta de nuevo.",
-          backgroundColor: Colors.red);
+      getCustomSnackbar(
+        "Error al Crear Producto",
+        "Uy parece que hubo un error al actualizar el producto, por favor intenta de nuevo.",
+        type: CustomSnackbarType.error,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: WidgetAppBarBack(actionButtonBack: () {
           Get.back();
@@ -217,11 +222,12 @@ class EditProduct extends StatelessWidget {
           ),
         ));
   }
- Widget dropDown({initValue, List<String> items = const [], icon, key}) {
+
+  Widget dropDown({initValue, List<String> items = const [], icon, key}) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(left: 10,right: 10),
-        padding: EdgeInsets.only(left: 10,right: 10),
+        margin: EdgeInsets.only(left: 10, right: 10),
+        padding: EdgeInsets.only(left: 10, right: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30.0),
             border: Border.all(

@@ -162,12 +162,14 @@ class LoginCredentials extends StatelessWidget {
                                                   getCustomSnackbar(
                                                       "Ha ingresado correctamente",
                                                       "Los datos ingresados han sido correctos",
-                                                      type: "success");
+                                                      type: CustomSnackbarType
+                                                          .success);
                                                 } else {
                                                   getCustomSnackbar(
                                                     "Ha ocurrido un error al ingresar",
                                                     errorMessage,
-                                                    type: "error",
+                                                    type: CustomSnackbarType
+                                                        .error,
                                                   );
                                                 }
                                                 loading = false;

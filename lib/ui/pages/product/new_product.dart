@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -37,23 +38,25 @@ class NewProduct extends StatelessWidget {
     try {
       var user = authController.userModelLogged;
       await storageController.addNewProduct(
-        name: name.text,
-        category: dropdownValue.value,
-        description: description.text,
-        price: int.parse(price.text),
-        urlImage: urlImage.text,
-        user: user,
-        amountAvalaible: int.parse(amountAvalaible.text)
-      );
+          name: name.text,
+          category: dropdownValue.value,
+          description: description.text,
+          price: int.parse(price.text),
+          urlImage: urlImage.text,
+          user: user,
+          amountAvalaible: int.parse(amountAvalaible.text));
 
       Get.back();
-      Get.snackbar("Exito", "¡Producto añadido exitosamente!",
-          backgroundColor: Colors.green);
+      getCustomSnackbar(
+        "Exito",
+        "¡Producto añadido exitosamente!",
+        type: CustomSnackbarType.success,
+      );
     } catch (e) {
-      Get.snackbar(
+      getCustomSnackbar(
         "Error al Crear Producto",
         "Uy parece que hubo un error al crear un nuevo producto, por favor intenta de nuevo.",
-        backgroundColor: Colors.red,
+        type: CustomSnackbarType.error,
       );
     }
     loading = false;
@@ -61,7 +64,6 @@ class NewProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Obx(
       () => Scaffold(
           appBar: WidgetAppBarBack(actionButtonBack: () {
@@ -77,11 +79,17 @@ class NewProduct extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Container(padding: EdgeInsets.only(top: 20,bottom: 20),child: WidgetAlignText(text: "Nuevo Producto", size: 26)),
+                      Container(
+                          padding: EdgeInsets.only(top: 20, bottom: 20),
+                          child: WidgetAlignText(
+                              text: "Nuevo Producto", size: 26)),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(padding: EdgeInsets.only(bottom: 10),child: WidgetAlignText(text: "Datos del producto", size: 18)),
+                          Container(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: WidgetAlignText(
+                                  text: "Datos del producto", size: 18)),
                           WidgetTextField(
                             keyText: Key("nameTf"),
                             label: "Nombre",
@@ -198,8 +206,8 @@ class NewProduct extends StatelessWidget {
   Widget dropDown({initValue, List<String> items = const [], icon, key}) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(left: 10,right: 10),
-        padding: EdgeInsets.only(left: 10,right: 10),
+        margin: EdgeInsets.only(left: 10, right: 10),
+        padding: EdgeInsets.only(left: 10, right: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30.0),
             border: Border.all(

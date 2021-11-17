@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/login/login_verify_code.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
@@ -19,25 +19,36 @@ class LoginPhoneNumber extends StatelessWidget {
       String val = data as String;
       if (val.contains("Error:")) {
         if (val.contains("too-many-requests")) {
-          Get.snackbar("Error enviando el código",
-              "Ya has realizado muchas peticiones, intentalo más tarde",
-              backgroundColor: Colors.red);
+          getCustomSnackbar(
+            "Error enviando el código",
+            "Ya has realizado muchas peticiones, intentalo más tarde",
+            type: CustomSnackbarType.error,
+          );
         } else {
           if (val.contains("Number phone no registered")) {
-            Get.snackbar("Error enviando el código",
-                "El número de telefono ingresado no se encuentra registrado",
-                backgroundColor: Colors.red);
+            getCustomSnackbar(
+              "Error enviando el código",
+              "El número de telefono ingresado no se encuentra registrado",
+              type: CustomSnackbarType.error,
+            );
           } else {
-            Get.snackbar("Error enviando el código", val.substring(6),
-                backgroundColor: Colors.red);
+            getCustomSnackbar(
+              "Error enviando el código",
+              val.substring(6),
+              type: CustomSnackbarType.error,
+            );
           }
         }
       } else {
         Get.to(() => LoginVerifyCode());
 
-        Get.snackbar("Verificacíon automatica",
-            "Intentando comprobar el código automaticamente",
-            showProgressIndicator: true, duration: Duration(seconds: 10));
+        getCustomSnackbar(
+          "Verificacíon automatica",
+          "Intentando comprobar el código automaticamente",
+          type: CustomSnackbarType.info,
+          showProgressIndicator: true,
+          duration: Duration(seconds: 10),
+        );
       }
     } else {
       if (Get.isSnackbarOpen!) {

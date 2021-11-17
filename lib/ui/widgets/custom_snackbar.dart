@@ -1,30 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Icon getIcon(String type) {
+enum CustomSnackbarType { success, error, info }
+
+Icon getIcon(CustomSnackbarType type) {
   switch (type) {
-    case 'success':
+    case CustomSnackbarType.success:
       return Icon(
         Icons.check_circle,
         color: Colors.green[700],
         size: 30,
       );
-    case 'error':
+    case CustomSnackbarType.error:
       return Icon(
         Icons.error,
         color: Colors.red[700],
         size: 30,
       );
+    case CustomSnackbarType.info:
+      return Icon(
+        Icons.info,
+        color: Colors.blue[700],
+        size: 30,
+      );
     default:
       return Icon(
-        Icons.check_circle,
-        color: Colors.green[700],
+        Icons.info,
+        color: Colors.blue[700],
         size: 30,
       );
   }
 }
 
-void getCustomSnackbar(String title, String message, {String type = "success"}) {
+void getCustomSnackbar(String title, String message,
+    {CustomSnackbarType type = CustomSnackbarType.success,
+    Duration? duration,
+    bool? showProgressIndicator}) {
   return Get.snackbar(
     title,
     message,
@@ -48,5 +59,7 @@ void getCustomSnackbar(String title, String message, {String type = "success"}) 
         spreadRadius: 0,
       )
     ],
+    duration: duration,
+    showProgressIndicator: showProgressIndicator,
   );
 }

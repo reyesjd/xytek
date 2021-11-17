@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/locations_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
-import 'package:xytek/domain/controllers/authentication/location_controller.dart';
 import 'package:xytek/ui/pages/updateuserdata/maps_page.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';

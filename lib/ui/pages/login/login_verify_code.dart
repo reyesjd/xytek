@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
@@ -21,9 +22,11 @@ class LoginVerifyCode extends StatelessWidget {
       Get.offAndToNamed("/");
     } catch (e) {
       if (e == "invalid-verification-code") {
-        Get.snackbar(
-            "Error con el código", "El código ingresado no ha sido correcto",
-            backgroundColor: Colors.red);
+        getCustomSnackbar(
+          "Error con el código",
+          "El código ingresado no ha sido correcto",
+          type: CustomSnackbarType.error,
+        );
       }
     }
   }

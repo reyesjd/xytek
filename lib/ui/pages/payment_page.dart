@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/widgets/cart_item.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -165,13 +166,17 @@ class PaymentPage extends StatelessWidget {
                               shopperId: auth.userIDLogged);
                           storageController.cartProductsModels.value = [];
                           Get.offNamed("/");
-                          Get.snackbar(
-                              "Pedido Exitoso", "Pedido realizado con exito.",
-                              backgroundColor: Colors.green);
+                          getCustomSnackbar(
+                            "Pedido Exitoso",
+                            "Pedido realizado con exito.",
+                            type: CustomSnackbarType.success,
+                          );
                         } catch (e) {
-                          Get.snackbar("Error",
-                              "Error al crear pedido, revise los datos o la conexion a internet.",
-                              backgroundColor: Colors.red);
+                          getCustomSnackbar(
+                            "Error",
+                            "Error al crear pedido, revise los datos o la conexion a internet.",
+                            type: CustomSnackbarType.error,
+                          );
                         }
                       },
                       typeMain: true),

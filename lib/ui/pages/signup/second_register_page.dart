@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/signup/maps_page.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
@@ -189,14 +190,17 @@ class SecondRegisterPage extends StatelessWidget {
                                         if (registred) {
                                           Get.close(2);
                                           //Get.offAllNamed("/");
-                                          Get.snackbar("Registro exitoso",
-                                              "Has sido registrado satisfactoriamente en la aplicación",
-                                              backgroundColor: Colors.green);
+                                          getCustomSnackbar(
+                                            "Registro exitoso",
+                                            "Has sido registrado satisfactoriamente en la aplicación",
+                                            type: CustomSnackbarType.success,
+                                          );
                                         } else {
-                                          Get.snackbar(
-                                              "Error al intentar Registrarte",
-                                              errorMessage,
-                                              backgroundColor: Colors.red);
+                                          getCustomSnackbar(
+                                            "Error al intentar Registrarte",
+                                            errorMessage,
+                                            type: CustomSnackbarType.error,
+                                          );
                                         }
                                       }
                                     },

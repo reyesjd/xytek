@@ -6,6 +6,7 @@ import 'package:xytek/ui/pages/login/login_main_page.dart';
 import 'package:xytek/ui/pages/profile/my_shoppings.dart';
 import 'package:xytek/ui/pages/profile/seller_page.dart';
 import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -26,13 +27,19 @@ class Shopper extends StatelessWidget {
           auth.userModelLogged.isSeller = true;
           await store.updateUser(uid: auth.userModelLogged.uid, isSeller: true);
           Get.to(() => Seller());
-          Get.snackbar(
-              "Perfil de Vendedor",
-              auth.userModelLogged.isSeller
-                  ? "Ahora estás en la ventana de vendedor"
-                  : "Ahora eres un vendedor");
+          getCustomSnackbar(
+            "Perfil de Vendedor",
+            auth.userModelLogged.isSeller
+                ? "Ahora estás en la ventana de vendedor"
+                : "Ahora eres un vendedor",
+            type: CustomSnackbarType.info,
+          );
         } catch (e) {
-          Get.snackbar("", "Uy parece que hubo un error, intenta de nuevo");
+          getCustomSnackbar(
+            "",
+            "Uy parece que hubo un error, intenta de nuevo",
+            type: CustomSnackbarType.error,
+          );
         }
       }
 

@@ -5,6 +5,7 @@ import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/updateuserdata/directions_page.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -55,9 +56,11 @@ class MyData extends StatelessWidget {
           phoneNumber: phoneNTextController.text);
     });
     Get.back();
-    Get.snackbar("Actualización Exitosa",
-        "Los datos digitados han sido actualizados correctamente",
-        backgroundColor: Colors.green);
+    getCustomSnackbar(
+      "Actualización Exitosa",
+      "Los datos digitados han sido actualizados correctamente",
+      type: CustomSnackbarType.success,
+    );
   }
 
   bool isEmail(String em) {
@@ -170,7 +173,7 @@ class MyData extends StatelessWidget {
                                                       arguments:
                                                           getLocationByDropDow())!
                                                   .catchError((e) {
-                                                Get.snackbar(
+                                                getCustomSnackbar(
                                                     "Error con Google Maps",
                                                     "No ha sido posible abrir google maps");
                                               });

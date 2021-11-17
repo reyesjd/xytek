@@ -4,6 +4,7 @@ import 'package:xytek/data/models/locations_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/updateuserdata/maps_page.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
@@ -230,14 +231,17 @@ class DirectionsUpdateUser extends StatelessWidget {
                                           .update(locationsModel: l);
 
                                       Get.close(2);
-                                      Get.snackbar("Actualización exitosa",
-                                          " Se añadio la ubicación exitosamente",
-                                          backgroundColor: Colors.green);
+                                      getCustomSnackbar(
+                                        "Actualización exitosa",
+                                        " Se añadio la ubicación exitosamente",
+                                        type: CustomSnackbarType.success,
+                                      );
                                     } else {
-                                      Get.snackbar(
-                                          "Error agregando la ubicación",
-                                          "Ya existe una ubicación con ese apodo",
-                                          backgroundColor: Colors.red);
+                                      getCustomSnackbar(
+                                        "Error agregando la ubicación",
+                                        "Ya existe una ubicación con ese apodo",
+                                        type: CustomSnackbarType.error,
+                                      );
                                     }
                                   } else {
                                     LocationsModel locationModel =
@@ -261,9 +265,11 @@ class DirectionsUpdateUser extends StatelessWidget {
                                     authController.userModelLogged
                                         .update(locationsModel: l);
                                     Get.back();
-                                    Get.snackbar("Actualización exitosa",
-                                        "La ubicación se actualizó exitosamente",
-                                        backgroundColor: Colors.green);
+                                    getCustomSnackbar(
+                                      "Actualización exitosa",
+                                      "La ubicación se actualizó exitosamente",
+                                      type: CustomSnackbarType.success,
+                                    );
                                   }
                                 }
                               },

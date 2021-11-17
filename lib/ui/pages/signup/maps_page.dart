@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/sockets/src/socket_notifier.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
-import 'package:loggy/loggy.dart';
 import 'package:xytek/data/models/locations_model.dart';
-import 'package:xytek/data/models/user_location.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/location_controller.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';

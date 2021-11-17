@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
-import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 
 class LaunchPage extends StatelessWidget {
   waitforUserLogged() async {
     AuthController authController = Get.find();
-    
+
     await authController.init();
     authController.setloadedApp = true;
   }

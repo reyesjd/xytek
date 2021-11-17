@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_align.dart';
@@ -63,13 +64,17 @@ class AddComment extends StatelessWidget {
         }
       }
       Get.back();
-      Get.snackbar(
-          "Comentario Exitoso", "Se ha agregado correctamente el comentario",
-          backgroundColor: Colors.green);
+      getCustomSnackbar(
+        "Comentario Exitoso",
+        "Se ha agregado correctamente el comentario",
+        type: CustomSnackbarType.success,
+      );
     } catch (e) {
-      Get.snackbar("Error con el comentario",
-          "No ha sido posible agregar el comentario, intentelo nuevamente",
-          backgroundColor: Colors.red);
+      getCustomSnackbar(
+        "Error con el comentario",
+        "No ha sido posible agregar el comentario, intentelo nuevamente",
+        type: CustomSnackbarType.error,
+      );
       isLoading.value = false;
     }
   }

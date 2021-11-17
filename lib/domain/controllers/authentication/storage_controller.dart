@@ -5,7 +5,6 @@ import 'package:xytek/data/models/purchase_model.dart';
 import 'package:xytek/data/models/rating_product_model.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
-import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/use_case/authentication/storage_use_case.dart';
 
 class StorageController extends GetxController {

@@ -54,7 +54,6 @@ class SoldProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: WidgetAppBarBack(actionButtonBack: () {
         Get.back();

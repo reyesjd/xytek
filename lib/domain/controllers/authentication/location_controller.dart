@@ -1,17 +1,16 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loggy/loggy.dart';
 import 'package:xytek/data/models/user_location.dart';
 import 'package:xytek/services/locator_service.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 //import 'package:latlong2/latlong.dart';
 
 class LocationController extends GetxController {
   final userLocation = UserLocation(latitude: 0, longitude: 0).obs;
   var errorMsg = "".obs;
   var _liveUpdate = false.obs;
-  
+
   StreamSubscription<UserLocation>? _positionStreamSubscription;
   LocatorService service = Get.find();
   bool get liveUpdate => _liveUpdate.value;
@@ -25,8 +24,11 @@ class LocationController extends GetxController {
     try {
       userLocation.value = await service.getLocation();
     } catch (e) {
-      Get.snackbar('Error.....', e.toString(),
-          backgroundColor: Colors.red, colorText: Colors.white);
+      getCustomSnackbar(
+        'Error.....',
+        e.toString(),
+        type: CustomSnackbarType.error,
+      );
     }
   }
 

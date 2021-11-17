@@ -26,10 +26,10 @@ class Storage {
   }
 
   Future<List<ProductModel>> getallProducts(
-      {category = "", searchedName = ""}) async {
+      {category = "", searchedName = "", required shopperId}) async {
     try {
       List<ProductModel> list = await storeService.getallProducts(
-          category: category, searchedName: searchedName);
+          category: category, searchedName: searchedName, shopperId: shopperId);
       return Future.value(list);
     } catch (e) {
       return Future.error(e);
@@ -112,7 +112,7 @@ class Storage {
   }
 
   Future<List<Map<String, dynamic>>> getPurchaseByShopperId(
-      {uid, category = ""}) async {
+      {required uid, category = ""}) async {
     try {
       List<Map<String, dynamic>> list = await storeService
           .getPurchaseByShopperId(category: category, uid: uid);
@@ -123,7 +123,7 @@ class Storage {
   }
 
   Future<List<Map<String, dynamic>>> getPurchaseBySellerId(
-      {uid, category = ""}) async {
+      {required uid, category = ""}) async {
     try {
       List<Map<String, dynamic>> list = await storeService
           .getPurchaseBySellerId(category: category, uid: uid);

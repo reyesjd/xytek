@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/home/main.dart';
 import 'package:xytek/ui/pages/login/login_main_page.dart';
+import 'package:xytek/ui/pages/profile/my_shoppings.dart';
 import 'package:xytek/ui/pages/profile/shopper_page.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -47,12 +48,14 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             title: Text("Inicio"),
             onTap: () {
-              Get.to(() => Main());
+              Get.back();
             },
           ),
           ListTile(
             title: Text("Historial"),
-            onTap: () {},
+            onTap: () {
+              Get.to(() => MyShoppings());
+            },
           ),
         ],
       ),

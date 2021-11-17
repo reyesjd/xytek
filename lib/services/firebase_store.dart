@@ -19,7 +19,7 @@ class StoreService {
 
       DocumentReference productF =
           await store.collection('salesProducts').add(dicc);
-
+      await productF.update({"id": productF.id});
       DocumentReference userF = store.collection('users').doc(product.uid);
 
       await userF.update({
@@ -154,16 +154,20 @@ class StoreService {
   }
 
   Future<List<ProductModel>> getallProducts(
-      {category = "", searchedName = ""}) async {
+      {category = "", searchedName = "", required shopperId}) async {
     try {
       List<ProductModel> listProducts = [];
       QuerySnapshot v;
       if (searchedName == "") {
         if (category == "") {
-          v = await store.collection('salesProducts').get();
+          v = await store
+              .collection('salesProducts')
+              .where('uid', isNotEqualTo: shopperId)
+              .get();
         } else {
           v = await store
               .collection('salesProducts')
+              .where('uid', isNotEqualTo: shopperId)
               .where('category', isEqualTo: category)
               .get();
         }
@@ -171,11 +175,13 @@ class StoreService {
         if (category == "") {
           v = await store
               .collection('salesProducts')
+              .where('uid', isNotEqualTo: shopperId)
               .where('name', isGreaterThanOrEqualTo: searchedName)
               .get();
         } else {
           v = await store
               .collection('salesProducts')
+              .where('uid', isNotEqualTo: shopperId)
               .where('name', isGreaterThanOrEqualTo: searchedName)
               .where('category', isEqualTo: category)
               .get();
@@ -254,8 +260,9 @@ class StoreService {
     try {
       var dicc = purchase.toMap();
 
-      await store.collection('purchasedProducts').add(dicc);
-
+      DocumentReference purchaseF =
+          await store.collection('purchasedProducts').add(dicc);
+      await purchaseF.update({"id": purchaseF.id});
       await store.waitForPendingWrites();
     } catch (e) {
       Future.error(e);

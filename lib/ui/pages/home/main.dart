@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/cart.dart';
 import 'package:xytek/ui/pages/product/product_details.dart';
@@ -13,9 +14,11 @@ import 'package:xytek/ui/widgets/widget_text_align.dart';
 class Main extends StatelessWidget {
   Main() {
     storageController = Get.find();
+    auth = Get.find();
     getProducts();
   }
 
+  late AuthController auth;
   late StorageController storageController;
 
   final List<String> categories = ProductModel.getCategorias().obs;
@@ -33,7 +36,9 @@ class Main extends StatelessWidget {
 
   getProducts({category = "", searchedName = ""}) async {
     await storageController.getallProducts(
-        category: category, searchedName: searchedName);
+        category: category,
+        searchedName: searchedName,
+        shopperId: auth.userIDLogged);
     products.value = [];
     if (storageController.mainProductsModels.isNotEmpty) {
       for (ProductModel product in storageController.mainProductsModels) {

@@ -26,7 +26,7 @@ class StorageController extends GetxController {
   init(UserModel? user) async {
     if (user != null) {
       salesProductsModels.value = await getInfoSalesProducts(user.uid!);
-      await getallProducts();
+      await getallProducts(shopperId: user.uid!);
     }
   }
 
@@ -82,10 +82,11 @@ class StorageController extends GetxController {
     }
   }
 
-  Future<void> getallProducts({category = "", searchedName = ""}) async {
+  Future<void> getallProducts(
+      {category = "", searchedName = "", required shopperId}) async {
     try {
       List<ProductModel> list = await storage.getallProducts(
-          category: category, searchedName: searchedName);
+          category: category, searchedName: searchedName, shopperId: shopperId);
       mainProductsModels.value = list;
     } catch (e) {
       return Future.error(e);

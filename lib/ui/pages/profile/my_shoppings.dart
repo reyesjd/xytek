@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/data/models/purchase_model.dart';
+import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/product/new_product.dart';
 import 'package:xytek/ui/pages/product/product_details.dart';
@@ -16,19 +17,20 @@ import 'package:xytek/ui/widgets/widget_text_align.dart';
 class MyShoppings extends StatelessWidget {
   MyShoppings({Key? key}) : super(key: key) {
     storageController = Get.find();
+    auth = Get.find();
     getProducts();
   }
 
   final List<String> categories = ProductModel.getCategorias().obs;
   late StorageController storageController;
-
+  late AuthController auth;
   var products = [].obs;
 
   getProducts({category = ""}) async {
     print(
         "asdasdgsdgsdagfijlsadgfuiysagfjhgsadfuasgdfjhgsafduiygsadifougsadyfoisaudgfuiyasdgfasdfiuyasdgf");
     products.value = await storageController.getPurchases(
-        isShopper: true, category: category);
+        shopperId: auth.userIDLogged, isShopper: true, category: category);
   }
 
   @override

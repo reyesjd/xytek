@@ -49,6 +49,8 @@ class AuthController extends GetxController {
 
   init() async {
     var user = await _auth.getLoggedUser();
+    print(
+        "Esta aslkjhasdfkjsadufbaskjdcglaksmdnvjkhasdtc.,mnasdbiuyasdfkjsagviuygewqflkjgasduoiytsadkmsdiugf");
     if (user != null) {
       print("Entro en el init");
       _userModelLogged = Rx(user);

@@ -16,7 +16,7 @@ class CustomDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
               key: Key("menuDh"),
-              child: !authController.userIDLogged.isEmpty
+              child: authController.userIDLogged.isEmpty
                   ? TextButton(
                       key: Key("profileBtn"),
                       onPressed: () {

@@ -67,28 +67,27 @@ class MyShoppings extends StatelessWidget {
             ),
             Expanded(
                 flex: 9,
-                child: products.value.length > 0
-                    ? Obx(() => ListView.builder(
-                          padding: EdgeInsets.only(
-                              right: 8, left: 8, bottom: 8, top: 0),
-                          itemCount: products.length,
-                          itemBuilder: (context, index) {
-                            ProductModel product = products[index]["product"];
-                            PurchaseModel purchase =
-                                products[index]["purchase"];
-                            return ProductCard(
-                              keyButton: Key(purchase.id),
-                              onPressed: () {
-                                Get.to(() => DetailsSale(),
-                                    arguments: [product, purchase]);
-                              },
-                              name: product.name,
-                              image: product.urlImage,
-                              price: product.price * purchase.quantity,
-                            );
-                          },
-                        ))
-                    : Center(child: Text("No tiene productos comprados")))
+                child: Obx(() => products.value.isEmpty
+                    ? Center(child: Text("No tiene productos comprados"))
+                    : ListView.builder(
+                        padding: EdgeInsets.only(
+                            right: 8, left: 8, bottom: 8, top: 0),
+                        itemCount: products.length,
+                        itemBuilder: (context, index) {
+                          ProductModel product = products[index]["product"];
+                          PurchaseModel purchase = products[index]["purchase"];
+                          return ProductCard(
+                            keyButton: Key(purchase.id),
+                            onPressed: () {
+                              Get.to(() => DetailsSale(),
+                                  arguments: [product, purchase]);
+                            },
+                            name: product.name,
+                            image: product.urlImage,
+                            price: product.price * purchase.quantity,
+                          );
+                        },
+                      )))
           ],
         ),
       ),

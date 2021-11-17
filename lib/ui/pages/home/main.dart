@@ -144,24 +144,26 @@ class Main extends StatelessWidget {
                   WidgetAlignText(text: "Productos mas vendidos", size: 18),
                   Expanded(
                       flex: 9,
-                      child: Obx(() => ListView.builder(
-                            padding: EdgeInsets.only(
-                                right: 8, left: 8, bottom: 8, top: 0),
-                            itemCount: products.length,
-                            itemBuilder: (context, index) {
-                              return ProductCard(
-                                keyButton: Key(products[index]["id"]),
-                                onPressed: () {
-                                  print(products[index]);
-                                  Get.to(() => DetailsProduct(),
-                                      arguments: [products[index]]);
-                                },
-                                name: products[index]["name"],
-                                image: products[index]["urlImage"],
-                                price: products[index]["price"],
-                              );
-                            },
-                          ))),
+                      child: Obx(() => products.value.isEmpty
+                          ? Center(child: Text("No hay productos"))
+                          : ListView.builder(
+                              padding: EdgeInsets.only(
+                                  right: 8, left: 8, bottom: 8, top: 0),
+                              itemCount: products.length,
+                              itemBuilder: (context, index) {
+                                return ProductCard(
+                                  keyButton: Key(products[index]["id"]),
+                                  onPressed: () {
+                                    print(products[index]);
+                                    Get.to(() => DetailsProduct(),
+                                        arguments: [products[index]]);
+                                  },
+                                  name: products[index]["name"],
+                                  image: products[index]["urlImage"],
+                                  price: products[index]["price"],
+                                );
+                              },
+                            ))),
                 ],
               )
             : Column(

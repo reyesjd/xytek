@@ -74,7 +74,10 @@ class StoreService {
 
       if (v.docs.isNotEmpty) {
         for (QueryDocumentSnapshot docSnap in v.docs) {
-          listRating.add(RatingProductModel.fromMap(docSnap.data()));
+          var data = docSnap.data();
+          if (data["id"] != null) {
+            listRating.add(RatingProductModel.fromMap(data));
+          }
         }
       }
       return listRating;
@@ -106,7 +109,10 @@ class StoreService {
 
       if (v.docs.isNotEmpty) {
         for (QueryDocumentSnapshot docSnap in v.docs) {
-          listRating.add(RatingUserModel.fromMap(docSnap.data()));
+          var data = docSnap.data();
+          if (data["id"] != null) {
+            listRating.add(RatingUserModel.fromMap(data));
+          }
         }
       }
       return listRating;
@@ -178,7 +184,10 @@ class StoreService {
 
       if (v.docs.isNotEmpty) {
         for (QueryDocumentSnapshot docSnap in v.docs) {
-          listProducts.add(ProductModel.fromMap(docSnap.data()));
+          var data = docSnap.data();
+          if (data["id"] != null) {
+            listProducts.add(ProductModel.fromMap(data));
+          }
         }
       }
       return listProducts;
@@ -275,14 +284,17 @@ class StoreService {
       if (v.docs.isNotEmpty) {
         print("hola");
         for (QueryDocumentSnapshot docSnap in v.docs) {
-          PurchaseModel purchase = PurchaseModel.fromMap(docSnap.data());
-          ProductModel? product = await getProductById(purchase.productId);
-          if (product != null) {
-            Map<String, dynamic> purchaseInfo = {
-              "purchase": purchase,
-              "product": product
-            };
-            list.add(purchaseInfo);
+          var data = docSnap.data();
+          if (data["id"] != null) {
+            PurchaseModel purchase = PurchaseModel.fromMap(data);
+            ProductModel? product = await getProductById(purchase.productId);
+            if (product != null) {
+              Map<String, dynamic> purchaseInfo = {
+                "purchase": purchase,
+                "product": product
+              };
+              list.add(purchaseInfo);
+            }
           }
         }
       }
@@ -315,14 +327,17 @@ class StoreService {
       if (v.docs.isNotEmpty) {
         print("hola");
         for (QueryDocumentSnapshot docSnap in v.docs) {
-          PurchaseModel purchase = PurchaseModel.fromMap(docSnap.data());
-          ProductModel? product = await getProductById(purchase.productId);
-          if (product != null) {
-            Map<String, dynamic> purchaseInfo = {
-              "purchase": purchase,
-              "product": product
-            };
-            list.add(purchaseInfo);
+          var data = docSnap.data();
+          if (data["id"] != null) {
+            PurchaseModel purchase = PurchaseModel.fromMap(data);
+            ProductModel? product = await getProductById(purchase.productId);
+            if (product != null) {
+              Map<String, dynamic> purchaseInfo = {
+                "purchase": purchase,
+                "product": product
+              };
+              list.add(purchaseInfo);
+            }
           }
         }
       }

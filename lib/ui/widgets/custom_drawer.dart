@@ -20,10 +20,10 @@ class CustomDrawer extends StatelessWidget {
                   ? TextButton(
                       key: Key("profileBtn"),
                       onPressed: () {
-                        Get.to(() => Shopper());
+                        Get.to(() => LoginMainPage());
                       },
                       child: Text(
-                        authController.userModelLogged.name,
+                        "Iniciar Sesión",
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -32,10 +32,10 @@ class CustomDrawer extends StatelessWidget {
                   : TextButton(
                       key: Key("profileBtn"),
                       onPressed: () {
-                        Get.to(() => LoginMainPage());
+                        Get.to(() => Shopper());
                       },
                       child: Text(
-                        "Iniciar Sesión",
+                        authController.userModelLogged.name,
                         style: TextStyle(
                           color: Colors.white,
                         ),

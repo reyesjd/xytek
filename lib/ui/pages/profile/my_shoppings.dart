@@ -54,11 +54,11 @@ class MyShoppings extends StatelessWidget {
                   return CategoryChip(
                     key: Key(categories[index]),
                     label: categories[index],
-                    onPressed: () {
+                    onPressed: () async {
                       if (categories[index] == "Todas") {
-                        getProducts();
+                        await getProducts();
                       } else {
-                        getProducts(category: categories[index]);
+                        await getProducts(category: categories[index]);
                       }
                     },
                   );

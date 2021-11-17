@@ -67,10 +67,6 @@ class UserModel {
   }
 
   factory UserModel.fromMap(Map<String, dynamic>? map) {
-    List l=[];
-  l.map((value){}).toList();
-    print(map?["locationsModel"]);
-    print(LocationsModel.fromMap(map?["locationsModel"][0]));
     return UserModel(
         email: map?['email'],
         name: map?['name'],
@@ -79,13 +75,10 @@ class UserModel {
         password: map?["password"],
         uid: map?["uid"],
         isSeller: map?["isSeller"],
-        locationsModel: map?["locationsModel"]?.map((value){return LocationsModel.fromMap(value); }).toList(),
+        locationsModel: map?["locationsModel"]?.map((value) {
+          return LocationsModel.fromMap(value);
+        }).toList(),
         salesProductsReferences: map?["salesProducts"],
         urlProfile: map?["urlProfile"]);
   }
-/*
-  @override
-  String toString() {
-    return toMap().toString();
-  }*/
 }

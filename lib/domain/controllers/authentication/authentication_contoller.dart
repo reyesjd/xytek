@@ -50,7 +50,7 @@ class AuthController extends GetxController {
   init() async {
     var user = await _auth.getLoggedUser();
     if (user != null) {
-                print("Entro en el init");
+      print("Entro en el init");
       _userModelLogged = Rx(user);
       _userModelLogged?.value = user;
       if (_userModelLogged?.value != null) {
@@ -72,7 +72,10 @@ class AuthController extends GetxController {
         _userModelLogged = Rx(user);
         _userModelLogged?.value = user;
         _userIDLogged.value = user.uid!;
+        print(
+            "dfsjhsadkljgkasdgfsdgfkjhsabvfkjhaskjhfbasjhdgfkjashbdfjhsadgfkjhasdfkjasdf");
       }
+      print("Esta aqui si no salio lo otro explotos");
       return true;
     } catch (e) {
       return Future.error(e);

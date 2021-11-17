@@ -255,7 +255,8 @@ class StorageController extends GetxController {
             paymentMethod: payment,
             productId: map["id"],
             uidSeller: map["uid"],
-            quantity: map["quantity"].value);
+            quantity: map["quantity"].value,
+            category: map["category"]);
         await storage.addPurchase(purchase);
       }
     } catch (e) {
@@ -263,16 +264,19 @@ class StorageController extends GetxController {
     }
   }
 
-  Future<List<PurchaseModel>> getPurchases(
-      {shopperId = "", sellerId = "", required isShopper}) async {
+  Future<List<Map<String, dynamic>>> getPurchases(
+      {category = "",
+      shopperId = "",
+      sellerId = "",
+      required isShopper}) async {
     try {
       if (isShopper) {
-        List<PurchaseModel> list =
-            await storage.getPurchaseByShopperId(shopperId);
+        List<Map<String, dynamic>> list = await storage.getPurchaseByShopperId(
+            uid: shopperId, category: category);
         return Future.value(list);
       } else {
-        List<PurchaseModel> list =
-            await storage.getPurchaseBySellerId(sellerId);
+        List<Map<String, dynamic>> list = await storage.getPurchaseBySellerId(
+            uid: sellerId, category: category);
         return Future.value(list);
       }
     } catch (e) {

@@ -124,6 +124,7 @@ class Main extends StatelessWidget {
                               return ProductCard(
                                 keyButton: Key(products[index]["id"]),
                                 onPressed: () {
+                                  print(products[index]);
                                   Get.to(() => DetailsProduct(),
                                       arguments: [products[index]]);
                                 },

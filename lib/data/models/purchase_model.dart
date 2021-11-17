@@ -1,4 +1,5 @@
 class PurchaseModel {
+  String id;
   late String uidShopper;
   late String uidSeller;
   late String date;
@@ -7,6 +8,7 @@ class PurchaseModel {
   // (pid, numeroSolicitado)
   late String productId;
   late int quantity;
+  late String category;
 
   PurchaseModel(
       {required this.uidShopper,
@@ -14,7 +16,9 @@ class PurchaseModel {
       required this.paymentMethod,
       required this.productId,
       required this.uidSeller,
-      required this.quantity});
+      required this.quantity,
+      required this.category,
+      this.id = ""});
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,7 +27,9 @@ class PurchaseModel {
       "date": date,
       "productId": productId,
       "paymentMethod": paymentMethod,
-      "quantity": quantity
+      "quantity": quantity,
+      "category": category,
+      "id": id,
     };
   }
 
@@ -34,6 +40,8 @@ class PurchaseModel {
         productId: map?["productId"],
         uidSeller: map?["uidSeller"],
         uidShopper: map?["uidShopper"],
-        quantity: map?["quantity"]);
+        quantity: map?["quantity"],
+        category: map?["category"],
+        id: map?["id"]);
   }
 }

@@ -127,11 +127,31 @@ class StoreService {
     }
   }
 
+  Future<ProductModel?> getProductById(pid) async {
+    try {
+      ProductModel? product;
+
+      var v = await store
+          .collection("salesProducts")
+          .where('id', isEqualTo: pid)
+          .get();
+
+      if (v.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot docSnap in v.docs) {
+          product = ProductModel.fromMap(docSnap.data());
+        }
+      }
+      return product;
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<List<ProductModel>> getallProducts(
       {category = "", searchedName = ""}) async {
     try {
       List<ProductModel> listProducts = [];
-      var v;
+      QuerySnapshot v;
       if (searchedName == "") {
         if (category == "") {
           v = await store.collection('salesProducts').get();
@@ -233,40 +253,80 @@ class StoreService {
     }
   }
 
-  Future<List<PurchaseModel>> getPurchaseByShopperId(String uid) async {
+  Future<List<Map<String, dynamic>>> getPurchaseByShopperId(
+      {required uid, category = ""}) async {
     try {
-      List<PurchaseModel> list = [];
+      List<Map<String, dynamic>> list = [];
 
-      var v = await store
-          .collection('purchasedProducts')
-          .where('uidShopper', isEqualTo: uid)
-          .get();
+      var v;
+      if (category == "") {
+        v = await store
+            .collection('purchasedProducts')
+            .where('uidShopper', isEqualTo: uid)
+            .get();
+      } else {
+        v = await store
+            .collection('purchasedProducts')
+            .where('uidShopper', isEqualTo: uid)
+            .where('category', isEqualTo: category)
+            .get();
+      }
 
       if (v.docs.isNotEmpty) {
+        print("hola");
         for (QueryDocumentSnapshot docSnap in v.docs) {
-          list.add(PurchaseModel.fromMap(docSnap.data()));
+          PurchaseModel purchase = PurchaseModel.fromMap(docSnap.data());
+          ProductModel? product = await getProductById(purchase.productId);
+          if (product != null) {
+            Map<String, dynamic> purchaseInfo = {
+              "purchase": purchase,
+              "product": product
+            };
+            list.add(purchaseInfo);
+          }
         }
       }
+      print(list);
       return list;
     } catch (e) {
       return Future.error(e);
     }
   }
 
-  Future<List<PurchaseModel>> getPurchaseBySellerId(String uid) async {
+  Future<List<Map<String, dynamic>>> getPurchaseBySellerId(
+      {required uid, category = ""}) async {
     try {
-      List<PurchaseModel> list = [];
+      List<Map<String, dynamic>> list = [];
 
-      var v = await store
-          .collection('purchasedProducts')
-          .where('uidSeller', isEqualTo: uid)
-          .get();
+      QuerySnapshot v;
+      if (category == "") {
+        v = await store
+            .collection('purchasedProducts')
+            .where('uidSeller', isEqualTo: uid)
+            .get();
+      } else {
+        v = await store
+            .collection('purchasedProducts')
+            .where('uidSeller', isEqualTo: uid)
+            .where('category', isEqualTo: category)
+            .get();
+      }
 
       if (v.docs.isNotEmpty) {
+        print("hola");
         for (QueryDocumentSnapshot docSnap in v.docs) {
-          list.add(PurchaseModel.fromMap(docSnap.data()));
+          PurchaseModel purchase = PurchaseModel.fromMap(docSnap.data());
+          ProductModel? product = await getProductById(purchase.productId);
+          if (product != null) {
+            Map<String, dynamic> purchaseInfo = {
+              "purchase": purchase,
+              "product": product
+            };
+            list.add(purchaseInfo);
+          }
         }
       }
+      print(list);
       return list;
     } catch (e) {
       return Future.error(e);

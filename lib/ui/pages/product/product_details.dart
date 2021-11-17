@@ -229,8 +229,8 @@ class DetailsProduct extends StatelessWidget {
                                     text: " Comentar Producto",
                                     onPressed: () {
                                       Get.to(() => AddComment(), arguments: [
-                                        ProductModel.fromMap(product),
-                                        true
+                                        product["id"],
+                                        true,
                                       ]);
                                     },
                                     typeMain: false),

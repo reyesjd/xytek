@@ -111,18 +111,22 @@ class Storage {
     }
   }
 
-  Future<List<PurchaseModel>> getPurchaseByShopperId(String uid) async {
+  Future<List<Map<String, dynamic>>> getPurchaseByShopperId(
+      {uid, category = ""}) async {
     try {
-      List<PurchaseModel> list = await storeService.getPurchaseByShopperId(uid);
+      List<Map<String, dynamic>> list = await storeService
+          .getPurchaseByShopperId(category: category, uid: uid);
       return Future.value(list);
     } catch (e) {
       return Future.error(e);
     }
   }
 
-  Future<List<PurchaseModel>> getPurchaseBySellerId(String uid) async {
+  Future<List<Map<String, dynamic>>> getPurchaseBySellerId(
+      {uid, category = ""}) async {
     try {
-      List<PurchaseModel> list = await storeService.getPurchaseBySellerId(uid);
+      List<Map<String, dynamic>> list = await storeService
+          .getPurchaseBySellerId(category: category, uid: uid);
       return Future.value(list);
     } catch (e) {
       return Future.error(e);

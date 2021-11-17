@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
@@ -20,7 +19,9 @@ class AddComment extends StatelessWidget {
     auth = Get.find();
     id = Get.arguments[0];
     isProduct = Get.arguments[1];
-    listComments = Get.arguments[2];
+    if (Get.arguments.length > 2) {
+      listComments = Get.arguments[2];
+    }
   }
 
   final _formKey = GlobalKey<FormState>();

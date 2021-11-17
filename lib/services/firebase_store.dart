@@ -295,12 +295,19 @@ class StoreService {
           if (data["id"] != null) {
             PurchaseModel purchase = PurchaseModel.fromMap(data);
             ProductModel? product = await getProductById(purchase.productId);
+
             if (product != null) {
-              Map<String, dynamic> purchaseInfo = {
-                "purchase": purchase,
-                "product": product
-              };
-              list.add(purchaseInfo);
+              UserModel? seller =
+                  await getInformationUserByUserID(userId: product.uid);
+
+              if (seller != null) {
+                Map<String, dynamic> purchaseInfo = {
+                  "purchase": purchase,
+                  "product": product,
+                  "seller": seller
+                };
+                list.add(purchaseInfo);
+              }
             }
           }
         }

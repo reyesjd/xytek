@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/data/models/purchase_model.dart';
+import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/ui/pages/product/new_product.dart';
+import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/profile/details_sales.dart';
 import 'package:xytek/ui/widgets/category_chip.dart';
@@ -76,11 +79,12 @@ class MyShoppings extends StatelessWidget {
                         itemBuilder: (context, index) {
                           ProductModel product = products[index]["product"];
                           PurchaseModel purchase = products[index]["purchase"];
+                          UserModel seller = products[index]["seller"];
                           return ProductCard(
                             keyButton: Key(purchase.id),
                             onPressed: () {
                               Get.to(() => DetailsSale(),
-                                  arguments: [product, purchase]);
+                                  arguments: [purchase, product, seller]);
                             },
                             name: product.name,
                             image: product.urlImage,

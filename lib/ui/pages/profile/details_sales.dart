@@ -1,23 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:xytek/data/models/product_model.dart';
+import 'package:xytek/data/models/purchase_model.dart';
+import 'package:xytek/data/models/rating_product_model.dart';
+import 'package:xytek/data/models/rating_user_model.dart';
+import 'package:xytek/data/models/user_model.dart';
+import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
+import 'package:xytek/ui/pages/profile/seller_profile.dart';
+import 'package:xytek/ui/widgets/listile_comment_product.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
 class DetailsSale extends StatelessWidget {
-  DetailsSale({Key? key}) : super(key: key);
+  DetailsSale({Key? key}) : super(key: key) {
+    purchase = Get.arguments[0];
+    product = Get.arguments[1];
+    seller = Get.arguments[2];
+    storage = Get.find();
+    initValues();
+  }
+
+  final formatCurrency = NumberFormat.currency(
+    decimalDigits: 0,
+    symbol: '\$',
+    customPattern: '\u00a4 ###,###',
+  );
+
+  initValues() {
+    price = '${product.price}';
+    amount = '${purchase.quantity}';
+
+    state = "Total: " +
+        formatCurrency
+            .format(product.price * purchase.quantity)
+            .replaceAll(',', '.');
+    description = product.description;
+    nameSeller = seller.name;
+    category = product.category;
+    dateSale = purchase.date;
+    paymentMethod = purchase.paymentMethod;
+    productName = product.name;
+    urlProduct = product.urlImage;
+    userProfile = seller.urlProfile;
+  }
+
+  late StorageController storage;
+  late PurchaseModel purchase;
+  late ProductModel product;
+  late UserModel seller;
 
   //Pedir Info de una clase Product
-  String price = "1000";
-  String amount = "10";
-  String state = "disponible";
-  String description = "";
+  late String productName;
+  late String urlProduct;
+  late String price;
+  late String amount;
+  late String state;
+  late String description;
   //Hay que pedir la informacion desde la clase userModel o userSaler el vendedor
-  String nameBuyer = "Nombre del comprador";
-  String category = "";
-  String dateSale = "00/000/000";
-  String paymentMethod = "Efectivo";
+  late String nameSeller;
+  late String category;
+  late String dateSale;
+  late String paymentMethod;
+  late String userProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +80,8 @@ class DetailsSale extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  WidgetRoundedImage(
-                      image:
-                          "https://conceptodefinicion.de/wp-content/uploads/2015/02/tarjeta-de-video-pny-nvidia-quadro-600-1gb-ddr3-profesional.jpg"),
-                  Text("Nvidia GT210",
+                  WidgetRoundedImage(image: urlProduct),
+                  Text(productName,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   Text(category),
@@ -45,10 +90,16 @@ class DetailsSale extends StatelessWidget {
                 ],
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  textAlign("Datalles del producto:", 18),
                   Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: textAlign("Datalles del producto:", 18)),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border:
+                            Border.all(color: Colors.grey.withOpacity(0.5))),
                     padding: EdgeInsets.only(left: 20),
                     height: 120,
                     child: SingleChildScrollView(
@@ -61,13 +112,44 @@ class DetailsSale extends StatelessWidget {
                       ),
                     ),
                   ),
-                  textAlign("Comprador:", 18),
-                  listTile(
-                    linkImage:
-                        "https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?ssl=1",
-                    name: nameBuyer,
-                  ),
-                  textAlign("Fecha de venta:", 18),
+                  Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: textAlign("Vendedor:", 18)),
+                  FutureBuilder(
+                      future: storage.getInfoSellerAndRating(
+                          product: product.toMap()),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.data == null) {
+                            return Text('');
+                          } else {
+                            List list = snapshot.data as List;
+                            UserModel? user = list[0];
+                            List<RatingUserModel> listRating = list[1];
+                            if (user != null) {
+                              return listTile(
+                                  linkImage: user.urlProfile,
+                                  name: user.name,
+                                  rating: storage
+                                      .getAverageSellerRating(listRating),
+                                  seller: user,
+                                  listRatings: listRating);
+                            } else {
+                              return Center(
+                                child: Text(
+                                    "No se ha podido cargar la informacion del vendedor"),
+                              );
+                            }
+                          }
+                        } else if (snapshot.hasError) {
+                          return Text(''); // error
+                        } else {
+                          return CircularProgressIndicator(); // loading
+                        }
+                      }),
+                  Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: textAlign("Fecha de venta:", 18)),
                   Container(
                       padding: EdgeInsets.only(left: 20, right: 10),
                       child: Align(
@@ -76,16 +158,9 @@ class DetailsSale extends StatelessWidget {
                           dateSale,
                         ),
                       )),
-                  textAlign("Metodo de Pago:", 18),
                   Container(
-                      padding: EdgeInsets.only(left: 20, right: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          dateSale,
-                        ),
-                      )),
-                  textAlign("Metodo de Pago:", 18),
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: textAlign("Metodo de Pago:", 18)),
                   Container(
                       padding: EdgeInsets.only(left: 20, right: 10),
                       child: Align(
@@ -94,24 +169,36 @@ class DetailsSale extends StatelessWidget {
                           paymentMethod,
                         ),
                       )),
-                  textAlign("Calificación:", 18),
                   Container(
-                    margin: EdgeInsets.only(top: 2),
-                    child: RatingBar(
-                      ignoreGestures: true,
-                      updateOnDrag: false,
-                      itemCount: 5,
-                      allowHalfRating: false,
-                      initialRating: 3,
-                      onRatingUpdate: (double value) {},
-                      ratingWidget: RatingWidget(
-                          full: Icon(Icons.star, color: Colors.amber),
-                          half: Icon(
-                            Icons.star_border,
-                            color: Colors.white,
-                          ),
-                          empty: Icon(Icons.star_border, color: Colors.amber)),
-                    ),
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: textAlign("Calificación del Producto:", 18)),
+                  FutureBuilder(
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        List<RatingProductModel> list =
+                            snapshot.data as List<RatingProductModel>;
+                        List<Widget> listW =
+                            List.generate(list.length, (index) {
+                          return WidgetCommentProduct(
+                              linkImage: list[index].urlImage,
+                              comment: list[index].comment,
+                              date: list[index].date,
+                              name: list[index].name,
+                              rating: list[index].rating);
+                        });
+                        return Column(
+                          children: listW,
+                        );
+                      } else {
+                        if (snapshot.hasError) {
+                          return Text(
+                              "No ha sido posible cargar los comentarios");
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      }
+                    },
+                    future: storage.getProductsRating(product.id),
                   )
                 ],
               ),
@@ -139,23 +226,50 @@ class DetailsSale extends StatelessWidget {
   name is a STring
   rating is a Widget
   */
-  Widget listTile({linkImage, name, rating = null}) {
-    if (rating == null) {
-      return ListTile(
-        leading: WidgetRoundedImage(
-          image: linkImage,
-          small: true,
+  Widget listTile({linkImage, name, rating, seller, listRatings}) {
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => SellerProfile(), arguments: [seller, listRatings]);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border(
+                bottom: BorderSide(
+                    color: Colors.grey.withOpacity(0.5),
+                    style: BorderStyle.solid),
+                left: BorderSide(
+                    color: Colors.grey.withOpacity(0.5),
+                    style: BorderStyle.solid),
+                right: BorderSide(
+                    color: Colors.grey.withOpacity(0.5),
+                    style: BorderStyle.solid),
+                top: BorderSide(
+                    color: Colors.grey.withOpacity(0.5),
+                    style: BorderStyle.solid))),
+        child: ListTile(
+          leading: WidgetRoundedImage(
+            image: linkImage,
+            small: true,
+          ),
+          title: Text(name),
+          subtitle: Container(
+              margin: EdgeInsets.only(top: 2),
+              child: RatingBar(
+                itemSize: 25,
+                ignoreGestures: true,
+                updateOnDrag: false,
+                itemCount: 5,
+                allowHalfRating: true,
+                initialRating: rating,
+                onRatingUpdate: (double value) {},
+                ratingWidget: RatingWidget(
+                    full: Icon(Icons.star, color: Colors.amber),
+                    half: Icon(Icons.star_half, color: Colors.amber),
+                    empty: Icon(Icons.star_border, color: Colors.amber)),
+              )),
         ),
-        title: Text(name),
-      );
-    }
-    return ListTile(
-      leading: WidgetRoundedImage(
-        image: linkImage,
-        small: true,
       ),
-      title: Text(name),
-      subtitle: rating,
     );
   }
 }

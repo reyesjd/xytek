@@ -8,14 +8,16 @@ import 'package:xytek/data/models/rating_product_model.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
+import 'package:xytek/ui/pages/product/add_comment.dart';
 import 'package:xytek/ui/pages/profile/seller_profile.dart';
 import 'package:xytek/ui/widgets/listile_comment_product.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
+import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
-class DetailsSale extends StatelessWidget {
-  DetailsSale({Key? key}) : super(key: key) {
+class PurchaseDetails extends StatelessWidget {
+  PurchaseDetails({Key? key}) : super(key: key) {
     purchase = Get.arguments[0];
     product = Get.arguments[1];
     seller = Get.arguments[2];
@@ -169,6 +171,22 @@ class DetailsSale extends StatelessWidget {
                           paymentMethod,
                         ),
                       )),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: Row(
+                      children: [
+                        WidgetButton(
+                            text: " Comentar Producto",
+                            onPressed: () {
+                              Get.to(() => AddComment(), arguments: [
+                                product.id,
+                                true,
+                              ]);
+                            },
+                            typeMain: false),
+                      ],
+                    ),
+                  ),
                   Container(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: textAlign("Calificación del Producto:", 18)),

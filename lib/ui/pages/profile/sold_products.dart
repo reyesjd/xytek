@@ -4,8 +4,6 @@ import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/data/models/purchase_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
-import 'package:xytek/ui/pages/product/new_product.dart';
-import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/profile/purchase_details.dart';
 import 'package:xytek/ui/widgets/category_chip.dart';
@@ -15,8 +13,8 @@ import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_text_align.dart';
 
 // ignore: must_be_immutable
-class MyShoppings extends StatelessWidget {
-  MyShoppings({Key? key}) : super(key: key) {
+class SoldProducts extends StatelessWidget {
+  SoldProducts({Key? key}) : super(key: key) {
     storageController = Get.find();
     auth = Get.find();
     getProducts();
@@ -28,10 +26,8 @@ class MyShoppings extends StatelessWidget {
   var products = [].obs;
 
   getProducts({category = ""}) async {
-    print(
-        "asdasdgsdgsdagfijlsadgfuiysagfjhgsadfuasgdfjhgsafduiygsadifougsadyfoisaudgfuiyasdgfasdfiuyasdgf");
     products.value = await storageController.getPurchases(
-        shopperId: auth.userIDLogged, isShopper: true, category: category);
+        sellerId: auth.userIDLogged, isShopper: false, category: category);
   }
 
   @override
@@ -44,7 +40,7 @@ class MyShoppings extends StatelessWidget {
         color: Color.fromRGBO(244, 244, 244, 1),
         child: Column(
           children: [
-            WidgetAlignText(text: "Mis Compras", size: 20),
+            WidgetAlignText(text: "Mis Ventas", size: 20),
             Container(
                 padding: EdgeInsets.symmetric(vertical: 15),
                 child: WidgetAlignText(text: "Categorias", size: 18)),
@@ -73,7 +69,7 @@ class MyShoppings extends StatelessWidget {
             Expanded(
                 flex: 9,
                 child: Obx(() => products.value.isEmpty
-                    ? Center(child: Text("No tiene productos comprados"))
+                    ? Center(child: Text("No tiene productos vendidos"))
                     : ListView.builder(
                         padding: EdgeInsets.only(
                             right: 8, left: 8, bottom: 8, top: 0),
@@ -81,12 +77,12 @@ class MyShoppings extends StatelessWidget {
                         itemBuilder: (context, index) {
                           ProductModel product = products[index]["product"];
                           PurchaseModel purchase = products[index]["purchase"];
-                          UserModel seller = products[index]["seller"];
+                          UserModel shopper = products[index]["shopper"];
                           return ProductCard(
                             keyButton: Key(purchase.id),
                             onPressed: () {
                               Get.to(() => PurchaseDetails(),
-                                  arguments: [purchase, product, seller]);
+                                  arguments: [purchase, product, shopper]);
                             },
                             name: product.name,
                             image: product.urlImage,

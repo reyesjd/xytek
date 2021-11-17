@@ -5,8 +5,9 @@ import 'package:xytek/domain/controllers/authentication/authentication_contoller
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/login/login_main_page.dart';
 import 'package:xytek/ui/pages/product/products_on_sale.dart';
-import 'package:xytek/ui/pages/product/sold_products.dart';
+
 import 'package:xytek/ui/pages/profile/seller_profile.dart';
+import 'package:xytek/ui/pages/profile/sold_products.dart';
 import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 

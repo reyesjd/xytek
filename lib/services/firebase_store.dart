@@ -75,7 +75,7 @@ class StoreService {
       if (v.docs.isNotEmpty) {
         for (QueryDocumentSnapshot docSnap in v.docs) {
           var data = docSnap.data();
-          if (data["id"] != null) {
+          if (data["idSeller"] != null) {
             listRating.add(RatingProductModel.fromMap(data));
           }
         }
@@ -110,7 +110,7 @@ class StoreService {
       if (v.docs.isNotEmpty) {
         for (QueryDocumentSnapshot docSnap in v.docs) {
           var data = docSnap.data();
-          if (data["id"] != null) {
+          if (data["idSeller"] != null) {
             listRating.add(RatingUserModel.fromMap(data));
           }
         }
@@ -324,7 +324,7 @@ class StoreService {
     try {
       List<Map<String, dynamic>> list = [];
 
-      QuerySnapshot v;
+      var v;
       if (category == "") {
         v = await store
             .collection('purchasedProducts')
@@ -345,12 +345,19 @@ class StoreService {
           if (data["id"] != null) {
             PurchaseModel purchase = PurchaseModel.fromMap(data);
             ProductModel? product = await getProductById(purchase.productId);
+
             if (product != null) {
-              Map<String, dynamic> purchaseInfo = {
-                "purchase": purchase,
-                "product": product
-              };
-              list.add(purchaseInfo);
+              UserModel? shopper =
+                  await getInformationUserByUserID(userId: purchase.uidShopper);
+
+              if (shopper != null) {
+                Map<String, dynamic> purchaseInfo = {
+                  "purchase": purchase,
+                  "product": product,
+                  "shopper": shopper
+                };
+                list.add(purchaseInfo);
+              }
             }
           }
         }

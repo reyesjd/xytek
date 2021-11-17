@@ -227,24 +227,23 @@ class DetailsProduct extends StatelessWidget {
                       },
                       future: storage.getInfoSellerAndRating(product: product),
                     ),
-                    auth.userIDLogged.isNotEmpty
-                        ? Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                WidgetButton(
-                                    text: " Comentar Producto",
-                                    onPressed: () {
-                                      Get.to(() => AddComment(), arguments: [
-                                        product["id"],
-                                        true,
-                                      ]);
-                                    },
-                                    typeMain: false),
-                              ],
-                            ),
-                          )
-                        : Container(),
+                    if (auth.userIDLogged.isNotEmpty)
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: [
+                            WidgetButton(
+                                text: " Comentar Producto",
+                                onPressed: () {
+                                  Get.to(() => AddComment(), arguments: [
+                                    product["id"],
+                                    true,
+                                  ]);
+                                },
+                                typeMain: false),
+                          ],
+                        ),
+                      ),
                     Container(
                         padding: EdgeInsets.only(top: 20, bottom: 10),
                         child: WidgetAlignText(

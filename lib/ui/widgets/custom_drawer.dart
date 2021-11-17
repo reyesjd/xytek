@@ -50,12 +50,13 @@ class CustomDrawer extends StatelessWidget {
               Get.back();
             },
           ),
-          ListTile(
-            title: Text("Historial"),
-            onTap: () {
-              Get.to(() => MyShoppings());
-            },
-          ),
+          if (authController.userIDLogged.isNotEmpty)
+            ListTile(
+              title: Text("Historial"),
+              onTap: () {
+                Get.to(() => MyShoppings());
+              },
+            ),
         ],
       ),
     );

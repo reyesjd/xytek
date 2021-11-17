@@ -7,14 +7,14 @@ import 'package:xytek/data/models/locations_model.dart';
 import 'package:xytek/data/models/user_location.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/location_controller.dart';
+import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 
 class MapSignUpUser extends StatefulWidget {
   MapSignUpUser({Key? key}) : super(key: key) {
     locationController = Get.find();
     authController = Get.find();
-    if (!locationController.liveUpdate) {
-      locationController.suscribeLocationUpdates();
-    }
+    locationController.suscribeLocationUpdates();
+    locationController.getLocation();
   }
 
   late LocationController locationController;
@@ -32,36 +32,20 @@ class _TrackingPageState extends State<MapSignUpUser> {
     googleMapController = controller;
   }
 
-  LatLngBounds _bounds(Set<Marker> markers) {
-    logInfo('Creating new bounds');
-    return _createBounds(markers.map((m) => m.position).toList());
-  }
-
-  LatLngBounds _createBounds(List<LatLng> positions) {
-    final southwestLat = positions.map((p) => p.latitude).reduce(
-        (value, element) => value < element ? value : element); // smallest
-    final southwestLon = positions
-        .map((p) => p.longitude)
-        .reduce((value, element) => value < element ? value : element);
-    final northeastLat = positions.map((p) => p.latitude).reduce(
-        (value, element) => value > element ? value : element); // biggest
-    final northeastLon = positions
-        .map((p) => p.longitude)
-        .reduce((value, element) => value > element ? value : element);
-    return LatLngBounds(
-        southwest: LatLng(southwestLat, southwestLon),
-        northeast: LatLng(northeastLat, northeastLon));
-  }
-
   @override
   Widget build(BuildContext context) {
     late String nickname;
     return Scaffold(
+      appBar: WidgetAppBarBack(actionButtonBack: () {
+        Get.back();
+      }).build(context),
       floatingActionButton: SizedBox(
         height: 70,
         width: 70,
         child: FloatingActionButton(
           onPressed: () {
+            print(
+                "${widget.locationController.userLocation.value.latitude},${widget.locationController.userLocation.value.longitude}");
             showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
@@ -74,25 +58,31 @@ class _TrackingPageState extends State<MapSignUpUser> {
                         ),
                         TextButton(
                           onPressed: () {
-                            var location = UserLocation(
-                                latitude: widget.locationController.userLocation
-                                    .value.latitude,
-                                longitude: widget.locationController
-                                    .userLocation.value.longitude);
                             if (controllerT.text.isNotEmpty) {
-                              
-                              widget.authController.userLocation =
-                                  LocationsModel(
-                                      type: "Geolocation",
-                                      nickName: controllerT.text,
-                                      coordinates: [
-                                    location.latitude,
-                                    location.longitude
+                              LocationsModel locationModel = LocationsModel(
+                                  type: "Geolocation",
+                                  nickName: controllerT.text,
+                                  coordinates: [
+                                    widget.locationController.userLocation.value
+                                        .latitude,
+                                    widget.locationController.userLocation.value
+                                        .longitude
                                   ]);
+                              print("Creo la ubicacion");
+
+                              widget.authController.userLocation =
+                                  locationModel;
+                              Get.close(2);
+                              Get.snackbar("Actualización exitosa",
+                                  " Se añadio la ubicación exitosamente",
+                                  backgroundColor: Colors.green);
                               widget.locationController
                                   .unSuscribeLocationUpdates();
+                            } else {
+                              Get.snackbar("Error agregando la ubicación",
+                                  "El apodo es vacío",
+                                  backgroundColor: Colors.red);
                             }
-                            Navigator.pop(context, 'Guardar ubicación');
                           },
                           child: const Text('Guardar ubicación'),
                         ),
@@ -112,41 +102,17 @@ class _TrackingPageState extends State<MapSignUpUser> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              GetX<LocationController>(builder: (controller) {
-                logInfo('Recreating map');
-                return Expanded(
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    mapType: MapType.normal,
-                    markers: <Marker>{},
-                    myLocationEnabled: true,
-                    initialCameraPosition: const CameraPosition(
-                      target: LatLng(11.0227767, -74.81611),
-                      zoom: 17.0,
-                    ),
+              Expanded(
+                child: GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  mapType: MapType.normal,
+                  markers: <Marker>{},
+                  myLocationEnabled: true,
+                  initialCameraPosition: const CameraPosition(
+                    target: LatLng(11.0227767, -74.81611),
+                    zoom: 17.0,
                   ),
-                );
-              }),
-              GetX<LocationController>(
-                builder: (controller) {
-                  if (controller.userLocation.value.latitude != 0) {
-                    googleMapController.moveCamera(CameraUpdate.newLatLng(
-                        LatLng(controller.userLocation.value.latitude,
-                            controller.userLocation.value.longitude)));
-                  }
-                  logInfo("UI <" +
-                      controller.userLocation.value.latitude.toString() +
-                      " " +
-                      controller.userLocation.value.longitude.toString() +
-                      ">");
-
-                  return Text(
-                    controller.userLocation.value.latitude.toString() +
-                        " " +
-                        controller.userLocation.value.longitude.toString(),
-                    key: Key("position"),
-                  );
-                },
+                ),
               ),
             ],
           ),

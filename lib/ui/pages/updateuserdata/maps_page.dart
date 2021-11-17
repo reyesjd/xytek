@@ -7,15 +7,14 @@ import 'package:xytek/data/models/user_location.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/location_controller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
+import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 
 class MapUpdateUser extends StatefulWidget {
   MapUpdateUser({Key? key}) : super(key: key) {
     locationController = Get.find();
     authController = Get.find();
-    if (!locationController.liveUpdate) {
-      locationController.suscribeLocationUpdates();
-      locationController.getLocation();
-    }
+    locationController.suscribeLocationUpdates();
+    locationController.getLocation();
   }
   var location = Get.arguments;
   late LocationController locationController;
@@ -35,6 +34,9 @@ class _TrackingPageState extends State<MapUpdateUser> {
   Widget build(BuildContext context) {
     late TextEditingController controllerT = TextEditingController(text: "");
     return Scaffold(
+      appBar: WidgetAppBarBack(actionButtonBack: () {
+        Get.back();
+      }).build(context),
       floatingActionButton: SizedBox(
         height: 70,
         width: 70,
@@ -78,7 +80,7 @@ class _TrackingPageState extends State<MapUpdateUser> {
                                           l.map((e) => e.toMap()).toList());
                                   authController.userModelLogged
                                       .update(locationsModel: l);
-                                  Get.close(2);
+                                  Get.close(3);
                                   Get.snackbar("Actualización exitosa",
                                       " Se añadio la ubicación exitosamente",
                                       backgroundColor: Colors.green);
@@ -127,39 +129,31 @@ class _TrackingPageState extends State<MapUpdateUser> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(
-                child: GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  mapType: MapType.normal,
-                  markers: <Marker>{},
-                  myLocationEnabled: true,
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(11.0227767, -74.81611),
-                    zoom: 17.0,
-                  ),
-                ),
-              ),
-              GetX<LocationController>(
-                builder: (controller) {
-                  if (controller.userLocation.value.latitude != 0) {
-                    googleMapController.moveCamera(CameraUpdate.newLatLng(
-                        LatLng(controller.userLocation.value.latitude,
-                            controller.userLocation.value.longitude)));
-                  }
-                  logInfo("UI <" +
-                      controller.userLocation.value.latitude.toString() +
-                      " " +
-                      controller.userLocation.value.longitude.toString() +
-                      ">");
-
-                  return Text(
-                    controller.userLocation.value.latitude.toString() +
-                        " " +
-                        controller.userLocation.value.longitude.toString(),
-                    key: const Key("position"),
-                  );
-                },
-              ),
+              widget.location == null
+                  ? Expanded(
+                      child: GoogleMap(
+                        onMapCreated: _onMapCreated,
+                        mapType: MapType.normal,
+                        markers: <Marker>{},
+                        myLocationEnabled: true,
+                        initialCameraPosition: const CameraPosition(
+                          target: LatLng(11.0227767, -74.81611),
+                          zoom: 17.0,
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      child: GoogleMap(
+                        onMapCreated: _onMapCreated,
+                        mapType: MapType.normal,
+                        markers: <Marker>{},
+                        myLocationEnabled: true,
+                        initialCameraPosition: const CameraPosition(
+                          target: LatLng(11.0227767, -74.81611),
+                          zoom: 17.0,
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),

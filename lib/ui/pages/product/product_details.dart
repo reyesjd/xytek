@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:get/get.dart';
-import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/data/models/rating_product_model.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
@@ -31,12 +30,13 @@ class DetailsProduct extends StatelessWidget {
   AuthController auth = Get.find();
   StorageController storage = Get.find();
   late UserModel? sellerUser;
+  RxList comments = RxList([]);
 
   DetailsProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Obx(() => Scaffold(
         floatingActionButton: SizedBox(
           height: 70,
           width: 70,
@@ -256,6 +256,7 @@ class DetailsProduct extends StatelessWidget {
                                 name: list[index].name,
                                 rating: list[index].rating);
                           });
+                          comments.addAll(listW);
                           return Column(
                             children: listW,
                           );
@@ -275,7 +276,7 @@ class DetailsProduct extends StatelessWidget {
               )
             ],
           ),
-        ));
+        )));
   }
 
   Widget listTile({linkImage, name, rating, seller, listRatings}) {

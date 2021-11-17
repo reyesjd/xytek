@@ -31,9 +31,40 @@ class DetailsProduct extends StatelessWidget {
   AuthController auth = Get.find();
   StorageController storage = Get.find();
   late UserModel? sellerUser;
-  RxList comments = RxList([]);
 
-  DetailsProduct({Key? key}) : super(key: key);
+  RxList commentsProduct = RxList([]);
+  var loadingcommentsP = "loading".obs;
+
+  RxList commentsSeller = RxList([]);
+  var loadingRatingSeller = "loading".obs;
+  // ignore: avoid_init_to_null
+  var user = null;
+
+  DetailsProduct({Key? key}) : super(key: key) {
+    getCommentProduct();
+    getRatingSeller();
+  }
+
+  getCommentProduct() async {
+    try {
+      var list = await storage.getProductsRating(product["id"]);
+      commentsProduct.value = list;
+      loadingcommentsP.value = "loaded";
+    } catch (e) {
+      loadingcommentsP.value = "error";
+    }
+  }
+
+  getRatingSeller() async {
+    try {
+      List list = await storage.getInfoSellerAndRating(product: product) ;
+       user = list[0];
+      commentsSeller.value = list[1];
+      loadingRatingSeller.value = "loaded";
+    } catch (e) {
+      loadingRatingSeller.value = "error";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,86 +178,52 @@ class DetailsProduct extends StatelessWidget {
                         padding: EdgeInsets.only(top: 20, bottom: 10),
                         child: WidgetAlignText(
                             text: "Calificación del vendedor:", size: 18)),
-                    FutureBuilder(
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          List list = snapshot.data as List;
-                          UserModel? user = list[0];
-                          List<RatingUserModel> listRating = list[1];
-                          if (user != null) {
-                            return listTile(
-                                linkImage: user.urlProfile,
-                                name: user.name,
-                                rating:
-                                    storage.getAverageSellerRating(listRating),
-                                seller: user,
-                                listRatings: listRating);
-                          } else {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          style: BorderStyle.solid),
-                                      left: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          style: BorderStyle.solid),
-                                      right: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          style: BorderStyle.solid),
-                                      top: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          style: BorderStyle.solid))),
-                              child: Text(
-                                  "No ha sido posible cargar la informacion del vendedor"),
-                            );
-                          }
-                        } else {
-                          if (snapshot.hasError) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          style: BorderStyle.solid),
-                                      left: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          style: BorderStyle.solid),
-                                      right: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          style: BorderStyle.solid),
-                                      top: BorderSide(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          style: BorderStyle.solid))),
-                              child: Text(
-                                  "No ha sido posible cargar la informacion del vendedor"),
-                            );
-                          } else {
-                            return Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            style: BorderStyle.solid),
-                                        left: BorderSide(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            style: BorderStyle.solid),
-                                        right: BorderSide(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            style: BorderStyle.solid),
-                                        top: BorderSide(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            style: BorderStyle.solid))),
-                                child:
-                                    Center(child: CircularProgressIndicator()));
-                          }
-                        }
-                      },
-                      future: storage.getInfoSellerAndRating(product: product),
-                    ),
+                    if (loadingRatingSeller.value == "loaded")
+                      listTile(
+                          linkImage: user.urlProfile,
+                          name: user.name,
+                          rating: storage.getAverageSellerRating(
+                              commentsSeller.value as List<RatingUserModel>),
+                          seller: user,
+                          listRatings: commentsSeller)
+                    else if (loadingRatingSeller.value == "error")
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    style: BorderStyle.solid),
+                                left: BorderSide(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    style: BorderStyle.solid),
+                                right: BorderSide(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    style: BorderStyle.solid),
+                                top: BorderSide(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    style: BorderStyle.solid))),
+                        child: Text(
+                            "No ha sido posible cargar la informacion del vendedor"),
+                      )
+                    else
+                      Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      style: BorderStyle.solid),
+                                  left: BorderSide(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      style: BorderStyle.solid),
+                                  right: BorderSide(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      style: BorderStyle.solid),
+                                  top: BorderSide(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      style: BorderStyle.solid))),
+                          child: Center(child: CircularProgressIndicator())),
                     if (auth.userIDLogged.isNotEmpty)
                       Container(
                         margin: EdgeInsets.only(top: 10),
@@ -238,6 +235,7 @@ class DetailsProduct extends StatelessWidget {
                                   Get.to(() => AddComment(), arguments: [
                                     product["id"],
                                     true,
+                                    commentsProduct
                                   ]);
                                 },
                                 typeMain: false),
@@ -248,35 +246,21 @@ class DetailsProduct extends StatelessWidget {
                         padding: EdgeInsets.only(top: 20, bottom: 10),
                         child: WidgetAlignText(
                             text: "Calificación del producto:", size: 18)),
-                    FutureBuilder(
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          List<RatingProductModel> list =
-                              snapshot.data as List<RatingProductModel>;
-                          List<Widget> listW =
-                              List.generate(list.length, (index) {
-                            return WidgetCommentProduct(
-                                linkImage: list[index].urlImage,
-                                comment: list[index].comment,
-                                date: list[index].date,
-                                name: list[index].name,
-                                rating: list[index].rating);
-                          });
-                          comments.addAll(listW);
-                          return Column(
-                            children: listW,
-                          );
-                        } else {
-                          if (snapshot.hasError) {
-                            return Text(
-                                "No ha sido posible cargar los comentarios");
-                          } else {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                        }
-                      },
-                      future: storage.getProductsRating(product["id"]),
-                    )
+                    if (loadingcommentsP.value == "loaded")
+                      ...commentsProduct
+                          .map((comment) => WidgetCommentProduct(
+                              linkImage: comment.urlImage,
+                              comment: comment.comment,
+                              date: comment.date,
+                              name: comment.name,
+                              rating: comment.rating))
+                          .toList()
+                    else if (loadingcommentsP.value == "error")
+                      Text("No ha sido posible cargar los comentarios")
+                    else
+                      Center(
+                        child: CircularProgressIndicator(),
+                      )
                   ],
                 ),
               )

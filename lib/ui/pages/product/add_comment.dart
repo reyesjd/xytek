@@ -13,7 +13,7 @@ class AddComment extends StatelessWidget {
   AddComment({
     Key? key,
   }) : super(key: key) {
-    commentController = TextEditingController();
+    commentController = TextEditingController(text: "");
     globalKey = GlobalKey<FormState>();
     valueRating = RxDouble(0);
     storage = Get.find();
@@ -44,31 +44,40 @@ class AddComment extends StatelessWidget {
     try {
       form!.save();
       if (form.validate()) {
-        if (isProduct) {
-          await storage.addNewCommentProduct(
-              name: auth.userModelLogged.name,
-              urlImage: url,
-              idShopperUser: auth.userIDLogged,
-              idProduct: id,
-              rating: valueRating.value,
-              comment: commentController.text);
+        if (commentController.text.isNotEmpty) {
+          if (isProduct) {
+            await storage.addNewCommentProduct(
+                name: auth.userModelLogged.name,
+                urlImage: url,
+                idShopperUser: auth.userIDLogged,
+                idProduct: id,
+                rating: valueRating.value,
+                comment: commentController.text,
+                listCommentsOBX: listComments);
+          } else {
+            await storage.addNewCommentUser(
+                name: auth.userModelLogged.name,
+                urlImage: url,
+                idShopperUser: auth.userIDLogged,
+                idSeller: id,
+                rating: valueRating.value,
+                comment: commentController.text,
+                listCommentsOBX: listComments);
+          }
+          Get.back();
+          getCustomSnackbar(
+            "Comentario Exitoso",
+            "Se ha agregado correctamente el comentario",
+            type: CustomSnackbarType.success,
+          );
         } else {
-          await storage.addNewCommentUser(
-              name: auth.userModelLogged.name,
-              urlImage: url,
-              idShopperUser: auth.userIDLogged,
-              idSeller: id,
-              rating: valueRating.value,
-              comment: commentController.text,
-              listCommentsOBX: listComments);
+          getCustomSnackbar(
+            "Error con el comentario",
+            "El comentario está vacío",
+            type: CustomSnackbarType.error,
+          );
         }
       }
-      Get.back();
-      getCustomSnackbar(
-        "Comentario Exitoso",
-        "Se ha agregado correctamente el comentario",
-        type: CustomSnackbarType.success,
-      );
     } catch (e) {
       getCustomSnackbar(
         "Error con el comentario",

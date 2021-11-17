@@ -16,12 +16,11 @@ import 'package:xytek/ui/widgets/widget_text_align.dart';
 class SellerProfile extends StatelessWidget {
   SellerProfile({Key? key}) : super(key: key) {
     user = Get.arguments[0];
-    listRating = <RatingUserModel>[].obs;
-    listRating.addAll(Get.arguments[1]);
+    listRating = Get.arguments[1];
   }
 
   late UserModel? user;
-  late RxList<RatingUserModel> listRating;
+  late RxList listRating;
   AuthController auth = Get.find();
   StorageController storage = Get.find();
 

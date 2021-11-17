@@ -75,7 +75,7 @@ class StoreService {
       if (v.docs.isNotEmpty) {
         for (QueryDocumentSnapshot docSnap in v.docs) {
           var data = docSnap.data();
-          if (data["idSeller"] != null) {
+          if (data["idProduct"] != null) {
             listRating.add(RatingProductModel.fromMap(data));
           }
         }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
+import 'package:xytek/ui/pages/signup/maps_page.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
@@ -26,15 +27,29 @@ class SecondRegisterPage extends StatelessWidget {
     if (form.validate()) {
       AuthController authController = Get.find();
       try {
-        UserModel newUser = UserModel(
-            email: argumentData[0],
-            name: argumentData[1],
-            phoneNumber: int.parse(argumentData[2]),
-            user: userTextController.text,
-            password: passTextController.text,
-            isSeller: false,
-            salesProductsReferences: [],
-            coordinates: "0,0");
+        UserModel newUser;
+        if (authController.userLocation != null) {
+          newUser = UserModel(
+              email: argumentData[0],
+              name: argumentData[1],
+              phoneNumber: int.parse(argumentData[2]),
+              user: userTextController.text,
+              password: passTextController.text,
+              isSeller: false,
+              salesProductsReferences: [],
+              locationsModel: [authController.userLocation!]);
+        } else {
+          newUser = UserModel(
+              email: argumentData[0],
+              name: argumentData[1],
+              phoneNumber: int.parse(argumentData[2]),
+              user: userTextController.text,
+              password: passTextController.text,
+              isSeller: false,
+              salesProductsReferences: [],
+              locationsModel: []);
+        }
+
         var val = await authController.signUp(newUser);
         registred = val;
       } catch (e) {
@@ -147,33 +162,42 @@ class SecondRegisterPage extends StatelessWidget {
                               obscure: true,
                               digitsOnly: false,
                             ),
-                            Container(
-                              padding: EdgeInsets.only(left: 10, right: 10),
-                              child: Row(
-                                children: [
-                                  Text("Agregar dirección"),
-                                  Icon(Icons.location_on_outlined)
-                                ],
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => MapSignUpUser());
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10, right: 10),
+                                child: Row(
+                                  children: [
+                                    Text("Agregar dirección"),
+                                    Icon(Icons.location_on_outlined)
+                                  ],
+                                ),
                               ),
                             ),
                             Row(
                               children: [
                                 WidgetButton(
-                                  keyButton: Key("signupBtn"),
+                                    keyButton: Key("signupBtn"),
                                     text: "Registrarme!",
                                     onPressed: () async {
-                                      await singUp();
-                                      if (registred) {
-                                        Get.close(2);
-                                        //Get.offAllNamed("/");
-                                        Get.snackbar("Registro exitoso",
-                                            "Has sido registrado satisfactoriamente en la aplicación",
-                                            backgroundColor: Colors.green);
-                                      } else {
-                                        Get.snackbar(
-                                            "Error al intentar Registrarte",
-                                            errorMessage,
-                                            backgroundColor: Colors.red);
+                                      final form = _formKey.currentState;
+                                      form!.save();
+                                      if (form.validate()) {
+                                        await singUp();
+                                        if (registred) {
+                                          Get.close(2);
+                                          //Get.offAllNamed("/");
+                                          Get.snackbar("Registro exitoso",
+                                              "Has sido registrado satisfactoriamente en la aplicación",
+                                              backgroundColor: Colors.green);
+                                        } else {
+                                          Get.snackbar(
+                                              "Error al intentar Registrarte",
+                                              errorMessage,
+                                              backgroundColor: Colors.red);
+                                        }
                                       }
                                     },
                                     typeMain: true),

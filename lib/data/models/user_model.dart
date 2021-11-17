@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xytek/data/models/locations_model.dart';
 
 class UserModel {
   String email;
@@ -10,17 +11,8 @@ class UserModel {
   bool isSeller;
   String urlProfile;
   //latitud,length
-  String? coordinates;
+  List? locationsModel;
   List? salesProductsReferences;
-  //Lista para almaenar en el sistema los modelos de los productos
-
-  /*
-  final String identification;
-  final String? linkPhoto;
-  final List shoppingCar;
-  final List productsSale;
-  final 
-  */
 
   UserModel(
       {required this.email,
@@ -30,7 +22,7 @@ class UserModel {
       this.uid,
       required this.password,
       required this.isSeller,
-      this.coordinates,
+      this.locationsModel,
       this.salesProductsReferences,
       this.urlProfile =
           "https://i1.sndcdn.com/avatars-000396582750-afqhbt-t240x240.jpg"});
@@ -41,7 +33,7 @@ class UserModel {
     }
   }
 
-  update({email, name, phoneNumber, user, coordinates}) {
+  update({email, name, phoneNumber, user, locationsModel}) {
     if (email != null) {
       this.email = email;
     }
@@ -54,14 +46,14 @@ class UserModel {
     if (user != null) {
       this.user = user;
     }
-    if (coordinates != null) {
-      this.coordinates = coordinates;
+    if (locationsModel != null) {
+      this.locationsModel = locationsModel;
     }
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "coordinates": coordinates,
+      "locationsModel": locationsModel?.map((e) => e.toMap()).toList(),
       'email': email,
       'name': name,
       "phoneNumber": phoneNumber,
@@ -75,6 +67,10 @@ class UserModel {
   }
 
   factory UserModel.fromMap(Map<String, dynamic>? map) {
+    List l=[];
+  l.map((value){}).toList();
+    print(map?["locationsModel"]);
+    print(LocationsModel.fromMap(map?["locationsModel"][0]));
     return UserModel(
         email: map?['email'],
         name: map?['name'],
@@ -83,7 +79,7 @@ class UserModel {
         password: map?["password"],
         uid: map?["uid"],
         isSeller: map?["isSeller"],
-        coordinates: map?["coordinates"],
+        locationsModel: map?["locationsModel"]?.map((value){return LocationsModel.fromMap(value); }).toList(),
         salesProductsReferences: map?["salesProducts"],
         urlProfile: map?["urlProfile"]);
   }

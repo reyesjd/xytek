@@ -141,7 +141,7 @@ class Storage {
       required uid,
       password,
       isSeller,
-      coordinates,
+      locationsModel,
       salesProductsReferences}) async {
     try {
       Map<String, dynamic> map = {};
@@ -158,8 +158,8 @@ class Storage {
       if (user != null) {
         map.addAll({"user": user});
       }
-      if (coordinates != null) {
-        map.addAll({"coordinates": coordinates});
+      if (locationsModel != null) {
+        map.addAll({"locationsModel": locationsModel});
       }
       if (isSeller != null) {
         map.addAll({"isSeller": isSeller});

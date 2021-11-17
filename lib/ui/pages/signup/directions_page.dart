@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/data/models/locations_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
-import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
+import 'package:xytek/domain/controllers/authentication/location_controller.dart';
 import 'package:xytek/ui/pages/updateuserdata/maps_page.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
-class DirectionsUpdateUser extends StatelessWidget {
-  DirectionsUpdateUser({Key? key}) : super(key: key) {
-    location = Get.arguments;
-    initValues();
-  }
+class DirectionsSignUpUser extends StatelessWidget {
+  DirectionsSignUpUser({Key? key}) : super(key: key);
 
+  final String typeLogin = "";
   final TextEditingController departamento = TextEditingController();
   final TextEditingController ciudad = TextEditingController();
   final TextEditingController barrio = TextEditingController();
@@ -26,26 +24,28 @@ class DirectionsUpdateUser extends StatelessWidget {
   List<String> tiposCalle = ["Calle", "Carrera", "Diagonal", "Transversal"];
   var tipoCalle = "Calle".obs;
 
-  var location = Get.arguments;
-
-  initValues() {
-    if (location != null) {
-      LocationsModel locationsModel = location as LocationsModel;
-      departamento.text = locationsModel.department!;
-      ciudad.text = locationsModel.city!;
-      apodo.text = locationsModel.nickName;
-      barrio.text = locationsModel.neighborhood!;
-      //calle.text=locationsModel.typ
-      tipoCalle.value = locationsModel.typeLocation!;
-      numero.text = "${locationsModel.numberLocation!}";
-    }
-  }
-
   bool isEmail(String em) {
     String p =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
     RegExp regExp = RegExp(p);
     return regExp.hasMatch(em);
+  }
+
+  onPressed() {
+    AuthController authController = Get.find();
+    final form = _formKey.currentState;
+    form!.save();
+    if (form.validate()) {
+      LocationsModel locationModel = LocationsModel(
+          type: "Complete",
+          nickName: apodo.text,
+          city: ciudad.text,
+          department: departamento.text,
+          neighborhood: barrio.text,
+          typeLocation: tipoCalle.value,
+          numberLocation: int.parse(numero.text));
+      authController.userLocation = locationModel;
+    }
   }
 
   @override
@@ -76,30 +76,29 @@ class DirectionsUpdateUser extends StatelessWidget {
                                   fontSize: 25, fontWeight: FontWeight.bold),
                             ),
                           )),
-                      if (location == null)
-                        Container(
-                            padding:
-                                EdgeInsets.only(left: 15, right: 15, top: 15),
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black,
-                              ),
-                              onPressed: () {
-                                Get.to(() => MapUpdateUser());
-                              },
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on_outlined,
-                                    size: 28,
-                                  ),
-                                  Text("Calcular ubicación automaticamente",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400))
-                                ],
-                              ),
-                            )),
+                      Container(
+                          padding:
+                              EdgeInsets.only(left: 15, right: 15, top: 15),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              primary: Colors.black,
+                            ),
+                            onPressed: () {
+                              Get.to(() => MapUpdateUser());
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on_outlined,
+                                  size: 28,
+                                ),
+                                Text("Calcular ubicación automaticamente",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400))
+                              ],
+                            ),
+                          )),
                       Expanded(
                           child: Container(
                         padding: EdgeInsets.only(left: 15, right: 15),
@@ -178,7 +177,6 @@ class DirectionsUpdateUser extends StatelessWidget {
                             ),
                             WidgetTextField(
                               label: "Apodo de la direccion",
-                              active: location == null ? true : false,
                               controller: apodo,
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -195,77 +193,8 @@ class DirectionsUpdateUser extends StatelessWidget {
                         children: [
                           WidgetButton(
                               text: "Guardar Cambios",
-                              onPressed: () async {
-                                final form = _formKey.currentState;
-                                form!.save();
-                                if (form.validate()) {
-                                  AuthController authController = Get.find();
-                                  StorageController storageController =
-                                      Get.find();
-                                  List l = authController
-                                      .userModelLogged.locationsModel;
-
-                                  if (location == null) {
-                                    LocationsModel locationModel =
-                                        LocationsModel(
-                                            type: "Complete",
-                                            nickName: apodo.text,
-                                            city: ciudad.text,
-                                            department: departamento.text,
-                                            neighborhood: barrio.text,
-                                            typeLocation: tipoCalle.value,
-                                            numberLocation:
-                                                int.parse(numero.text),
-                                            street: calle.text);
-                                    var verif = l.where((element) =>
-                                        element.nickName == apodo.text);
-                                    if (verif.isEmpty) {
-                                      l.add(locationModel);
-                                      await storageController.updateUser(
-                                          uid: authController
-                                              .userModelLogged.uid,
-                                          locationsModel:
-                                              l.map((e) => e.toMap()).toList());
-                                      authController.userModelLogged
-                                          .update(locationsModel: l);
-
-                                      Get.close(2);
-                                      Get.snackbar("Actualización exitosa",
-                                          " Se añadio la ubicación exitosamente",
-                                          backgroundColor: Colors.green);
-                                    } else {
-                                      Get.snackbar(
-                                          "Error agregando la ubicación",
-                                          "Ya existe una ubicación con ese apodo",
-                                          backgroundColor: Colors.red);
-                                    }
-                                  } else {
-                                    LocationsModel locationModel =
-                                        LocationsModel(
-                                            type: "Complete",
-                                            nickName: apodo.text,
-                                            city: ciudad.text,
-                                            department: departamento.text,
-                                            neighborhood: barrio.text,
-                                            typeLocation: tipoCalle.value,
-                                            numberLocation:
-                                                int.parse(numero.text),
-                                            street: calle.text);
-                                    l.removeWhere((element) =>
-                                        element.nickName == location.nickName);
-                                    l.add(locationModel);
-                                    await storageController.updateUser(
-                                        uid: authController.userModelLogged.uid,
-                                        locationsModel:
-                                            l.map((e) => e.toMap()).toList());
-                                    authController.userModelLogged
-                                        .update(locationsModel: l);
-                                    Get.back();
-                                    Get.snackbar("Actualización exitosa",
-                                        "La ubicación se actualizó exitosamente",
-                                        backgroundColor: Colors.green);
-                                  }
-                                }
+                              onPressed: () {
+                                onPressed();
                               },
                               typeMain: true),
                         ],

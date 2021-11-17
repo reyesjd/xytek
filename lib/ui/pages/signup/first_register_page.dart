@@ -119,12 +119,16 @@ class FirstRegisterPage extends StatelessWidget {
                                     keyButton: Key("nextBtn"),
                                     text: "Siguiente",
                                     onPressed: () {
-                                      Get.to(() => SecondRegisterPage(),
-                                          arguments: [
-                                            emailTextController.text,
-                                            nameTextController.text,
-                                            phoneNTextController.text
-                                          ]);
+                                      final form = _formKey.currentState;
+                                      form!.save();
+                                      if (form.validate()) {
+                                        Get.to(() => SecondRegisterPage(),
+                                            arguments: [
+                                              emailTextController.text,
+                                              nameTextController.text,
+                                              phoneNTextController.text
+                                            ]);
+                                      }
                                     },
                                     typeMain: false),
                               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xytek/data/models/locations_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
@@ -10,6 +11,8 @@ import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_align.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
+import 'maps_page.dart';
+
 class MyData extends StatelessWidget {
   MyData({Key? key}) : super(key: key) {
     initValues();
@@ -19,8 +22,8 @@ class MyData extends StatelessWidget {
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController phoneNTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  var dropdownValue = "Mi casa".obs;
-  List<String> direcciones = ["Mi casa", "Trabajo", "Tienda"];
+  var dropdownValue = "Nueva".obs;
+  RxList<String> direcciones = RxList<String>([]);
   AuthController authController = Get.find();
   StorageController storageController = Get.find();
 
@@ -29,6 +32,14 @@ class MyData extends StatelessWidget {
     nameTextController.text = user.name;
     emailTextController.text = user.email;
     phoneNTextController.text = "${user.phoneNumber}";
+    print(user.locationsModel);
+    for (LocationsModel location in user.locationsModel!) {
+      direcciones.add(location.nickName);
+    }
+    direcciones.add("Nueva");
+    if (direcciones.length > 1) {
+      dropdownValue.value = direcciones[0];
+    }
   }
 
   update() async {
@@ -56,10 +67,20 @@ class MyData extends StatelessWidget {
     return regExp.hasMatch(em);
   }
 
+  getLocationByDropDow() {
+    List lista = authController.userModelLogged.locationsModel as List;
+    if (dropdownValue.value != "Nueva") {
+      return lista
+          .where((element) => element.nickName == dropdownValue.value)
+          .first;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return Scaffold(
+    return Obx(() => Scaffold(
         appBar: WidgetAppBarBack(actionButtonBack: () {
           Get.back();
         }).build(context),
@@ -89,7 +110,7 @@ class MyData extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(30)),
                                 labelStyle:
                                     TextStyle(fontWeight: FontWeight.bold),
-                                    labelText: "Correo Electronico",
+                                labelText: "Correo Electronico",
                               ),
                             ),
                           ),
@@ -137,7 +158,28 @@ class MyData extends StatelessWidget {
                                           primary: Colors.black,
                                         ),
                                         onPressed: () {
-                                          Get.to(() => Directions());
+                                          var location = getLocationByDropDow();
+                                          if (location != null) {
+                                            if (location.type == "Complete") {
+                                              Get.to(
+                                                  () => DirectionsUpdateUser(),
+                                                  arguments:
+                                                      getLocationByDropDow());
+                                            } else {
+                                              Get.to(() => MapUpdateUser(),
+                                                      arguments:
+                                                          getLocationByDropDow())!
+                                                  .catchError((e) {
+                                                Get.snackbar(
+                                                    "Error con Google Maps",
+                                                    "No ha sido posible abrir google maps");
+                                              });
+                                            }
+                                          } else {
+                                            Get.to(() => DirectionsUpdateUser(),
+                                                arguments:
+                                                    getLocationByDropDow());
+                                          }
                                         },
                                         child: Row(
                                           children: [
@@ -145,7 +187,10 @@ class MyData extends StatelessWidget {
                                               Icons.location_on_outlined,
                                               size: 28,
                                             ),
-                                            Text("Agregar direccion",
+                                            Text(
+                                                dropdownValue.value == "Nueva"
+                                                    ? "Agregar ubicación"
+                                                    : "Editar ubicación",
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight:
@@ -173,7 +218,7 @@ class MyData extends StatelessWidget {
               ],
             ),
           ),
-        ));
+        )));
   }
 
   Widget dropDown({initValue, List<String> items = const [], icon}) {

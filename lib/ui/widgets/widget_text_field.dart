@@ -8,6 +8,7 @@ class WidgetTextField extends StatelessWidget {
   final bool digitsOnly;
   final Key keyText;
   final int maxLine;
+  final bool active;
 
   WidgetTextField(
       {required this.label,
@@ -15,7 +16,8 @@ class WidgetTextField extends StatelessWidget {
       required this.validator,
       required this.obscure,
       required this.digitsOnly,
-      this.maxLine=1,
+      this.active = true,
+      this.maxLine = 1,
       this.keyText = const Key("")});
 
   @override
@@ -23,6 +25,7 @@ class WidgetTextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(10),
       child: TextFormField(
+        enabled: active,
         key: keyText,
         maxLines: maxLine,
         obscureText: obscure,

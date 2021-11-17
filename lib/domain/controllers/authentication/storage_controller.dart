@@ -38,7 +38,7 @@ class StorageController extends GetxController {
       user,
       password,
       isSeller,
-      coordinates,
+      locationsModel,
       salesProductsReferences}) async {
     try {
       await storage.updateUser(
@@ -49,7 +49,7 @@ class StorageController extends GetxController {
           uid: uid,
           password: password,
           isSeller: isSeller,
-          coordinates: coordinates,
+          locationsModel: locationsModel,
           salesProductsReferences: salesProductsReferences);
     } catch (e) {
       return Future.error(e);

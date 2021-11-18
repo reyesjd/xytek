@@ -49,17 +49,13 @@ class AuthController extends GetxController {
 
   init() async {
     var user = await _auth.getLoggedUser();
-    print(
-        "Esta aslkjhasdfkjsadufbaskjdcglaksmdnvjkhasdtc.,mnasdbiuyasdfkjsagviuygewqflkjgasduoiytsadkmsdiugf");
     if (user != null) {
-      print("Entro en el init");
       _userModelLogged = Rx(user);
       _userModelLogged?.value = user;
       if (_userModelLogged?.value != null) {
         if (_userModelLogged?.value.uid != null) {
           _userIDLogged.value = _userModelLogged!.value.uid!;
           await storageController.init(_userModelLogged?.value);
-          print(_userModelLogged?.value.toMap());
         }
       } else {
         _userIDLogged.value = "";
@@ -74,10 +70,7 @@ class AuthController extends GetxController {
         _userModelLogged = Rx(user);
         _userModelLogged?.value = user;
         _userIDLogged.value = user.uid!;
-        print(
-            "dfsjhsadkljgkasdgfsdgfkjhsabvfkjhaskjhfbasjhdgfkjashbdfjhsadgfkjhasdfkjasdf");
       }
-      print("Esta aqui si no salio lo otro explotos");
       return true;
     } catch (e) {
       return Future.error(e);

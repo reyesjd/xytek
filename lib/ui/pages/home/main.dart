@@ -87,9 +87,11 @@ class Main extends StatelessWidget {
                     },
                     icon: Icon(Icons.search),
                   ),
-            IconButton(
+            if (!auth.userIDLogged.isEmpty)
+              IconButton(
                 onPressed: () => {Get.to(() => Cart())},
-                icon: Icon(Icons.shopping_cart_outlined))
+                icon: Icon(Icons.shopping_cart_outlined),
+              )
           ],
         ),
         drawer: CustomDrawer(),

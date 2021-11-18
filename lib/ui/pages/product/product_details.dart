@@ -57,8 +57,8 @@ class DetailsProduct extends StatelessWidget {
 
   getRatingSeller() async {
     try {
-      List list = await storage.getInfoSellerAndRating(product: product) ;
-       user = list[0];
+      List list = await storage.getInfoSellerAndRating(product: product);
+      user = list[0];
       commentsSeller.value = list[1];
       loadingRatingSeller.value = "loaded";
     } catch (e) {
@@ -69,52 +69,50 @@ class DetailsProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-        floatingActionButton: SizedBox(
-          height: 70,
-          width: 70,
-          child: FloatingActionButton(
-            onPressed: () {
-              List verf = storage.cartProductsModels
-                  .where((productL) => productL["id"] == product["id"])
-                  .toList();
-              if (verf.isEmpty) {
-                if (product["amountAvalaible"] > 0) {
-                  product.addAll(<String, dynamic>{'quantity': RxInt(1)});
-                  storage.cartProductsModels.add(product);
-                  getCustomSnackbar(
-                    "Producto Añadido",
-                    "El producto se ha agregado al carrito",
-                    type: CustomSnackbarType.success,
-                  );
-                } else {
-                  getCustomSnackbar(
-                    "Producto no disponible",
-                    "No se encuentran productos disponibles",
-                    type: CustomSnackbarType.info,
-                  );
-                }
-              } else {
-                getCustomSnackbar(
-                  "Producto en carrito",
-                  "El producto que intentas agregar ya se encuentra en el carrito",
-                  type: CustomSnackbarType.info,
-                );
-              }
-            },
-            child: Icon(
-              Icons.add_shopping_cart_rounded,
-              size: 40,
-            ),
-            isExtended: true,
-          ),
-        ),
+        floatingActionButton: auth.userIDLogged.isNotEmpty
+            ? FloatingActionButton(
+                onPressed: () {
+                  List verf = storage.cartProductsModels
+                      .where((productL) => productL["id"] == product["id"])
+                      .toList();
+                  if (verf.isEmpty) {
+                    if (product["amountAvalaible"] > 0) {
+                      product.addAll(<String, dynamic>{'quantity': RxInt(1)});
+                      storage.cartProductsModels.add(product);
+                      getCustomSnackbar(
+                        "Producto Añadido",
+                        "El producto se ha agregado al carrito",
+                        type: CustomSnackbarType.success,
+                      );
+                    } else {
+                      getCustomSnackbar(
+                        "Producto no disponible",
+                        "No se encuentran productos disponibles",
+                        type: CustomSnackbarType.info,
+                      );
+                    }
+                  } else {
+                    getCustomSnackbar(
+                      "Producto en carrito",
+                      "El producto que intentas agregar ya se encuentra en el carrito",
+                      type: CustomSnackbarType.info,
+                    );
+                  }
+                },
+                child: Icon(
+                  Icons.add_shopping_cart_rounded,
+                  size: 30,
+                ),
+                isExtended: true,
+              )
+            : null,
         appBar: WidgetAppBarBack(actionButtonBack: () {
           Get.back();
         }).build(context),
         body: Container(
-          padding: EdgeInsets.all(20),
           color: Color.fromRGBO(244, 244, 244, 1),
           child: ListView(
+            padding: EdgeInsets.all(20),
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -163,7 +161,7 @@ class DetailsProduct extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    WidgetAlignText(text: "Datalles del producto:", size: 18),
+                    WidgetAlignText(text: "Detalles del producto", size: 18),
                     Container(
                       padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
                       child: Align(

@@ -16,11 +16,7 @@ class MyApp extends StatelessWidget {
         if (!controller.loadedApp) {
           return LaunchPage();
         } else {
-          if (!controller.userIDLogged.isEmpty) {
-            return Main();
-          } else {
-            return LoginMainPage();
-          }
+          return Main();
         }
       }),
     );

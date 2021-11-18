@@ -90,59 +90,55 @@ class SellerProfile extends StatelessWidget {
                     }),
                 Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
-                  child: Row(
-                    children: [
-                      WidgetButton(
-                          text: "Calificar Vendedor",
-                          onPressed: () {
-                            Get.to(() => AddComment(),
-                                arguments: [user!.uid, false, listRating]);
-                          },
-                          typeMain: false),
-                    ],
-                  ),
+                  child: auth.userIDLogged.isNotEmpty
+                      ? Row(
+                          children: [
+                            WidgetButton(
+                              text: "Calificar Vendedor",
+                              onPressed: () {
+                                Get.to(
+                                  () => AddComment(),
+                                  arguments: [user!.uid, false, listRating],
+                                );
+                              },
+                              typeMain: false,
+                            ),
+                          ],
+                        )
+                      : null,
                 ),
                 Container(
-                    padding: EdgeInsets.only(
-                      top: 20,
-                    ),
-                    child: WidgetAlignText(text: "Calificaciones:", size: 20)),
+                  padding: EdgeInsets.only(
+                    top: 20,
+                  ),
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  child: WidgetAlignText(text: "Calificaciones", size: 20),
+                ),
                 Expanded(
-                    flex: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  style: BorderStyle.solid),
-                              left: BorderSide(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  style: BorderStyle.solid),
-                              right: BorderSide(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  style: BorderStyle.solid),
-                              top: BorderSide(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  style: BorderStyle.solid))),
-                      margin: EdgeInsets.all(15),
-                      child: ListView(
-                        children: [
-                          ...listRating.map((userRating) {
-                            return Container(
-                              margin: EdgeInsets.only(
-                                  right: 5, left: 5, bottom: 10),
-                              child: WidgetCommentProduct(
-                                  linkImage: userRating.urlImage,
-                                  comment: userRating.comment,
-                                  date: userRating.date,
-                                  name: userRating.name,
-                                  rating: userRating.rating),
-                            );
-                          }).toList()
-                        ],
-                      ),
-                    ))
+                  flex: 1,
+                  child: ListView(
+                    padding: EdgeInsets.only(
+                      top: 8,
+                      bottom: 16,
+                      left: 16,
+                      right: 16,
+                    ),
+                    children: [
+                      ...listRating.map((userRating) {
+                        return Container(
+                          margin:
+                              EdgeInsets.only(right: 5, left: 5, bottom: 10),
+                          child: WidgetCommentProduct(
+                              linkImage: userRating.urlImage,
+                              comment: userRating.comment,
+                              date: userRating.date,
+                              name: userRating.name,
+                              rating: userRating.rating),
+                        );
+                      }).toList()
+                    ],
+                  ),
+                )
               ],
             ),
           ),

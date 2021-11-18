@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xytek/data/models/locations_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/location_controller.dart';
+import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 
 class MapSignUpUser extends StatefulWidget {
@@ -70,15 +71,19 @@ class _TrackingPageState extends State<MapSignUpUser> {
                               widget.authController.userLocation =
                                   locationModel;
                               Get.close(2);
-                              Get.snackbar("Actualización exitosa",
-                                  " Se añadio la ubicación exitosamente",
-                                  backgroundColor: Colors.green);
+                              getCustomSnackbar(
+                                "Actualización exitosa",
+                                "Se añadió la ubicación exitosamente",
+                                type: CustomSnackbarType.success,
+                              );
                               widget.locationController
                                   .unSuscribeLocationUpdates();
                             } else {
-                              Get.snackbar("Error agregando la ubicación",
-                                  "El apodo es vacío",
-                                  backgroundColor: Colors.red);
+                              getCustomSnackbar(
+                                "Error agregando la ubicación",
+                                "El apodo es vacío",
+                                type: CustomSnackbarType.error,
+                              );
                             }
                           },
                           child: const Text('Guardar ubicación'),

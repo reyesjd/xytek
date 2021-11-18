@@ -17,6 +17,11 @@ class SecondRegisterPage extends StatelessWidget {
   final TextEditingController confirPassTextController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  final _loading = false.obs;
+  bool get loading => _loading.value;
+  set loading(bool value) => _loading.value = value;
+
   bool registred = false;
   String errorMessage = "No ha sido posible registrarte";
 
@@ -179,32 +184,40 @@ class SecondRegisterPage extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                WidgetButton(
+                                Obx(
+                                  () => WidgetButton(
+                                    loading: loading,
                                     keyButton: Key("signupBtn"),
                                     text: "Registrarme!",
                                     onPressed: () async {
-                                      final form = _formKey.currentState;
-                                      form!.save();
-                                      if (form.validate()) {
-                                        await singUp();
-                                        if (registred) {
-                                          Get.close(2);
-                                          //Get.offAllNamed("/");
-                                          getCustomSnackbar(
-                                            "Registro exitoso",
-                                            "Has sido registrado satisfactoriamente en la aplicación",
-                                            type: CustomSnackbarType.success,
-                                          );
-                                        } else {
-                                          getCustomSnackbar(
-                                            "Error al intentar Registrarte",
-                                            errorMessage,
-                                            type: CustomSnackbarType.error,
-                                          );
+                                      if (!loading) {
+                                        loading = true;
+                                        final form = _formKey.currentState;
+                                        form!.save();
+                                        if (form.validate()) {
+                                          await singUp();
+                                          if (registred) {
+                                            Get.close(2);
+                                            //Get.offAllNamed("/");
+                                            getCustomSnackbar(
+                                              "Registro exitoso",
+                                              "Has sido registrado satisfactoriamente en la aplicación",
+                                              type: CustomSnackbarType.success,
+                                            );
+                                          } else {
+                                            getCustomSnackbar(
+                                              "Error al intentar Registrarte",
+                                              errorMessage,
+                                              type: CustomSnackbarType.error,
+                                            );
+                                          }
                                         }
+                                        loading = false;
                                       }
                                     },
-                                    typeMain: true),
+                                    typeMain: true,
+                                  ),
+                                )
                               ],
                             )
                           ],

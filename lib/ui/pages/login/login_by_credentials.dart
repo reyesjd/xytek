@@ -147,30 +147,32 @@ class LoginCredentials extends StatelessWidget {
                                             keyButton: Key("loginByEmailBtn"),
                                             text: "Iniciar Sesión",
                                             onPressed: () async {
-                                              final form =
-                                                  _formKey.currentState;
-                                              form!.save();
-                                              if (form.validate()) {
+                                              if (!loading) {
                                                 loading = true;
-                                                await login(
-                                                  _email.text,
-                                                  _password.text,
-                                                );
-                                                if (logged) {
-                                                  Get.back();
-                                                  Get.to(() => Main());
-                                                  getCustomSnackbar(
-                                                      "Ha ingresado correctamente",
-                                                      "Los datos ingresados han sido correctos",
-                                                      type: CustomSnackbarType
-                                                          .success);
-                                                } else {
-                                                  getCustomSnackbar(
-                                                    "Ha ocurrido un error al ingresar",
-                                                    errorMessage,
-                                                    type: CustomSnackbarType
-                                                        .error,
+                                                final form =
+                                                    _formKey.currentState;
+                                                form!.save();
+                                                if (form.validate()) {
+                                                  await login(
+                                                    _email.text,
+                                                    _password.text,
                                                   );
+                                                  if (logged) {
+                                                    Get.back();
+                                                    Get.to(() => Main());
+                                                    getCustomSnackbar(
+                                                        "Ha ingresado correctamente",
+                                                        "Los datos ingresados han sido correctos",
+                                                        type: CustomSnackbarType
+                                                            .success);
+                                                  } else {
+                                                    getCustomSnackbar(
+                                                      "Ha ocurrido un error al ingresar",
+                                                      errorMessage,
+                                                      type: CustomSnackbarType
+                                                          .error,
+                                                    );
+                                                  }
                                                 }
                                                 loading = false;
                                               }

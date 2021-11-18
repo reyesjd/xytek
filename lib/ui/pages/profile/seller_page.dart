@@ -22,6 +22,10 @@ class Seller extends StatelessWidget {
   AuthController auth = Get.find();
   StorageController storage = Get.find();
 
+  final _loading = false.obs;
+  bool get loading => _loading.value;
+  set loading(bool value) => _loading.value = value;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,14 +120,22 @@ class Seller extends StatelessWidget {
               margin: EdgeInsets.only(left: 15, right: 15),
               child: Row(
                 children: [
-                  WidgetButton(
+                  Obx(
+                    () => WidgetButton(
+                      loading: loading,
                       keyButton: Key("signoutBtn"),
                       text: "Cerrar Sesión",
                       onPressed: () async {
-                        await auth.signOut();
-                        Get.to(() => LoginMainPage());
+                        if (!loading) {
+                          loading = true;
+                          await auth.signOut();
+                          Get.to(() => LoginMainPage());
+                          loading = false;
+                        }
                       },
-                      typeMain: false),
+                      typeMain: false,
+                    ),
+                  ),
                 ],
               ),
             ),

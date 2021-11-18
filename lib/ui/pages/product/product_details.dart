@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:get/get.dart';
-import 'package:xytek/data/models/rating_product_model.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
@@ -71,6 +70,7 @@ class DetailsProduct extends StatelessWidget {
     return Obx(() => Scaffold(
         floatingActionButton: auth.userIDLogged.isNotEmpty
             ? FloatingActionButton(
+                key: Key("addCart"),
                 onPressed: () {
                   List verf = storage.cartProductsModels
                       .where((productL) => productL["id"] == product["id"])
@@ -181,6 +181,7 @@ class DetailsProduct extends StatelessWidget {
                           linkImage: user.urlProfile,
                           name: user.name,
                           rating: storage.getAverageSellerRating(
+                              // ignore: invalid_use_of_protected_member
                               commentsSeller.value as List<RatingUserModel>),
                           seller: user,
                           listRatings: commentsSeller)

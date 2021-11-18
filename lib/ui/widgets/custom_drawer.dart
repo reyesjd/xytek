@@ -5,6 +5,7 @@ import 'package:xytek/ui/pages/login/login_main_page.dart';
 import 'package:xytek/ui/pages/profile/my_shoppings.dart';
 import 'package:xytek/ui/pages/profile/shopper_page.dart';
 
+// ignore: must_be_immutable
 class CustomDrawer extends StatelessWidget {
   AuthController authController = Get.find();
 
@@ -52,6 +53,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           if (authController.userIDLogged.isNotEmpty)
             ListTile(
+              key: Key("history"),
               title: Text("Historial"),
               onTap: () {
                 Get.to(() => MyShoppings());

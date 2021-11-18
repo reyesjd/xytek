@@ -9,6 +9,7 @@ import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
+// ignore: must_be_immutable
 class SecondRegisterPage extends StatelessWidget {
   final String typeLogin = "";
   dynamic argumentData = Get.arguments;

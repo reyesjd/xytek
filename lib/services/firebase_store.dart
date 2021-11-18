@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xytek/data/models/product_model.dart';
@@ -289,7 +291,6 @@ class StoreService {
       }
 
       if (v.docs.isNotEmpty) {
-        print("hola");
         for (QueryDocumentSnapshot docSnap in v.docs) {
           var data = docSnap.data();
           if (data["id"] != null) {
@@ -312,7 +313,7 @@ class StoreService {
           }
         }
       }
-      print(list);
+
       return list;
     } catch (e) {
       return Future.error(e);
@@ -339,7 +340,6 @@ class StoreService {
       }
 
       if (v.docs.isNotEmpty) {
-        print("hola");
         for (QueryDocumentSnapshot docSnap in v.docs) {
           var data = docSnap.data();
           if (data["id"] != null) {
@@ -362,7 +362,7 @@ class StoreService {
           }
         }
       }
-      print(list);
+
       return list;
     } catch (e) {
       return Future.error(e);

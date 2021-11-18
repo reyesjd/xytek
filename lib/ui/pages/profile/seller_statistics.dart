@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class SellerStatistics extends StatelessWidget {
   SellerStatistics({Key? key}) : super(key: key) {
     seller = Get.arguments;

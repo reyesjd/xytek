@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 class CategoryChip extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
-  final Key key;
+  final Key categoryKey;
 
   CategoryChip(
-      {required this.label, required this.onPressed, required this.key});
+      {required this.label,
+      required this.onPressed,
+      required this.categoryKey});
 
   @override
   Widget build(BuildContext context) {
     return ActionChip(
-      key: key,
+      key: categoryKey,
       onPressed: onPressed,
       visualDensity: VisualDensity.compact,
       side: BorderSide(

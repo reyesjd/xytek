@@ -13,6 +13,7 @@ import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 import 'package:xytek/ui/widgets/widget_text_align.dart';
 
+// ignore: must_be_immutable
 class SellerProfile extends StatelessWidget {
   SellerProfile({Key? key}) : super(key: key) {
     user = Get.arguments[0];

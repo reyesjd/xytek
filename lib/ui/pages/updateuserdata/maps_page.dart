@@ -9,6 +9,7 @@ import 'package:xytek/domain/controllers/authentication/storage_controller.dart'
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/custom_snackbar.dart';
 
+// ignore: must_be_immutable
 class MapUpdateUser extends StatefulWidget {
   MapUpdateUser({Key? key}) : super(key: key) {
     locationController = Get.find();

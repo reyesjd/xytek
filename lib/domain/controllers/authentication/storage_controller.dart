@@ -147,7 +147,6 @@ class StorageController extends GetxController {
           rating: rating,
           urlImage: urlImage,
           comment: comment);
-      print(newComment.toMap());
 
       await storage.addNewRatingProduct(newComment);
       if (listCommentsOBX != null) {

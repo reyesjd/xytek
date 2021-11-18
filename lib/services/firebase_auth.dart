@@ -24,7 +24,7 @@ class AuthService {
             return user;
           }
         }
-        print(auth.currentUser);
+
         UserModel? user = await storeService.getInformationUserByUserID(
             userId: auth.currentUser!.uid);
         return user;

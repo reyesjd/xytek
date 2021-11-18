@@ -8,6 +8,7 @@ import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 
+// ignore: must_be_immutable
 class PaymentPage extends StatelessWidget {
   PaymentPage({Key? key}) : super(key: key) {
     storageController = Get.find();
@@ -158,6 +159,7 @@ class PaymentPage extends StatelessWidget {
               Row(
                 children: [
                   WidgetButton(
+                      keyButton: Key("payLastBtn"),
                       text: "Pagar",
                       onPressed: () async {
                         try {

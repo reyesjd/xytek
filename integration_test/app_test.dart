@@ -249,7 +249,63 @@ void main() {
     expect(find.byKey(Key("emailBtn")), findsOneWidget);
   });
 
-  testWidgets("Signin", (WidgetTester tester) async {
+  testWidgets("Signup with other user", (WidgetTester tester) async {
+    Widget w = await createHome();
+
+    await tester.pumpWidget(w);
+
+    await tester.pumpAndSettle(Duration(seconds: 10));
+
+    expect(find.byKey(Key("signupBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("signupBtn")));
+    await tester.pump();
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.text("Crea tu Nueva Cuenta"), findsOneWidget);
+
+    expect(find.byKey(Key("nameTf")), findsOneWidget);
+    expect(find.byKey(Key("emailTf")), findsOneWidget);
+    expect(find.byKey(Key("phoneTf")), findsOneWidget);
+    expect(find.byKey(Key("nextBtn")), findsOneWidget);
+
+    await tester.enterText(find.byKey(Key("nameTf")), 'Jesus Reyes');
+    await tester.enterText(find.byKey(Key("emailTf")), 'reyesjd@email.com');
+    await tester.enterText(find.byKey(Key("phoneTf")), '3007895634');
+
+    await tester.drag(find.byKey(Key("signLv")), const Offset(0.0, -500.0));
+    await tester.pumpAndSettle(Duration(seconds: 2));
+
+    await tester.tap(find.byKey(Key("nextBtn")));
+    await tester.pump();
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.text("Ya casi está"), findsOneWidget);
+
+    expect(find.byKey(Key("userTf")), findsOneWidget);
+    expect(find.byKey(Key("passwordTf")), findsOneWidget);
+    expect(find.byKey(Key("confirpassTf")), findsOneWidget);
+    expect(find.byKey(Key("signupBtn")), findsOneWidget);
+
+    await tester.enterText(find.byKey(Key("userTf")), 'reyesjd');
+    await tester.enterText(find.byKey(Key("passwordTf")), 'rjd123456');
+    await tester.enterText(find.byKey(Key("confirpassTf")), 'rjd123456');
+
+    await tester.drag(find.byKey(Key("signupLv")), const Offset(0.0, -500.0));
+    await tester.pumpAndSettle(Duration(seconds: 2));
+
+    await tester.tap(find.byKey(Key("signupBtn")));
+
+    await tester.pumpAndSettle(Duration(seconds: 15));
+
+    //  expect(find.text("Registro exitoso"), findsOneWidget);
+
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.byKey(Key("emailBtn")), findsOneWidget);
+  });
+
+  testWidgets("Signin with the other account", (WidgetTester tester) async {
     Widget w = await createHome();
 
     await tester.pumpWidget(w);
@@ -266,10 +322,68 @@ void main() {
     expect(find.byKey(Key("passwordTf")), findsOneWidget);
     expect(find.byKey(Key("loginByEmailBtn")), findsOneWidget);
 
-    await tester.enterText(find.byKey(Key("userTf")), 'pperez@email.com');
-    await tester.enterText(find.byKey(Key("passwordTf")), 'pp123456@');
+    await tester.enterText(find.byKey(Key("userTf")), 'reyesjd@email.com');
+    await tester.enterText(find.byKey(Key("passwordTf")), 'rjd123456');
 
     await tester.tap(find.byKey(Key("loginByEmailBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 20));
+
+    expect(find.text('Asus H81m-k'), findsOneWidget);
+  });
+
+  testWidgets("buy a product", (WidgetTester tester) async {
+    Widget w = await createHome();
+
+    await tester.pumpWidget(w);
+
+    await tester.pumpAndSettle(Duration(seconds: 10));
+
+    await tester.tap(find.text('Asus H81m-k'));
+
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.byKey(Key("addCart")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("addCart")));
+
+    await tester.pumpAndSettle(Duration(seconds: 8));
+
+    expect(find.byKey(Key("backBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("backBtn")));
+
+    await tester.pumpAndSettle(Duration(seconds: 8));
+
+    expect(find.byKey(Key("cart")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("cart")));
+
+    await tester.pumpAndSettle(Duration(seconds: 8));
+
+    expect(find.text('Asus H81m-k'), findsOneWidget);
+    expect(find.byKey(Key("payBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("payBtn")));
+
+    await tester.pumpAndSettle(Duration(seconds: 8));
+
+    expect(find.byKey(Key("payLastBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("payLastBtn")));
+
+    await tester.pumpAndSettle(Duration(seconds: 8));
+
+    expect(find.text("Lista de productos"), findsOneWidget);
+
+    await tester.dragFrom(
+        tester.getTopLeft(find.byType(MaterialApp)), Offset(300, 0));
+
+    expect(find.byKey(Key("history")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("history")));
+
     await tester.pumpAndSettle(Duration(seconds: 15));
+
+    expect(find.text('Asus H81m-k'), findsOneWidget);
   });
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loggy/loggy.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/ui/pages/login/login_verify_code.dart';
 import 'package:xytek/ui/widgets/custom_snackbar.dart';
@@ -66,7 +67,7 @@ class LoginPhoneNumber extends StatelessWidget {
       await authController.logingByPhoneNumber(
           phoneNumber: phoneNumber, actionInStream: actionInStream);
     } catch (e) {
-      print(e);
+      logError("");
     }
   }
 

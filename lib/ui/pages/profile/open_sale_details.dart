@@ -8,6 +8,7 @@ import 'package:xytek/ui/pages/product/edit_products.dart';
 import 'package:xytek/ui/widgets/listile_comment_product.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
+// ignore: must_be_immutable
 class OpenDetailsSale extends StatelessWidget {
   OpenDetailsSale({Key? key}) : super(key: key) {
     product = RxMap(Get.arguments[0]);
@@ -154,7 +155,7 @@ class OpenDetailsSale extends StatelessWidget {
   name is a STring
   rating is a Widget
   */
-  Widget listTile({linkImage, name, rating = null}) {
+  Widget listTile({linkImage, name, rating}) {
     if (rating == null) {
       return ListTile(
         leading: WidgetRoundedImage(

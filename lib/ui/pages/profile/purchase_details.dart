@@ -16,6 +16,7 @@ import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
+// ignore: must_be_immutable
 class PurchaseDetails extends StatelessWidget {
   PurchaseDetails({Key? key}) : super(key: key) {
     purchase = Get.arguments[0];

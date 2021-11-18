@@ -4,8 +4,6 @@ import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/data/models/purchase_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
-import 'package:xytek/ui/pages/product/new_product.dart';
-import 'package:xytek/ui/pages/product/product_details.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/profile/purchase_details.dart';
 import 'package:xytek/ui/widgets/category_chip.dart';
@@ -28,8 +26,6 @@ class MyShoppings extends StatelessWidget {
   var products = [].obs;
 
   getProducts({category = ""}) async {
-    print(
-        "asdasdgsdgsdagfijlsadgfuiysagfjhgsadfuasgdfjhgsafduiygsadifougsadyfoisaudgfuiyasdgfasdfiuyasdgf");
     products.value = await storageController.getPurchases(
         shopperId: auth.userIDLogged, isShopper: true, category: category);
   }
@@ -57,7 +53,7 @@ class MyShoppings extends StatelessWidget {
                 separatorBuilder: (context, index) => SizedBox(width: 8),
                 itemBuilder: (context, index) {
                   return CategoryChip(
-                    key: Key(categories[index]),
+                    categoryKey: Key(categories[index]),
                     label: categories[index],
                     onPressed: () async {
                       if (categories[index] == "Todas") {
@@ -72,6 +68,7 @@ class MyShoppings extends StatelessWidget {
             ),
             Expanded(
                 flex: 9,
+                // ignore: invalid_use_of_protected_member
                 child: Obx(() => products.value.isEmpty
                     ? Center(child: Text("No tiene productos comprados"))
                     : ListView.builder(

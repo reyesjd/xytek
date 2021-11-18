@@ -7,6 +7,7 @@ import 'package:xytek/domain/controllers/authentication/location_controller.dart
 import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 
+// ignore: must_be_immutable
 class MapSignUpUser extends StatefulWidget {
   MapSignUpUser({Key? key}) : super(key: key) {
     locationController = Get.find();
@@ -32,7 +33,6 @@ class _TrackingPageState extends State<MapSignUpUser> {
 
   @override
   Widget build(BuildContext context) {
-    late String nickname;
     return Scaffold(
       appBar: WidgetAppBarBack(actionButtonBack: () {
         Get.back();
@@ -42,8 +42,6 @@ class _TrackingPageState extends State<MapSignUpUser> {
         width: 70,
         child: FloatingActionButton(
           onPressed: () {
-            print(
-                "${widget.locationController.userLocation.value.latitude},${widget.locationController.userLocation.value.longitude}");
             showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
@@ -66,7 +64,6 @@ class _TrackingPageState extends State<MapSignUpUser> {
                                     widget.locationController.userLocation.value
                                         .longitude
                                   ]);
-                              print("Creo la ubicacion");
 
                               widget.authController.userLocation =
                                   locationModel;

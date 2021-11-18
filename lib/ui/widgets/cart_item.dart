@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class CartItem extends StatelessWidget {
   final String id;
   final String name;

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
@@ -76,12 +78,14 @@ class Main extends StatelessWidget {
           actions: [
             isSearching
                 ? IconButton(
+                    key: Key("cancelSearch"),
                     onPressed: () {
                       isSearching = !isSearching;
                     },
                     icon: Icon(Icons.cancel),
                   )
                 : IconButton(
+                    key: Key("search"),
                     onPressed: () {
                       isSearching = !isSearching;
                     },
@@ -89,6 +93,7 @@ class Main extends StatelessWidget {
                   ),
             if (!auth.userIDLogged.isEmpty)
               IconButton(
+                key: Key("cart"),
                 onPressed: () => {Get.to(() => Cart())},
                 icon: Icon(Icons.shopping_cart_outlined),
               )
@@ -135,7 +140,7 @@ class Main extends StatelessWidget {
                       separatorBuilder: (context, index) => SizedBox(width: 8),
                       itemBuilder: (context, index) {
                         return CategoryChip(
-                          key: Key(categories[index]),
+                          categoryKey: Key(categories[index]),
                           label: categories[index],
                           onPressed: () {
                             if (categories[index] == "Todas") {
@@ -151,6 +156,7 @@ class Main extends StatelessWidget {
                   WidgetAlignText(text: "Productos mas vendidos", size: 18),
                   Expanded(
                       flex: 9,
+                      // ignore: invalid_use_of_protected_member
                       child: Obx(() => products.value.isEmpty
                           ? Center(child: Text("No hay productos"))
                           : ListView.builder(
@@ -161,7 +167,6 @@ class Main extends StatelessWidget {
                                 return ProductCard(
                                   keyButton: Key(products[index]["id"]),
                                   onPressed: () {
-                                    print(products[index]);
                                     Get.to(() => DetailsProduct(),
                                         arguments: [products[index]]);
                                   },
@@ -189,7 +194,7 @@ class Main extends StatelessWidget {
                               SizedBox(width: 8),
                           itemBuilder: (context, index) {
                             return CategoryChip(
-                              key: Key(categories[index]),
+                              categoryKey: Key(categories[index]),
                               label: categories[index],
                               onPressed: () {
                                 if (categories[index] == "Todas") {

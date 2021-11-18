@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
+// ignore: must_be_immutable
 class WidgetCommentProduct extends StatelessWidget {
   WidgetCommentProduct(
       {Key? key,

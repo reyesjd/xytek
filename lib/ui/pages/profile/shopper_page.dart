@@ -13,6 +13,7 @@ import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_profile_button.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
+// ignore: must_be_immutable
 class Shopper extends StatelessWidget {
   Shopper({Key? key}) : super(key: key);
 

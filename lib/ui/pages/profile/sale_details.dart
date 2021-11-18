@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/data/models/purchase_model.dart';
 import 'package:xytek/data/models/rating_product_model.dart';
-import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/data/models/user_model.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
-import 'package:xytek/ui/pages/profile/seller_profile.dart';
+
 import 'package:xytek/ui/widgets/listile_comment_product.dart';
 
 import 'package:xytek/ui/widgets/widget_appbar_back.dart';
 import 'package:xytek/ui/widgets/widget_rounded_image.dart';
 
+// ignore: must_be_immutable
 class SaleDetails extends StatelessWidget {
   SaleDetails({Key? key}) : super(key: key) {
     purchase = Get.arguments[0];

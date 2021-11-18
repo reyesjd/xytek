@@ -10,6 +10,7 @@ class WidgetRoundedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: sized_box_for_whitespace
     return Container(
       width: small ? 100 : 200,
       height: small ? 100 : 200,

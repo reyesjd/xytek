@@ -8,6 +8,7 @@ import 'package:xytek/ui/widgets/custom_snackbar.dart';
 import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
+// ignore: must_be_immutable
 class LoginCredentials extends StatelessWidget {
   final _email = TextEditingController();
   final _password = TextEditingController();

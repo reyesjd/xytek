@@ -14,6 +14,7 @@ import 'package:xytek/ui/widgets/widget_text_field.dart';
 
 import 'maps_page.dart';
 
+// ignore: must_be_immutable
 class MyData extends StatelessWidget {
   MyData({Key? key}) : super(key: key) {
     initValues();
@@ -33,7 +34,6 @@ class MyData extends StatelessWidget {
     nameTextController.text = user.name;
     emailTextController.text = user.email;
     phoneNTextController.text = "${user.phoneNumber}";
-    print(user.locationsModel);
     for (LocationsModel location in user.locationsModel!) {
       direcciones.add(location.nickName);
     }

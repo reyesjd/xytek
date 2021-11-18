@@ -1,5 +1,6 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:xytek/data/models/product_model.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
 import 'package:xytek/ui/pages/payment_page.dart';
 import 'package:xytek/ui/pages/product/product_details.dart';
@@ -161,6 +162,7 @@ class Cart extends StatelessWidget {
                     child: Row(
                       children: [
                         WidgetButton(
+                            keyButton: Key("payBtn"),
                             text: "Pagar",
                             onPressed: () {
                               Get.to(() => PaymentPage());

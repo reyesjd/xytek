@@ -4,11 +4,11 @@ import 'package:loggy/loggy.dart';
 import 'package:xytek/data/models/user_location.dart';
 import 'package:xytek/services/locator_service.dart';
 import 'package:xytek/ui/widgets/custom_snackbar.dart';
-//import 'package:latlong2/latlong.dart';
 
 class LocationController extends GetxController {
   final userLocation = UserLocation(latitude: 0, longitude: 0).obs;
   var errorMsg = "".obs;
+  // ignore: prefer_final_fields
   var _liveUpdate = false.obs;
 
   StreamSubscription<UserLocation>? _positionStreamSubscription;

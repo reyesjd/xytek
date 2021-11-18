@@ -9,6 +9,7 @@ import 'package:xytek/ui/widgets/widget_button.dart';
 import 'package:xytek/ui/widgets/widget_text_align.dart';
 import 'package:xytek/ui/widgets/widget_text_field.dart';
 
+// ignore: must_be_immutable
 class AddComment extends StatelessWidget {
   AddComment({
     Key? key,

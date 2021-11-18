@@ -53,7 +53,7 @@ class SoldProducts extends StatelessWidget {
                 separatorBuilder: (context, index) => SizedBox(width: 8),
                 itemBuilder: (context, index) {
                   return CategoryChip(
-                    key: Key(categories[index]),
+                    categoryKey: Key(categories[index]),
                     label: categories[index],
                     onPressed: () async {
                       if (categories[index] == "Todas") {
@@ -68,6 +68,7 @@ class SoldProducts extends StatelessWidget {
             ),
             Expanded(
                 flex: 9,
+                // ignore: invalid_use_of_protected_member
                 child: Obx(() => products.value.isEmpty
                     ? Center(child: Text("No tiene productos vendidos"))
                     : ListView.builder(

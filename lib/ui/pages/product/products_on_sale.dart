@@ -63,7 +63,7 @@ class ProductsOnSale extends StatelessWidget {
                   separatorBuilder: (context, index) => SizedBox(width: 8),
                   itemBuilder: (context, index) {
                     return CategoryChip(
-                      key: Key(categories[index]),
+                      categoryKey: Key(categories[index]),
                       label: categories[index],
                       onPressed: () {},
                     );

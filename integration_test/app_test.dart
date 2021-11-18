@@ -27,10 +27,24 @@ Future<Widget> createHome() async {
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets("Signup", (WidgetTester tester) async {
+  testWidgets("Navigate to login main page", (WidgetTester tester) async {
     Widget w = await createHome();
 
     await tester.pumpWidget(w);
+
+    await tester.pumpAndSettle(Duration(seconds: 15));
+
+    await tester.dragFrom(
+        tester.getTopLeft(find.byType(MaterialApp)), Offset(300, 0));
+
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.byKey(Key("signinBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("signinBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 10));
+    expect(find.text('¿Cómo deseas continuar?'), findsOneWidget);
+    expect(find.byKey(Key("signupBtn")), findsOneWidget);
 
     await tester.pumpAndSettle(Duration(seconds: 10));
 
@@ -81,13 +95,24 @@ void main() {
     await tester.pumpAndSettle(Duration(seconds: 5));
 
     expect(find.byKey(Key("emailBtn")), findsOneWidget);
-  });
 
-  testWidgets("Add new product", (WidgetTester tester) async {
-    Widget w = await createHome();
+    expect(find.byKey(Key("emailBtn")), findsOneWidget);
 
-    await tester.pumpWidget(w);
+    await tester.tap(find.byKey(Key("emailBtn")));
 
+    await tester.pumpAndSettle(Duration(seconds: 5));
+
+    expect(find.byKey(Key("userTf")), findsOneWidget);
+    expect(find.byKey(Key("passwordTf")), findsOneWidget);
+    expect(find.byKey(Key("loginByEmailBtn")), findsOneWidget);
+
+    await tester.enterText(find.byKey(Key("userTf")), 'pperez@email.com');
+    await tester.enterText(find.byKey(Key("passwordTf")), 'pp123456@');
+
+    await tester.tap(find.byKey(Key("loginByEmailBtn")));
+    await tester.pumpAndSettle(Duration(seconds: 20));
+
+    expect(find.text('Lista de productos'), findsOneWidget);
     await tester.pumpAndSettle(Duration(seconds: 10));
 
     //expect(find.byKey(Key("drawer")), findsOneWidget);
@@ -147,12 +172,22 @@ void main() {
 
     await tester.tap(find.byKey(Key("addproductBtn")));
     await tester.pumpAndSettle(Duration(seconds: 15));
-  });
 
-  testWidgets("edit product", (WidgetTester tester) async {
-    Widget w = await createHome();
+    expect(find.byKey(Key("backBtn")), findsOneWidget);
 
-    await tester.pumpWidget(w);
+    await tester.tap(find.byKey(Key("backBtn")));
+
+    await tester.pumpAndSettle(Duration(seconds: 10));
+
+    expect(find.byKey(Key("backBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("backBtn")));
+
+    await tester.pumpAndSettle(Duration(seconds: 10));
+
+    expect(find.byKey(Key("backBtn")), findsOneWidget);
+
+    await tester.tap(find.byKey(Key("backBtn")));
 
     await tester.pumpAndSettle(Duration(seconds: 10));
 

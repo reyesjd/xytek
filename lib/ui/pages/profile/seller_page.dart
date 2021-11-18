@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:xytek/data/models/rating_user_model.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
-import 'package:xytek/ui/pages/login/login_main_page.dart';
+import 'package:xytek/ui/pages/home/main.dart';
 import 'package:xytek/ui/pages/product/products_on_sale.dart';
 
 import 'package:xytek/ui/pages/profile/seller_profile.dart';
@@ -130,7 +130,7 @@ class Seller extends StatelessWidget {
                         if (!loading) {
                           loading = true;
                           await auth.signOut();
-                          Get.to(() => LoginMainPage());
+                          Get.to(() => Main());
                           loading = false;
                         }
                       },

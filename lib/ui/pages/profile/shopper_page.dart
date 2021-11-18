@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xytek/domain/controllers/authentication/authentication_contoller.dart';
 import 'package:xytek/domain/controllers/authentication/storage_controller.dart';
-import 'package:xytek/ui/pages/login/login_main_page.dart';
+import 'package:xytek/ui/pages/home/main.dart';
 import 'package:xytek/ui/pages/profile/my_shoppings.dart';
 import 'package:xytek/ui/pages/profile/seller_page.dart';
 import 'package:xytek/ui/pages/updateuserdata/my_data_page.dart';
@@ -114,7 +114,7 @@ class Shopper extends StatelessWidget {
                                     if (!loading) {
                                       loading = true;
                                       await auth.signOut();
-                                      Get.to(() => LoginMainPage());
+                                      Get.to(() => Main());
                                       loading = false;
                                     }
                                   },
